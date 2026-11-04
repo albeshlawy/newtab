@@ -14,6 +14,10 @@
     --blur: 22px;
     --tile: 64px;
     --tilew: 104px;
+    --clockS: 1;
+    --wS: 1;
+    --font: -apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,sans-serif;
+    --cfont: var(--font);
   }
   body.glass-clear{--glass: rgba(255,255,255,0.06);--blur:10px}
   body.glass-dark{--glass: rgba(10,12,30,0.42);--glass-strong: rgba(10,12,30,0.55)}
@@ -21,7 +25,7 @@
   body.size-l{--tile:78px;--tilew:120px}
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
-  body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,sans-serif;color:var(--text);background:#0b0f24;overflow-x:hidden;min-height:100vh}
+  body{font-family:var(--font);color:var(--text);background:#0b0f24;overflow-x:hidden;min-height:100vh}
   button{font:inherit}
   /* background */
   #bg{position:fixed;inset:0;z-index:-3;background-size:cover;background-position:center;transition:background .4s}
@@ -47,10 +51,10 @@
 
   /* hero */
   main{max-width:1150px;margin:0 auto;padding:5vh 24px 60px;display:flex;flex-direction:column;align-items:center}
-  .clock{font-size:clamp(56px,8vw,104px);font-weight:700;letter-spacing:-2px;line-height:1;text-shadow:0 6px 30px rgba(0,0,0,.35)}
+  .clock{font-family:var(--cfont);font-size:calc(clamp(56px,8vw,104px) * var(--clockS));font-weight:700;letter-spacing:-2px;line-height:1;text-shadow:0 6px 30px rgba(0,0,0,.35)}
   .clock small{font-size:.32em;font-weight:600;margin-left:8px;opacity:.85}
-  .date{margin-top:10px;font-size:19px;color:var(--muted);font-weight:500;text-shadow:0 2px 10px rgba(0,0,0,.4);text-align:center}
-  .greet{margin-top:8px;font-size:clamp(22px,2.6vw,30px);font-weight:600;text-shadow:0 2px 14px rgba(0,0,0,.4)}
+  .date{margin-top:10px;font-size:calc(19px * (0.6 + 0.4*var(--clockS)));color:var(--muted);font-weight:500;text-shadow:0 2px 10px rgba(0,0,0,.4);text-align:center}
+  .greet{margin-top:8px;font-size:calc(clamp(22px,2.6vw,30px) * (0.6 + 0.4*var(--clockS)));font-weight:600;text-shadow:0 2px 14px rgba(0,0,0,.4)}
 
   /* search */
   .search-wrap{position:relative;margin-top:24px;width:min(700px,100%)}
@@ -71,7 +75,18 @@
   .res-hint{font-size:12px;color:var(--muted);padding:6px 12px 2px}
 
   /* widgets */
-  .widgets{margin-top:22px;width:100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+  .widgets{margin-top:22px;width:100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(calc(230px*var(--wS)),1fr));gap:14px}
+  .widget{font-size:calc(16px*var(--wS))}
+  .widget h4{font-size:.75em!important}
+  .wx .big{font-size:2.4em!important}
+  .wx .t{font-size:1.9em!important}
+  .wx .s,.w-muted{font-size:.82em!important}
+  .clk-row{font-size:.95em!important}
+  .pr-row{font-size:.88em!important}
+  .widget{padding:calc(14px*var(--wS)) calc(18px*var(--wS))!important}
+  body.hide-greet .greet{display:none}
+  body.hide-date .date{display:none}
+  body.hide-clock .clock{display:none}
   .widget{border-radius:20px;padding:14px 18px}
   .widget h4{font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:8px}
   .wx{display:flex;align-items:center;gap:14px}
@@ -119,6 +134,17 @@
   .tile.drop-before::before{content:"";position:absolute;left:-10px;top:4px;bottom:24px;width:4px;border-radius:2px;background:#fff;box-shadow:0 0 10px #fff}
   .tiles.drop-end{outline:2px dashed rgba(255,255,255,.5);outline-offset:6px;border-radius:12px}
   @keyframes wiggle{from{transform:rotate(-2deg)}to{transform:rotate(2deg)}}
+  /* icon styles */
+  body.ist-flat .icon3d{box-shadow:0 6px 14px -6px rgba(0,0,0,.45)!important;background:var(--c1)!important}
+  body.ist-flat .icon3d::before{display:none}
+  body.ist-glass .icon3d{background:rgba(255,255,255,.16)!important;border:1px solid rgba(255,255,255,.35);backdrop-filter:blur(10px);box-shadow:0 10px 20px -8px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.4)!important}
+  body.ist-neon .icon3d{background:rgba(10,12,30,.65)!important;border:2px solid var(--c1);box-shadow:0 0 14px var(--c1),inset 0 0 10px rgba(0,0,0,.6)!important}
+  body.ist-neon .icon3d::before,body.ist-glass .icon3d::before{display:none}
+  body.ish-circle .icon3d{border-radius:50%!important}
+  body.ish-square .icon3d{border-radius:calc(var(--tile)*.14)!important}
+  body.ish-circle .icon3d::before{border-radius:50% 50% 40% 40%}
+  .icon3d .letter.small{font-size:calc(var(--tile)*.30)}
+  .icon3d .emoji{font-size:calc(var(--tile)*.5);transform:translateZ(20px);line-height:1}
   .add-tile .icon3d{--c1:rgba(255,255,255,.18);--c2:rgba(255,255,255,.06);--c3:rgba(255,255,255,.12);font-size:34px;font-weight:300}
   .add-tile{display:none}
   body.edit .add-tile{display:flex}
@@ -195,6 +221,22 @@
   .folder input{width:auto}
   .folder .n{margin-left:auto;color:var(--muted);font-size:12px}
   .folder .path{color:var(--muted);font-size:12px}
+  .edit-done{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:12;display:none;padding:12px 26px;border-radius:16px;font-weight:700;cursor:pointer}
+  body.edit .edit-done{display:block}
+  .quick{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-top:8px}
+  .qbtn{padding:18px 14px;border-radius:16px;background:rgba(255,255,255,.1);border:1px solid var(--border);cursor:pointer;text-align:center;font-weight:600;font-size:14px}
+  .qbtn:hover{background:rgba(255,255,255,.2)}
+  .qbtn .e{display:block;font-size:26px;margin-bottom:6px}
+  .icon-preview{width:72px;height:72px;margin:6px 0}
+  .seg{display:flex;gap:6px;flex-wrap:wrap}
+  .seg span{padding:7px 12px;border-radius:10px;cursor:pointer;background:rgba(255,255,255,.08);font-size:13px;font-weight:600;border:1px solid transparent}
+  .seg span.on{background:rgba(255,255,255,.28);border-color:var(--border)}
+  .emoji-grid{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+  .emoji-grid span{font-size:22px;cursor:pointer;padding:3px 5px;border-radius:8px}
+  .emoji-grid span:hover{background:rgba(255,255,255,.2)}
+  .range-row{display:flex;align-items:center;gap:12px}
+  .range-row input{flex:1}
+  .range-row b{min-width:48px;text-align:right;font-size:13px}
   .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);padding:12px 20px;border-radius:14px;z-index:30;opacity:0;transition:.3s;pointer-events:none;font-size:14px;font-weight:600;background:rgba(20,20,40,.75)}
   .toast.show{opacity:1;transform:translateX(-50%)}
 </style>
@@ -209,9 +251,6 @@
   <div class="icon-btn glass" id="groupsBtn" title="Groups  [">☰</div>
 </div>
 <div class="topbar right">
-  <div class="icon-btn glass" id="notesBtn" title="To-do & notes  ]">📝</div>
-  <div class="icon-btn glass" id="bgBtn" title="Backgrounds">🖼</div>
-  <div class="icon-btn glass" id="editBtn" title="Edit mode">✎</div>
   <div class="icon-btn glass" id="setBtn" title="Settings">⚙︎<span class="dot" id="syncDot"></span></div>
 </div>
 
@@ -277,31 +316,22 @@
     <label>Group</label><select id="tGroup"></select>
     <label>Icon colour (3D tile)</label>
     <div class="row"><input type="color" id="tColor" value="#6d5dfc"><span class="hint">Pick the tile colour</span></div>
-    <label>Custom icon URL (optional)</label><input id="tIcon" placeholder="leave empty = automatic">
+    <label>Icon</label>
+    <div class="row" style="align-items:flex-start">
+      <div class="tile" style="pointer-events:none"><div class="icon3d icon-preview" id="tPreview"></div></div>
+      <div style="flex:1;min-width:220px">
+        <div class="seg" id="tIconType">
+          <span data-v="auto">Automatic</span><span data-v="emoji">Emoji</span><span data-v="text">Text</span><span data-v="url">Image link</span><span data-v="upload">Upload</span>
+        </div>
+        <div id="tIconFields" style="margin-top:8px"></div>
+      </div>
+    </div>
+    <input type="file" id="tIconFile" accept="image/*" hidden>
     <div class="actions">
       <button class="btn danger" id="tDelete" style="margin-right:auto">Delete</button>
       <button class="btn" data-close>Cancel</button>
       <button class="btn primary" id="tSave">Save</button>
     </div>
-  </div>
-</div>
-
-<!-- background modal -->
-<div class="modal-bg" id="bgModal">
-  <div class="modal wide glass">
-    <h3>Background</h3>
-    <h4>Photos</h4><div class="gallery" id="photoGallery"></div>
-    <h4>Gradients</h4><div class="gallery" id="gradGallery"></div>
-    <h4>Your own image</h4>
-    <div class="row">
-      <button class="btn" id="uploadBgBtn">⬆︎ Upload from computer</button>
-      <input type="file" id="uploadBg" accept="image/*" hidden>
-      <input id="bgUrl" placeholder="…or paste an image link (https://…)" style="flex:1;min-width:220px">
-      <button class="btn" id="bgUrlBtn">Use link</button>
-    </div>
-    <h4>Darken background</h4>
-    <input type="range" id="dimRange" min="0" max="70" step="5">
-    <div class="actions"><button class="btn primary" data-close>Done</button></div>
   </div>
 </div>
 
@@ -341,15 +371,39 @@
   <div class="modal wide glass">
     <h3>Settings</h3>
     <div class="tabs" id="setTabs">
-      <div class="tab active" data-tab="general">General</div>
+      <div class="tab active" data-tab="quick">Quick</div>
+      <div class="tab" data-tab="general">Appearance</div>
+      <div class="tab" data-tab="bg">Background</div>
       <div class="tab" data-tab="widgets">Widgets</div>
       <div class="tab" data-tab="shortcuts">Shortcuts</div>
       <div class="tab" data-tab="sync">Sync &amp; Backup</div>
       <div class="tab" data-tab="help">Help</div>
     </div>
 
-    <div class="tabpane active" data-pane="general">
+    <div class="tabpane active" data-pane="quick">
+      <div class="quick">
+        <div class="qbtn" id="qEdit"><span class="e">✎</span>Edit shortcuts</div>
+        <div class="qbtn" id="qGroups"><span class="e">☰</span>Groups</div>
+        <div class="qbtn" id="qNotes"><span class="e">📝</span>To-do &amp; notes</div>
+        <div class="qbtn" id="qBg"><span class="e">🖼</span>Background</div>
+        <div class="qbtn" id="qImport"><span class="e">⬇︎</span>Import bookmarks</div>
+        <div class="qbtn" id="qSync"><span class="e">☁︎</span>Sync &amp; backup</div>
+      </div>
+    </div>
+
+    <div class="tabpane" data-pane="general">
       <label>Your name</label><input id="sName">
+      <label>Font</label><select id="sFont"></select>
+      <label>Clock font</label><select id="sCFont"></select>
+      <label>Clock size</label><div class="range-row"><input type="range" id="sClockS" min="50" max="180" step="5"><b id="sClockSv"></b></div>
+      <label>Widget size</label><div class="range-row"><input type="range" id="sWS" min="70" max="150" step="5"><b id="sWSv"></b></div>
+      <label class="check"><input type="checkbox" id="sShowClock"><span>Show clock</span></label>
+      <label class="check"><input type="checkbox" id="sShowDate"><span>Show date</span></label>
+      <label class="check"><input type="checkbox" id="sShowGreet"><span>Show greeting</span></label>
+      <label>Icon style</label>
+      <select id="sIStyle"><option value="3d">3D glossy</option><option value="flat">Flat</option><option value="glass">Glass</option><option value="neon">Neon</option></select>
+      <label>Icon shape</label>
+      <select id="sIShape"><option value="rounded">Rounded</option><option value="circle">Circle</option><option value="square">Square</option></select>
       <label class="check"><input type="checkbox" id="s24"><span>24-hour clock</span></label>
       <label class="check"><input type="checkbox" id="sNewTab"><span>Open shortcuts in a new browser tab</span></label>
       <label class="check"><input type="checkbox" id="sHover"><span>Open the groups panel when the mouse touches the left edge</span></label>
@@ -357,6 +411,21 @@
       <select id="sSize"><option value="s">Small</option><option value="m">Medium</option><option value="l">Large</option></select>
       <label>Glass style</label>
       <select id="sGlass"><option value="frosted">Frosted</option><option value="clear">Clear</option><option value="dark">Dark tint</option></select>
+    </div>
+
+    <div class="tabpane" data-pane="bg">
+      <h4 style="margin-top:6px">Automatic</h4><div class="gallery" id="autoGallery"></div>
+      <h4>Photos</h4><div class="gallery" id="photoGallery"></div>
+      <h4>Gradients</h4><div class="gallery" id="gradGallery"></div>
+      <h4>Your own image</h4>
+      <div class="row">
+        <button class="btn" id="uploadBgBtn">⬆︎ Upload from computer</button>
+        <input type="file" id="uploadBg" accept="image/*" hidden>
+        <input id="bgUrl" placeholder="…or paste an image link (https://…)" style="flex:1;min-width:220px">
+        <button class="btn" id="bgUrlBtn">Use link</button>
+      </div>
+      <h4>Darken</h4><div class="range-row"><input type="range" id="dimRange" min="0" max="70" step="5"><b id="dimV"></b></div>
+      <h4>Blur</h4><div class="range-row"><input type="range" id="blurRange" min="0" max="20" step="1"><b id="blurV"></b></div>
     </div>
 
     <div class="tabpane" data-pane="widgets">
@@ -408,13 +477,15 @@
         <tr><td><span class="kbd">/</span></td><td>Focus search</td></tr>
         <tr><td><span class="kbd">[</span></td><td>Open / close groups</td></tr>
         <tr><td><span class="kbd">]</span></td><td>Open / close to-do &amp; notes</td></tr>
+        <tr><td><span class="kbd">E</span></td><td>Toggle edit mode</td></tr>
+        <tr><td><span class="kbd">,</span></td><td>Open settings</td></tr>
         <tr><td><span class="kbd">↑</span> <span class="kbd">↓</span> <span class="kbd">Enter</span></td><td>Choose a search result</td></tr>
         <tr><td><span class="kbd">Esc</span></td><td>Close panels / clear search</td></tr>
       </table>
       <h4>Search shortcuts — type the letter, a space, then your words</h4>
       <table class="help" id="bangTable"></table>
       <h4>Edit mode (✎)</h4>
-      <p class="hint" style="font-size:14px">Drag icons to reorder them, or drop an icon on a group name in the ☰ panel to move it there. Drag group names in the ☰ panel to reorder groups. Click an icon to rename it or change its colour; click the group title to rename the group.</p>
+      <p class="hint" style="font-size:14px">Open it from ⚙︎ → Quick → Edit shortcuts (or press <span class="kbd">E</span>). Drag icons to reorder them, or drop an icon on a group name in the ☰ panel to move it there. Drag group names in the ☰ panel to reorder groups. Click an icon to rename it or change its colour; click the group title to rename the group.</p>
     </div>
 
     <div class="actions">
@@ -424,6 +495,7 @@
   </div>
 </div>
 
+<div class="edit-done glass" id="editDone">✓ Done editing</div>
 <div class="toast glass" id="toast"></div>
 
 <script>
@@ -446,6 +518,27 @@ const GRADIENTS={
   teal:{name:'Lagoon',css:'linear-gradient(135deg,#134e5e 0%,#71b280 100%)'},
   graphite:{name:'Graphite',css:'radial-gradient(800px 500px at 30% 20%,#3f3f46 0%,transparent 60%),linear-gradient(180deg,#18181b,#09090b)'},
 };
+const MORE_PHOTOS=[['Valley road','1469474968028-56623f02e42e'],['Yosemite','1506744038136-46273834b3fb'],['Ocean wave','1518837695005-2083093ee35b'],['Pine forest','1502082553048-f009c37129b9'],['Green hills','1472214103451-9374bd1c798e'],['Waterfall','1433086966358-54859d0ed716'],['Desert peaks','1500964757637-c85e8a162699'],['Flowers','1490750967868-88aa4486c946'],['Galaxy','1462331940025-496dfbfc7564'],['Snow peak','1454496522488-7a8e488e8606'],['Alpine','1477346611705-65d1883cee1e'],['Aurora sky','1531366936337-7c912a4589a7'],['Autumn forest','1473448912268-2022ce9509d8'],['Calm lake','1439066615861-d1af74d74000'],['Mountain lake','1475924156734-496f6cac6ec1'],['Nature','1426604966848-d7adac402bff'],['Sunset lake','1500534314209-a25ddb2bd429'],['Sea sunset','1504198453319-5ce911bafcde']];
+PHOTOS.push(...MORE_PHOTOS);
+Object.assign(GRADIENTS,{
+  nebula:{name:'Nebula (animated)',blobs:true,css:'radial-gradient(900px 700px at 20% 30%,#5b21b6 0%,transparent 60%),radial-gradient(800px 600px at 80% 70%,#be185d 0%,transparent 60%),#0a0418'},
+  ocean2:{name:'Deep sea (animated)',blobs:true,css:'radial-gradient(900px 700px at 30% 20%,#0e7490 0%,transparent 60%),radial-gradient(800px 600px at 80% 80%,#1e3a8a 0%,transparent 60%),#020617'},
+  dusk:{name:'Dusk',css:'linear-gradient(180deg,#0f2027 0%,#2c5364 40%,#f2994a 100%)'},
+  peach:{name:'Peach',css:'linear-gradient(135deg,#ee9ca7 0%,#ffdde1 100%)'},
+  royal:{name:'Royal',css:'linear-gradient(135deg,#141e30 0%,#243b55 100%)'},
+  emerald:{name:'Emerald',css:'linear-gradient(135deg,#093028 0%,#237a57 100%)'},
+  violet:{name:'Violet',css:'linear-gradient(135deg,#41295a 0%,#2f0743 100%)'},
+  desert:{name:'Desert',css:'linear-gradient(160deg,#3e1f0d 0%,#c2763c 55%,#f6d29b 100%)'},
+  sky:{name:'Sky',css:'linear-gradient(180deg,#2980b9 0%,#6dd5fa 60%,#ffffff 100%)'},
+  cherry:{name:'Cherry',css:'linear-gradient(135deg,#eb3349 0%,#f45c43 100%)'},
+  mint:{name:'Mint',css:'linear-gradient(135deg,#0f9b8e 0%,#a8e063 100%)'},
+  ink:{name:'Ink',css:'radial-gradient(1000px 700px at 50% 0%,#1f2937 0%,#000 70%)'},
+  cosmic:{name:'Cosmic',css:'linear-gradient(135deg,#ff00cc 0%,#333399 100%)'},
+  gold:{name:'Gold',css:'linear-gradient(135deg,#1c1c1c 0%,#5c4413 50%,#e6b35a 100%)'},
+});
+const AUTO_BG={daily:{name:'Photo of the day',u:()=>`https://picsum.photos/seed/${new Date().toISOString().slice(0,10)}/2400/1500`},random:{name:'New photo every tab',u:()=>`https://picsum.photos/seed/${Math.random().toString(36).slice(2)}/2400/1500`}};
+const FONTS={'System':'','Inter':'Inter','Poppins':'Poppins','Montserrat':'Montserrat','Nunito':'Nunito','Quicksand':'Quicksand','Raleway':'Raleway','Outfit':'Outfit','Space Grotesk':'Space Grotesk','Playfair Display':'Playfair Display','Orbitron':'Orbitron','Rajdhani':'Rajdhani','Cairo (Arabic)':'Cairo','Tajawal (Arabic)':'Tajawal','Almarai (Arabic)':'Almarai','IBM Plex Sans Arabic':'IBM Plex Sans Arabic','Readex Pro':'Readex Pro'};
+const EMOJIS='🩺 🦴 🖐️ 🏥 📚 📖 🔬 🧪 💊 🩻 🧠 ❤️ 🫀 📰 🎓 🏛️ 💼 📧 📅 📝 📂 🗂️ 🔗 🌐 🔎 🤖 ✨ 💬 🎥 ▶️ 🎵 🛒 🏦 💳 ✈️ 🚗 🏠 🕌 📿 ☕ 🍽️ ⚽ 📷 🧾 ⚙️ 🔒 ⭐ 🚀'.split(' ');
 const LOCS={
   khafji:{name:'Al Khafji',lat:28.4328,lon:48.4913,method:4},
   giza:{name:'Hadayek Al-Ahram, Giza',lat:29.9792,lon:31.0640,method:5},
@@ -470,6 +563,7 @@ const BANGS={
 const DEFAULTS={
   name:'Ahmed',h24:false,bg:'grad:aurora',dim:0,
   openGroup:0,newTab:false,hoverEdge:true,tileSize:'m',glass:'frosted',
+  font:'System',cfont:'System',clockS:100,wS:100,blur:0,show:{clock:true,date:true,greet:true},iconStyle:'3d',iconShape:'rounded',
   widgets:{weather:true,clocks:true,prayer:true,hijri:true},
   loc:'khafji',clocks:'Khafji|Asia/Riyadh, Cairo|Africa/Cairo',
   todos:[],notes:'',updatedAt:0,sync:{gistId:'',auto:false},
@@ -488,9 +582,11 @@ function normalize(s){
   s=Object.assign(d,s||{});
   s.widgets=Object.assign({},DEFAULTS.widgets,s.widgets||{});
   s.sync=Object.assign({},DEFAULTS.sync,s.sync||{});
+  s.show=Object.assign({},DEFAULTS.show,s.show||{});
+  s.groups.forEach(g=>(g.tiles||[]).forEach(t=>{ if(t.icon && !t.iconType) t.iconType='url'; }));
   if(!Array.isArray(s.todos)) s.todos=[];
   if(!s.bg) s.bg='grad:aurora';
-  else if(!/^(grad:|photo:|url:|upload)/.test(s.bg)) s.bg='url:'+s.bg;
+  else if(!/^(grad:|photo:|url:|upload|auto:)/.test(s.bg)) s.bg='url:'+s.bg;
   s.groups.forEach(g=>{ delete g.collapsed; g.tiles=g.tiles||[]; });
   if(s.openGroup>=s.groups.length) s.openGroup=s.groups.length?0:-1;
   return s;
@@ -546,7 +642,9 @@ function iconCandidates(host){
 }
 function loadIcon(t,wrap){
   const letter=()=>{ wrap.innerHTML=''; const s=document.createElement('span'); s.className='letter'; s.textContent=(t.name||'?').trim()[0]?.toUpperCase()||'?'; wrap.append(s); };
-  if(t.icon){ const img=new Image(); img.src=t.icon; img.onerror=letter; wrap.append(img); return; }
+  if(t.iconType==='emoji' && t.iconText){ const s=document.createElement('span'); s.className='emoji'; s.textContent=t.iconText; wrap.append(s); return; }
+  if(t.iconType==='text' && t.iconText){ const s=document.createElement('span'); s.className='letter'+(t.iconText.length>1?' small':''); s.textContent=t.iconText.slice(0,3); wrap.append(s); return; }
+  if((t.iconType==='url'||t.iconType==='upload') && t.icon){ const img=new Image(); img.src=t.icon; img.onerror=letter; wrap.append(img); return; }
   const host=hostOf(t.url); if(!host){ letter(); return; }
   if(iconCache[host]==='letter'){ letter(); return; }
   if(iconCache[host]){ const img=new Image(); img.src=iconCache[host]; img.onerror=()=>{ delete iconCache[host]; saveIconCache(); letter(); }; wrap.append(img); return; }
@@ -663,7 +761,7 @@ function openDrawer(id){ closeDrawers(id); $(id).classList.add('open'); $('scrim
 function closeDrawers(except){ ['groupsDrawer','notesDrawer'].forEach(d=>{ if(d!==except) $(d).classList.remove('open'); }); if(!except) $('scrim').classList.remove('show'); }
 function toggleDrawer(id){ $(id).classList.contains('open')?closeDrawers():openDrawer(id); }
 $('groupsBtn').onclick=()=>toggleDrawer('groupsDrawer');
-$('notesBtn').onclick=()=>toggleDrawer('notesDrawer');
+
 $('scrim').onclick=()=>closeDrawers();
 document.querySelectorAll('[data-closedrawer]').forEach(x=>x.onclick=()=>closeDrawers());
 $('edge').addEventListener('mouseenter',()=>{ if(state.hoverEdge) openDrawer('groupsDrawer'); });
@@ -748,17 +846,49 @@ function openTile(gi,ti){
   const sel=$('tGroup'); sel.innerHTML=''; state.groups.forEach((g,i)=>{ const o=document.createElement('option'); o.value=i; o.textContent=g.title; sel.append(o); }); sel.value=gi;
   const t=ti!=null?state.groups[gi].tiles[ti]:{name:'',url:'',color:'',icon:''};
   $('tileTitle').textContent=ti!=null?'Edit shortcut':'Add shortcut'; $('tDelete').style.display=ti!=null?'':'none';
-  $('tName').value=t.name; $('tUrl').value=t.url; $('tColor').value=(t.color&&t.color.startsWith('#'))?t.color:hashColor(hostOf(t.url)||t.name||'x'); $('tIcon').value=t.icon||'';
-  $('tileModal').classList.add('open'); setTimeout(()=>$('tName').focus(),50);
+  $('tName').value=t.name; $('tUrl').value=t.url; $('tColor').value=(t.color&&t.color.startsWith('#'))?t.color:hashColor(hostOf(t.url)||t.name||'x');
+  iconDraft={type:t.iconType||'auto',icon:t.icon||'',text:t.iconText||''};
+  renderIconFields(); $('tileModal').classList.add('open'); setTimeout(()=>$('tName').focus(),50);
 }
 $('tSave').onclick=()=>{
   let url=$('tUrl').value.trim(); if(!$('tName').value.trim()||!url) return alert('Name and URL are required');
   if(!/^https?:\/\//i.test(url)) url='https://'+url;
-  const t={name:$('tName').value.trim(),url,color:$('tColor').value,icon:$('tIcon').value.trim()}; const ng=+$('tGroup').value;
+  const t={name:$('tName').value.trim(),url,color:$('tColor').value}; const ng=+$('tGroup').value;
+  if(iconDraft.type==='emoji'||iconDraft.type==='text'){ if(iconDraft.text){ t.iconType=iconDraft.type; t.iconText=iconDraft.text; } }
+  else if((iconDraft.type==='url'||iconDraft.type==='upload') && iconDraft.icon){ t.iconType=iconDraft.type; t.icon=iconDraft.icon; }
   if(editing.ti!=null){ if(ng===editing.gi) state.groups[ng].tiles[editing.ti]=t; else { state.groups[editing.gi].tiles.splice(editing.ti,1); state.groups[ng].tiles.push(t); } }
   else state.groups[ng].tiles.push(t);
   save(); renderPanel(); renderGroupList(); $('tileModal').classList.remove('open');
 };
+let iconDraft={type:'auto',icon:'',text:''};
+function previewIcon(){
+  const p=$('tPreview'); p.innerHTML=''; const base=$('tColor').value;
+  p.style.setProperty('--c1',shade(base,.25)); p.style.setProperty('--c2',shade(base,-.15)); p.style.setProperty('--c3',shade(base,-.45));
+  const t={name:$('tName').value||'?',url:$('tUrl').value.startsWith('http')?$('tUrl').value:'https://'+$('tUrl').value};
+  if(iconDraft.type==='emoji'||iconDraft.type==='text'){ t.iconType=iconDraft.type; t.iconText=iconDraft.text; }
+  else if(iconDraft.type==='url'||iconDraft.type==='upload'){ t.iconType=iconDraft.type; t.icon=iconDraft.icon; }
+  loadIcon(t,p);
+}
+function renderIconFields(){
+  document.querySelectorAll('#tIconType span').forEach(x=>x.classList.toggle('on',x.dataset.v===iconDraft.type));
+  const f=$('tIconFields'); f.innerHTML='';
+  if(iconDraft.type==='auto') f.innerHTML='<div class="hint">The website’s own logo is used. If none is found, the first letter is shown.</div>';
+  if(iconDraft.type==='emoji'){
+    f.innerHTML='<input id="fEmoji" placeholder="Type or pick an emoji" maxlength="8"><div class="emoji-grid">'+EMOJIS.map(e=>`<span>${e}</span>`).join('')+'</div>';
+    $('fEmoji').value=iconDraft.text; $('fEmoji').oninput=e=>{ iconDraft.text=e.target.value.trim(); previewIcon(); };
+    f.querySelectorAll('.emoji-grid span').forEach(x=>x.onclick=()=>{ iconDraft.text=x.textContent; $('fEmoji').value=x.textContent; previewIcon(); });
+  }
+  if(iconDraft.type==='text'){ f.innerHTML='<input id="fText" placeholder="1–3 letters, e.g. JHS" maxlength="3"><div class="hint">Short letters look best (e.g. JHS, BMJ, AO).</div>'; $('fText').value=iconDraft.text; $('fText').oninput=e=>{ iconDraft.text=e.target.value.trim(); previewIcon(); }; }
+  if(iconDraft.type==='url'){ f.innerHTML='<input id="fUrl" placeholder="https://…/logo.png">'; $('fUrl').value=iconDraft.type==='url'?iconDraft.icon:''; $('fUrl').oninput=e=>{ iconDraft.icon=e.target.value.trim(); previewIcon(); }; }
+  if(iconDraft.type==='upload'){ f.innerHTML='<button class="btn" id="fUp">⬆︎ Choose image…</button><div class="hint">PNG with transparent background looks best. It is resized automatically.</div>'; $('fUp').onclick=()=>$('tIconFile').click(); }
+  previewIcon();
+}
+document.querySelectorAll('#tIconType span').forEach(x=>x.onclick=()=>{ if(iconDraft.type!==x.dataset.v){ iconDraft.type=x.dataset.v; if(x.dataset.v!=='upload'&&x.dataset.v!=='url') iconDraft.icon=''; if(x.dataset.v!=='emoji'&&x.dataset.v!=='text') iconDraft.text=''; } renderIconFields(); });
+$('tColor').oninput=previewIcon; $('tUrl').onchange=previewIcon;
+$('tIconFile').onchange=e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(), img=new Image();
+  r.onload=()=>img.src=r.result;
+  img.onload=()=>{ const c=document.createElement('canvas'); c.width=c.height=128; const k=Math.min(128/img.width,128/img.height); const w=img.width*k,h=img.height*k; c.getContext('2d').drawImage(img,(128-w)/2,(128-h)/2,w,h); iconDraft.icon=c.toDataURL('image/png'); iconDraft.type='upload'; renderIconFields(); };
+  r.readAsDataURL(f); e.target.value=''; };
 $('tDelete').onclick=()=>{ if(editing.ti==null) return; state.groups[editing.gi].tiles.splice(editing.ti,1); save(); renderPanel(); renderGroupList(); $('tileModal').classList.remove('open'); };
 
 /* =========================================================
@@ -783,22 +913,27 @@ let noteTimer; $('notesArea').oninput=()=>{ clearTimeout(noteTimer); noteTimer=s
 function applyBg(){
   const bg=$('bg'); let blobs=false;
   if(state.bg.startsWith('grad:')){ const g=GRADIENTS[state.bg.slice(5)]||GRADIENTS.aurora; bg.style.background=g.css; blobs=!!g.blobs; }
+  else if(state.bg.startsWith('auto:')){ const a=AUTO_BG[state.bg.slice(5)]||AUTO_BG.daily; bg.style.background=`#111 url("${a.u()}") center/cover no-repeat`; }
   else if(state.bg.startsWith('photo:')) bg.style.background=`#111 url("${photoUrl(state.bg.slice(6),2400)}") center/cover no-repeat`;
   else if(state.bg.startsWith('url:')) bg.style.background=`#111 url("${state.bg.slice(4)}") center/cover no-repeat`;
   else if(state.bg==='upload'){ const data=ls(BGKEY)||''; if(data) bg.style.background=`#111 url("${data}") center/cover no-repeat`; else { bg.style.background=GRADIENTS.aurora.css; blobs=true; } }
   document.body.classList.toggle('no-blobs',!blobs); $('dim').style.opacity=(state.dim||0)/100;
+  bg.style.filter=state.blur?`blur(${state.blur}px)`:''; bg.style.inset=state.blur?`-${state.blur*2}px`:'0';
 }
 function setBg(v){ state.bg=v; save(); applyBg(); markSel(); }
 function markSel(){ document.querySelectorAll('.thumb').forEach(t=>t.classList.toggle('sel',t.dataset.v===state.bg)); }
 function buildGallery(){
+  const ag=$('autoGallery'); ag.innerHTML='';
+  Object.entries(AUTO_BG).forEach(([k,a])=>{ const t=document.createElement('div'); t.className='thumb'; t.dataset.v='auto:'+k; t.style.background='linear-gradient(135deg,#334155,#0f172a)'; t.innerHTML=`<span style="top:50%;bottom:auto;left:0;right:0;text-align:center;transform:translateY(-50%);font-size:13px">${k==='daily'?'📅':'🎲'} ${a.name}</span>`; t.onclick=()=>setBg(t.dataset.v); ag.append(t); });
   const pg=$('photoGallery'); pg.innerHTML='';
   PHOTOS.forEach(([name,id])=>{ const t=document.createElement('div'); t.className='thumb'; t.dataset.v='photo:'+id; const img=new Image(); img.loading='lazy'; img.src=photoUrl(id,400); img.onerror=()=>t.remove(); const s=document.createElement('span'); s.textContent=name; t.append(img,s); t.onclick=()=>setBg(t.dataset.v); pg.append(t); });
   const gg=$('gradGallery'); gg.innerHTML='';
   Object.entries(GRADIENTS).forEach(([k,g])=>{ const t=document.createElement('div'); t.className='thumb'; t.dataset.v='grad:'+k; t.style.background=g.css; const s=document.createElement('span'); s.textContent=g.name; t.append(s); t.onclick=()=>setBg(t.dataset.v); gg.append(t); });
   markSel();
 }
-$('bgBtn').onclick=()=>{ buildGallery(); $('dimRange').value=state.dim||0; $('bgUrl').value=state.bg.startsWith('url:')?state.bg.slice(4):''; $('bgModal').classList.add('open'); };
-$('dimRange').oninput=e=>{ state.dim=+e.target.value; applyBg(); }; $('dimRange').onchange=()=>save();
+function fillBgTab(){ buildGallery(); $('dimRange').value=state.dim||0; $('dimV').textContent=(state.dim||0)+'%'; $('blurRange').value=state.blur||0; $('blurV').textContent=(state.blur||0)+'px'; $('bgUrl').value=state.bg.startsWith('url:')?state.bg.slice(4):''; }
+$('dimRange').oninput=e=>{ state.dim=+e.target.value; $('dimV').textContent=state.dim+'%'; applyBg(); }; $('dimRange').onchange=()=>save();
+$('blurRange').oninput=e=>{ state.blur=+e.target.value; $('blurV').textContent=state.blur+'px'; applyBg(); }; $('blurRange').onchange=()=>save();
 $('bgUrlBtn').onclick=()=>{ const u=$('bgUrl').value.trim(); if(/^https?:\/\//i.test(u)) setBg('url:'+u); else alert('Please paste a link starting with https://'); };
 $('uploadBgBtn').onclick=()=>$('uploadBg').click();
 $('uploadBg').onchange=e=>{ const f=e.target.files[0]; if(!f) return; const img=new Image(), r=new FileReader(); r.onload=()=>{ img.src=r.result; };
@@ -874,8 +1009,36 @@ function saveSyncFields(){ const tk=$('ghToken').value.trim(); if(tk) ls(TOKENKE
 /* =========================================================
    Settings
    ========================================================= */
-document.querySelectorAll('#setTabs .tab').forEach(t=>t.onclick=()=>{ document.querySelectorAll('#setTabs .tab').forEach(x=>x.classList.toggle('active',x===t)); document.querySelectorAll('.tabpane').forEach(p=>p.classList.toggle('active',p.dataset.pane===t.dataset.tab)); });
+function showTab(name){ document.querySelectorAll('#setTabs .tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===name)); document.querySelectorAll('.tabpane').forEach(p=>p.classList.toggle('active',p.dataset.pane===name)); if(name==='bg') fillBgTab(); }
+document.querySelectorAll('#setTabs .tab').forEach(t=>t.onclick=()=>showTab(t.dataset.tab));
+function openSettings(tab){ fillSettings(); showTab(tab||'quick'); $('setModal').classList.add('open'); }
+const closeSet=()=>$('setModal').classList.remove('open');
+$('qEdit').onclick=()=>{ closeSet(); toggleEdit(true); };
+$('qGroups').onclick=()=>{ closeSet(); openDrawer('groupsDrawer'); };
+$('qNotes').onclick=()=>{ closeSet(); openDrawer('notesDrawer'); };
+$('qBg').onclick=()=>showTab('bg');
+$('qImport').onclick=()=>openBookmarks();
+$('qSync').onclick=()=>showTab('sync');
+function loadFont(name){ const fam=FONTS[name]; if(!fam) return; const id='font-'+fam.replace(/\s/g,''); if(document.getElementById(id)) return; const l=document.createElement('link'); l.id=id; l.rel='stylesheet'; l.href=`https://fonts.googleapis.com/css2?family=${encodeURIComponent(fam)}:wght@400;500;600;700&display=swap`; document.head.append(l); }
+function applyLook(){
+  const sys='-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,sans-serif';
+  [state.font,state.cfont].forEach(loadFont);
+  const fam=n=>FONTS[n]?`"${FONTS[n]}",${sys}`:sys;
+  const r=document.documentElement.style; r.setProperty('--font',fam(state.font)); r.setProperty('--cfont',fam(state.cfont));
+  r.setProperty('--clockS',(state.clockS||100)/100); r.setProperty('--wS',(state.wS||100)/100);
+  const b=document.body.classList;
+  [...b].filter(c=>/^(ist-|ish-|hide-)/.test(c)).forEach(c=>b.remove(c));
+  if(state.iconStyle!=='3d') b.add('ist-'+state.iconStyle); if(state.iconShape!=='rounded') b.add('ish-'+state.iconShape);
+  if(!state.show.clock) b.add('hide-clock'); if(!state.show.date) b.add('hide-date'); if(!state.show.greet) b.add('hide-greet');
+}
+['sClockS','sWS'].forEach(id=>$(id).oninput=e=>{ $(id+'v').textContent=e.target.value+'%'; if(id==='sClockS') state.clockS=+e.target.value; else state.wS=+e.target.value; applyLook(); });
+['sFont','sCFont','sIStyle','sIShape'].forEach(id=>$(id).onchange=e=>{ const k={sFont:'font',sCFont:'cfont',sIStyle:'iconStyle',sIShape:'iconShape'}[id]; state[k]=e.target.value; applyLook(); });
+['sShowClock','sShowDate','sShowGreet'].forEach(id=>$(id).onchange=e=>{ state.show[{sShowClock:'clock',sShowDate:'date',sShowGreet:'greet'}[id]]=e.target.checked; applyLook(); });
 function fillSettings(){
+  const fo=Object.keys(FONTS).map(n=>`<option>${n}</option>`).join(''); $('sFont').innerHTML=fo; $('sCFont').innerHTML=fo; $('sFont').value=state.font; $('sCFont').value=state.cfont;
+  $('sClockS').value=state.clockS; $('sClockSv').textContent=state.clockS+'%'; $('sWS').value=state.wS; $('sWSv').textContent=state.wS+'%';
+  $('sShowClock').checked=state.show.clock; $('sShowDate').checked=state.show.date; $('sShowGreet').checked=state.show.greet;
+  $('sIStyle').value=state.iconStyle; $('sIShape').value=state.iconShape;
   $('sName').value=state.name; $('s24').checked=state.h24; $('sNewTab').checked=state.newTab; $('sHover').checked=state.hoverEdge; $('sSize').value=state.tileSize; $('sGlass').value=state.glass;
   $('wWeather').checked=state.widgets.weather; $('wClocks').checked=state.widgets.clocks; $('wPrayer').checked=state.widgets.prayer; $('wHijri').checked=state.widgets.hijri;
   $('sLoc').innerHTML=Object.entries(LOCS).map(([k,l])=>`<option value="${k}">${l.name}</option>`).join(''); $('sLoc').value=state.loc; $('sClocks').value=state.clocks;
@@ -884,9 +1047,9 @@ function fillSettings(){
   $('snapSel').innerHTML=snaps.length?snaps.map((s,i)=>`<option value="${i}">${new Date(s.t).toLocaleString()} — ${s.data.groups.length} groups, ${s.data.groups.reduce((a,g)=>a+g.tiles.length,0)} shortcuts</option>`).join(''):'<option value="">No snapshots yet</option>';
   $('bangTable').innerHTML=Object.entries(BANGS).map(([k,[n]])=>`<tr><td><span class="kbd">${k}</span> + space</td><td>${n}</td></tr>`).join('');
 }
-$('setBtn').onclick=()=>{ fillSettings(); $('setModal').classList.add('open'); };
+$('setBtn').onclick=()=>openSettings();
 $('sSave').onclick=()=>{
-  Object.assign(state,{name:$('sName').value.trim(),h24:$('s24').checked,newTab:$('sNewTab').checked,hoverEdge:$('sHover').checked,tileSize:$('sSize').value,glass:$('sGlass').value,loc:$('sLoc').value,clocks:$('sClocks').value.trim()});
+  Object.assign(state,{font:$('sFont').value,cfont:$('sCFont').value,clockS:+$('sClockS').value,wS:+$('sWS').value,iconStyle:$('sIStyle').value,iconShape:$('sIShape').value,name:$('sName').value.trim(),h24:$('s24').checked,newTab:$('sNewTab').checked,hoverEdge:$('sHover').checked,tileSize:$('sSize').value,glass:$('sGlass').value,loc:$('sLoc').value,clocks:$('sClocks').value.trim()});
   state.widgets={weather:$('wWeather').checked,clocks:$('wClocks').checked,prayer:$('wPrayer').checked,hijri:$('wHijri').checked};
   saveSyncFields(); save(); fullRender(); $('setModal').classList.remove('open'); toast('Settings saved');
 };
@@ -901,8 +1064,9 @@ $('resetBtn').onclick=()=>{ if(confirm('Reset everything to defaults? (A backup 
 /* =========================================================
    Edit mode, modals, keyboard
    ========================================================= */
-$('editBtn').onclick=()=>{ document.body.classList.toggle('edit'); $('editBtn').classList.toggle('active'); renderPanel(); renderGroupList(); toast(document.body.classList.contains('edit')?'Edit mode: drag icons, click to edit':'Edit mode off'); };
-document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>b.closest('.modal-bg').classList.remove('open'));
+function toggleEdit(on){ const v=on===undefined?!document.body.classList.contains('edit'):on; document.body.classList.toggle('edit',v); if(v && state.openGroup<0 && state.groups.length){ state.openGroup=0; } renderPanel(); renderGroupList(); toast(v?'Edit mode: drag icons, click one to change its name or icon':'Edit mode off'); }
+$('editDone').onclick=()=>toggleEdit(false);
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>{ const m=b.closest('.modal-bg'); m.classList.remove('open'); if(m.id==='setModal'){ save(); } });
 document.querySelectorAll('.modal-bg').forEach(m=>m.addEventListener('mousedown',e=>{ if(e.target===m) m.classList.remove('open'); }));
 document.addEventListener('keydown',e=>{
   const typing=/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)||document.activeElement.isContentEditable;
@@ -913,6 +1077,8 @@ document.addEventListener('keydown',e=>{
   if(e.key==='/'){ e.preventDefault(); $('q').focus(); }
   else if(e.key==='['){ e.preventDefault(); toggleDrawer('groupsDrawer'); }
   else if(e.key===']'){ e.preventDefault(); toggleDrawer('notesDrawer'); }
+  else if(e.key==='e'||e.key==='E'){ e.preventDefault(); toggleEdit(); }
+  else if(e.key===','){ e.preventDefault(); openSettings(); }
   else if(e.key.length===1 && !e.metaKey && !e.ctrlKey && !e.altKey){ $('q').focus(); }
 });
 window.addEventListener('storage',e=>{ if(e.key===KEY){ try{ state=normalize(JSON.parse(e.newValue)); fullRender(); }catch(_){} } });
@@ -921,7 +1087,7 @@ function fullRender(){
   document.body.classList.remove('size-s','size-l','glass-clear','glass-dark');
   if(state.tileSize!=='m') document.body.classList.add('size-'+state.tileSize);
   if(state.glass!=='frosted') document.body.classList.add('glass-'+state.glass);
-  applyBg(); renderWidgets(); renderPanel(); renderGroupList(); renderTodos(); $('notesArea').value=state.notes||''; tick();
+  applyLook(); applyBg(); renderWidgets(); renderPanel(); renderGroupList(); renderTodos(); $('notesArea').value=state.notes||''; tick();
   setSyncStatus('');
 }
 fullRender(); setInterval(tick,1000);
