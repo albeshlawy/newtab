@@ -162,7 +162,7 @@
   .gitem{display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:14px;cursor:pointer;font-weight:600;font-size:15px;border:1px solid transparent;user-select:none}
   .gitem:hover{background:rgba(255,255,255,.12)}
   .gitem.active{background:rgba(255,255,255,.22);border-color:var(--border)}
-  .gitem .n{margin-left:auto;font-size:12px;color:var(--muted);font-weight:500}
+  .gitem .n{margin-left:auto;font-size:12px;color:var(--muted);font-weight:500;white-space:nowrap;flex:none}
   .gitem.drop{background:rgba(59,130,246,.45);border-color:#93c5fd}
   .gitem .grip{opacity:.5;display:none}
   body.edit .gitem .grip{display:inline}
@@ -237,12 +237,56 @@
   .range-row{display:flex;align-items:center;gap:12px}
   .range-row input{flex:1}
   .range-row b{min-width:48px;text-align:right;font-size:13px}
+  /* Nova-style card icons */
+  body.ist-card .tiles{gap:14px;grid-template-columns:repeat(auto-fill,minmax(calc(var(--tilew) + 14px),1fr))}
+  body.ist-card .tile{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:16px 8px 12px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 10px 26px -14px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.15);transition:transform .2s,background .2s}
+  body.ist-card .tile:hover{background:rgba(255,255,255,.16);transform:translateY(-3px)}
+  body.ist-card .icon3d{background:none!important;box-shadow:none!important;border:0!important;width:calc(var(--tile)*.7);height:calc(var(--tile)*.7);border-radius:calc(var(--tile)*.18)}
+  body.ist-card .icon3d::before{display:none}
+  body.ist-card .tile:hover .icon3d{transform:none;box-shadow:none}
+  body.ist-card .icon3d img{width:100%;height:100%;filter:none;border-radius:calc(var(--tile)*.16);transform:none}
+  body.ist-card .icon3d .letter{background:linear-gradient(145deg,var(--c1),var(--c2));border-radius:calc(var(--tile)*.18);width:100%;height:100%;display:grid;place-items:center;font-size:calc(var(--tile)*.32);transform:none}
+  body.ist-card .icon3d .emoji{transform:none}
+  body.ist-card .label{font-size:12.5px;max-width:100%}
+  body.ist-card.edit .tile:not(.add-tile){animation:wiggle .35s ease-in-out infinite alternate}
+  body.ist-card.edit .tile .icon3d{animation:none!important}
+  body.icon-full:not(.ist-card) .icon3d img{width:100%;height:100%;border-radius:inherit;object-fit:cover;filter:none;transform:none}
+  body.no-titles .tile .label{display:none}
+  body.ist-float .tiles{gap:14px}
+  body.ist-float .icon3d{background:none!important;box-shadow:none!important;border:0!important}
+  body.ist-float .icon3d::before{display:none}
+  body.ist-float .icon3d img{width:78%;height:78%;filter:drop-shadow(0 6px 10px rgba(0,0,0,.45));transform:none;border-radius:calc(var(--tile)*.18)}
+  body.ist-float .icon3d .letter{background:linear-gradient(145deg,var(--c1),var(--c2));border-radius:calc(var(--tile)*.22);width:78%;height:78%;display:grid;place-items:center;font-size:calc(var(--tile)*.32);transform:none}
+  body.ist-float .tile:hover .icon3d{transform:translateY(-5px) scale(1.06);box-shadow:none}
+  body.align-left .tiles{justify-content:start}
+  body.align-center .tiles{grid-template-columns:repeat(auto-fill,minmax(var(--tilew),var(--tilew)))!important;justify-content:center}
+  body.ist-card.align-center .tiles{grid-template-columns:repeat(auto-fill,minmax(calc(var(--tilew) + 14px),calc(var(--tilew) + 14px)))!important}
+  body.glass-oled #bg{background:#000!important}
+  body.glass-oled .blob{display:none}
+  body.glass-oled{--glass:rgba(255,255,255,.04);--glass-strong:rgba(255,255,255,.1);--border:rgba(255,255,255,.14)}
+  .clock{cursor:pointer;user-select:none}
+  #particles{position:fixed;inset:0;z-index:-2;pointer-events:none;display:none}
+  .credit{position:fixed;left:22px;bottom:16px;font-size:12px;color:var(--muted);z-index:5;max-width:40vw;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+  .credit a{color:inherit}
+  /* engine selector */
+  .engine{background:rgba(255,255,255,.14);border:1px solid var(--border);color:#fff;border-radius:12px;padding:7px 10px;font:inherit;font-size:13px;font-weight:600;outline:none;cursor:pointer;margin-left:10px}
+  .engine option{color:#000}
+  /* workspace menu mode */
+  #groupsBtn.menu-mode{width:auto;padding:0 16px;gap:8px;display:flex;font-size:15px;font-weight:700}
+  .drawer.left.as-menu{top:70px;left:22px;bottom:auto;max-height:72vh;width:300px;border-radius:20px;transform:translateY(-8px);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s}
+  .drawer.left.as-menu.open{transform:none;opacity:1;pointer-events:auto}
+  .drawer.as-menu h3{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+  .drawer.as-menu h3 .badge{margin-left:auto;padding:2px 10px;border-radius:999px;background:rgba(255,255,255,.2);color:#fff;font-size:12px}
+  .drawer.as-menu h3 .x{display:none}
+  .drawer.as-menu .hint#drawerHint{display:none}
+  .gitem .gic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:rgba(255,255,255,.12);border:1px solid var(--border);font-size:14px;flex:none}
+  .scrim.clear{background:transparent}
   .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);padding:12px 20px;border-radius:14px;z-index:30;opacity:0;transition:.3s;pointer-events:none;font-size:14px;font-weight:600;background:rgba(20,20,40,.75)}
   .toast.show{opacity:1;transform:translateX(-50%)}
 </style>
 </head>
 <body>
-<div id="bg"></div><div id="dim"></div>
+<div id="bg"></div><canvas id="particles"></canvas><div id="dim"></div><div class="credit" id="credit"></div>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <div class="edge" id="edge"></div>
 <div class="scrim" id="scrim"></div>
@@ -256,10 +300,10 @@
 
 <!-- groups drawer -->
 <aside class="drawer left glass" id="groupsDrawer">
-  <h3>☰ Groups <span class="x" data-closedrawer>✕</span></h3>
+  <h3><span id="drawerTitle">☰ Groups</span> <span class="badge" id="gBadge"></span><span class="x" data-closedrawer>✕</span></h3>
   <div class="glist" id="glist"></div>
   <div class="gfoot">
-    <button class="btn full edit-only" id="newGroupBtn" style="justify-content:center">+ New group</button>
+    <button class="btn full" id="newGroupBtn" style="justify-content:center">+ New group</button>
     <button class="btn full" id="drawerImportBtn">⬇︎ Import browser bookmarks</button>
     <div class="hint" id="drawerHint">Tip: press <span class="kbd">[</span> or move the mouse to the left edge to open this panel.</div>
   </div>
@@ -286,6 +330,7 @@
       <span class="ic">🔍</span>
       <input id="q" placeholder="Search shortcuts, Google, or try  p heart failure" autocomplete="off" autofocus>
       <span class="bang-chip" id="bangChip"></span>
+      <select class="engine" id="engineSel" title="Default search engine"></select>
     </form>
     <div class="results glass" id="results"></div>
   </div>
@@ -387,6 +432,8 @@
         <div class="qbtn" id="qNotes"><span class="e">📝</span>To-do &amp; notes</div>
         <div class="qbtn" id="qBg"><span class="e">🖼</span>Background</div>
         <div class="qbtn" id="qImport"><span class="e">⬇︎</span>Import bookmarks</div>
+        <div class="qbtn" id="qNova"><span class="e">✦</span>Import NovaDial</div>
+        <div class="qbtn" id="qAdd"><span class="e">＋</span>Add shortcut</div>
         <div class="qbtn" id="qSync"><span class="e">☁︎</span>Sync &amp; backup</div>
       </div>
     </div>
@@ -401,7 +448,17 @@
       <label class="check"><input type="checkbox" id="sShowDate"><span>Show date</span></label>
       <label class="check"><input type="checkbox" id="sShowGreet"><span>Show greeting</span></label>
       <label>Icon style</label>
-      <select id="sIStyle"><option value="3d">3D glossy</option><option value="flat">Flat</option><option value="glass">Glass</option><option value="neon">Neon</option></select>
+      <select id="sIStyle"><option value="3d">3D glossy</option><option value="flat">Flat</option><option value="glass">Glass</option><option value="neon">Neon</option><option value="card">Cards (NovaDial style)</option><option value="float">Floating (borderless)</option></select>
+      <label>Grid alignment</label>
+      <select id="sAlign"><option value="fill">Fill width</option><option value="center">Center</option><option value="left">Left</option></select>
+      <label class="check"><input type="checkbox" id="sTitles"><span>Show names under icons</span></label>
+      <label class="check"><input type="checkbox" id="sFull"><span>Let the image fill the whole icon (for photo icons)</span></label>
+      <label>Groups menu</label>
+      <select id="sNav"><option value="menu">Workspace menu (top-left, like NovaDial)</option><option value="drawer">Side panel</option></select>
+      <label>Greeting</label>
+      <select id="sGreet"><option value="dynamic">Dynamic (with a short message)</option><option value="simple">Simple</option></select>
+      <label>Columns</label><div class="range-row"><input type="range" id="sCols" min="0" max="12" step="1"><b id="sColsv"></b></div>
+      <label>Content width</label><div class="range-row"><input type="range" id="sWidth" min="50" max="100" step="5"><b id="sWidthv"></b></div>
       <label>Icon shape</label>
       <select id="sIShape"><option value="rounded">Rounded</option><option value="circle">Circle</option><option value="square">Square</option></select>
       <label class="check"><input type="checkbox" id="s24"><span>24-hour clock</span></label>
@@ -410,7 +467,7 @@
       <label>Icon size</label>
       <select id="sSize"><option value="s">Small</option><option value="m">Medium</option><option value="l">Large</option></select>
       <label>Glass style</label>
-      <select id="sGlass"><option value="frosted">Frosted</option><option value="clear">Clear</option><option value="dark">Dark tint</option></select>
+      <select id="sGlass"><option value="frosted">Frosted glass</option><option value="clear">Clear glass</option><option value="dark">Dark tint</option><option value="oled">OLED pure black</option></select>
     </div>
 
     <div class="tabpane" data-pane="bg">
@@ -441,6 +498,8 @@
 
     <div class="tabpane" data-pane="shortcuts">
       <div class="row">
+        <button class="btn primary" id="novaBtn">⬇︎ Import NovaDial backup…</button>
+        <input type="file" id="novaFile" accept=".json" hidden>
         <button class="btn" id="openBm">⬇︎ Import browser bookmarks…</button>
         <button class="btn" id="cleanAllBtn">✂︎ Shorten all long names</button>
         <button class="btn" id="refreshIconsBtn">↻ Refresh icons</button>
@@ -503,7 +562,7 @@
    Data & constants
    ========================================================= */
 const KEY='glassNewTab.v1', BGKEY='glassNewTab.bgImage', TOKENKEY='glassNewTab.ghToken',
-      SNAPKEY='glassNewTab.snaps', ICONKEY='glassNewTab.icons';
+      SNAPKEY='glassNewTab.snaps', ICONKEY='glassNewTab.icons2';
 const $=id=>document.getElementById(id);
 
 const PHOTOS=[['Mountains','1506905925346-21bda4d32df4'],['Starry peaks','1519681393784-d120267933ba'],['Misty hills','1470071459604-3b5ec3a7fe05'],['Lake','1501785888041-af3ef285b470'],['Beach','1507525428034-b723cf961d3e'],['Desert dunes','1509316785289-025f5b846b35'],['Night sky','1419242902214-272b3f66ee7a'],['Earth','1446776811953-b23d57bd21aa'],['Forest','1441974231531-c6227db76b6e'],['Valley','1464822759023-fed622ff2c3b'],['Aurora','1483728642387-6c3bdd6c93e5'],['Coast','1505144808419-1957a94ca61e']];
@@ -536,9 +595,11 @@ Object.assign(GRADIENTS,{
   cosmic:{name:'Cosmic',css:'linear-gradient(135deg,#ff00cc 0%,#333399 100%)'},
   gold:{name:'Gold',css:'linear-gradient(135deg,#1c1c1c 0%,#5c4413 50%,#e6b35a 100%)'},
 });
-const AUTO_BG={daily:{name:'Photo of the day',u:()=>`https://picsum.photos/seed/${new Date().toISOString().slice(0,10)}/2400/1500`},random:{name:'New photo every tab',u:()=>`https://picsum.photos/seed/${Math.random().toString(36).slice(2)}/2400/1500`}};
-const FONTS={'System':'','Inter':'Inter','Poppins':'Poppins','Montserrat':'Montserrat','Nunito':'Nunito','Quicksand':'Quicksand','Raleway':'Raleway','Outfit':'Outfit','Space Grotesk':'Space Grotesk','Playfair Display':'Playfair Display','Orbitron':'Orbitron','Rajdhani':'Rajdhani','Cairo (Arabic)':'Cairo','Tajawal (Arabic)':'Tajawal','Almarai (Arabic)':'Almarai','IBM Plex Sans Arabic':'IBM Plex Sans Arabic','Readex Pro':'Readex Pro'};
+const AUTO_BG={bing:{name:'Bing image of the day',u:()=>`https://bing.biturl.top/?resolution=1920&format=image&index=0&mkt=en-US&d=${new Date().toISOString().slice(0,10)}`},nasa:{name:'NASA picture of the day',u:()=>null},particles:{name:'Live particles',u:()=>null},solid:{name:'Solid dark',u:()=>null},daily:{name:'Photo of the day',u:()=>`https://picsum.photos/seed/${new Date().toISOString().slice(0,10)}/2400/1500`},random:{name:'New photo every tab',u:()=>`https://picsum.photos/seed/${Math.random().toString(36).slice(2)}/2400/1500`}};
+const FONTS={'System':'','Pixel 8-bit':'Press Start 2P','Retro terminal':'VT323','Monospace (NovaDial)':'JetBrains Mono','Space Mono':'Space Mono','Inter':'Inter','Poppins':'Poppins','Montserrat':'Montserrat','Nunito':'Nunito','Quicksand':'Quicksand','Raleway':'Raleway','Outfit':'Outfit','Space Grotesk':'Space Grotesk','Playfair Display':'Playfair Display','Orbitron':'Orbitron','Rajdhani':'Rajdhani','Cairo (Arabic)':'Cairo','Tajawal (Arabic)':'Tajawal','Almarai (Arabic)':'Almarai','IBM Plex Sans Arabic':'IBM Plex Sans Arabic','Readex Pro':'Readex Pro'};
 const EMOJIS='🩺 🦴 🖐️ 🏥 📚 📖 🔬 🧪 💊 🩻 🧠 ❤️ 🫀 📰 🎓 🏛️ 💼 📧 📅 📝 📂 🗂️ 🔗 🌐 🔎 🤖 ✨ 💬 🎥 ▶️ 🎵 🛒 🏦 💳 ✈️ 🚗 🏠 🕌 📿 ☕ 🍽️ ⚽ 📷 🧾 ⚙️ 🔒 ⭐ 🚀'.split(' ');
+const ENGINES={google:['Google','https://www.google.com/search?q='],pubmed:['PubMed','https://pubmed.ncbi.nlm.nih.gov/?term='],scholar:['Scholar','https://scholar.google.com/scholar?q='],duckduckgo:['DuckDuckGo','https://duckduckgo.com/?q='],bing:['Bing','https://www.bing.com/search?q='],youtube:['YouTube','https://www.youtube.com/results?search_query='],claude:['Claude','https://claude.ai/new?q='],chatgpt:['ChatGPT','https://chatgpt.com/?q=']};
+const GREETS={morning:['Have a productive day.','A fresh start — make it count.','Let’s get things done.'],afternoon:['Keep up the great work.','Stay focused, you’re doing well.','Halfway there — keep going.'],evening:['Hope your day went well.','Time to slow down a little.','Well done today.'],night:['Time to unwind and recharge.','Rest well — tomorrow brings a clean slate.','A quiet night ahead.']};
 const LOCS={
   khafji:{name:'Al Khafji',lat:28.4328,lon:48.4913,method:4},
   giza:{name:'Hadayek Al-Ahram, Giza',lat:29.9792,lon:31.0640,method:5},
@@ -563,7 +624,7 @@ const BANGS={
 const DEFAULTS={
   name:'Ahmed',h24:false,bg:'grad:aurora',dim:0,
   openGroup:0,newTab:false,hoverEdge:true,tileSize:'m',glass:'frosted',
-  font:'System',cfont:'System',clockS:100,wS:100,blur:0,show:{clock:true,date:true,greet:true},iconStyle:'3d',iconShape:'rounded',
+  font:'System',cfont:'System',align:'fill',groupNav:'menu',engine:'google',greetStyle:'dynamic',titles:true,iconFull:false,cols:0,width:0,clockS:100,wS:100,blur:0,show:{clock:true,date:true,greet:true},iconStyle:'3d',iconShape:'rounded',
   widgets:{weather:true,clocks:true,prayer:true,hijri:true},
   loc:'khafji',clocks:'Khafji|Asia/Riyadh, Cairo|Africa/Cairo',
   todos:[],notes:'',updatedAt:0,sync:{gistId:'',auto:false},
@@ -633,11 +694,12 @@ function saveIconCache(){ ls(ICONKEY,JSON.stringify(iconCache)); }
 function iconCandidates(host){
   const parts=host.split('.'); const root=parts.length>2?parts.slice(-2).join('.'):host;
   const c=[
-    {u:`https://www.google.com/s2/favicons?domain=${host}&sz=128`,min:17},
-    {u:`https://${host}/apple-touch-icon.png`,min:32},
-    {u:`https://icons.duckduckgo.com/ip3/${host}.ico`,min:32},
+    {u:`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${host}&size=256`,min:64},
+    {u:`https://${host}/apple-touch-icon.png`,min:64},
+    {u:`https://www.google.com/s2/favicons?domain=${host}&sz=256`,min:48},
+    {u:`https://icons.duckduckgo.com/ip3/${host}.ico`,min:48},
   ];
-  if(root!==host) c.push({u:`https://www.google.com/s2/favicons?domain=${root}&sz=128`,min:17});
+  if(root!==host) c.push({u:`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${root}&size=256`,min:64});
   return c;
 }
 function loadIcon(t,wrap){
@@ -648,10 +710,10 @@ function loadIcon(t,wrap){
   const host=hostOf(t.url); if(!host){ letter(); return; }
   if(iconCache[host]==='letter'){ letter(); return; }
   if(iconCache[host]){ const img=new Image(); img.src=iconCache[host]; img.onerror=()=>{ delete iconCache[host]; saveIconCache(); letter(); }; wrap.append(img); return; }
-  const cands=iconCandidates(host); let i=0;
+  const cands=iconCandidates(host); let i=0, best=null;
   const img=new Image(); img.alt='';
-  const next=()=>{ if(i>=cands.length){ iconCache[host]='letter'; saveIconCache(); letter(); return; } img.dataset.min=cands[i].min; img.src=cands[i].u; i++; };
-  img.onload=()=>{ if(img.naturalWidth>=+img.dataset.min){ iconCache[host]=img.src; saveIconCache(); } else next(); };
+  const next=()=>{ if(i>=cands.length){ if(best){ iconCache[host]=best.u; saveIconCache(); img.onload=null; img.src=best.u; return; } iconCache[host]='letter'; saveIconCache(); letter(); return; } img.dataset.min=cands[i].min; img.src=cands[i].u; i++; };
+  img.onload=()=>{ const w=img.naturalWidth; if(w>=+img.dataset.min){ iconCache[host]=img.src; saveIconCache(); } else { if(w>16 && (!best||w>best.w)) best={u:img.src,w}; next(); } };
   img.onerror=next;
   wrap.append(img); next();
 }
@@ -667,10 +729,13 @@ function tick(){
   if(state.widgets.hijri){ try{ ds+=' · '+new Intl.DateTimeFormat('en-u-ca-islamic-umalqura',{day:'numeric',month:'long',year:'numeric'}).format(d); }catch(e){} }
   $('date').textContent=ds;
   const hr=d.getHours(); const g=hr<5?'Good night':hr<12?'Good morning':hr<17?'Good afternoon':hr<22?'Good evening':'Good night';
-  $('greet').textContent=state.name?`${g}, ${state.name}`:g;
+  let gt=state.name?`${g}, ${state.name}`:g;
+  if(state.greetStyle==='dynamic'){ const per=hr<5?'night':hr<12?'morning':hr<17?'afternoon':hr<22?'evening':'night'; const arr=GREETS[per]; gt+='. '+arr[new Date().getDate()%arr.length]; }
+  $('greet').textContent=gt;
   document.querySelectorAll('[data-tz]').forEach(el=>{ try{ el.textContent=new Intl.DateTimeFormat('en-GB',{timeZone:el.dataset.tz,hour:'2-digit',minute:'2-digit',hour12:!state.h24}).format(d); }catch(e){ el.textContent='?'; } });
   if(d.getSeconds()===0) markNextPrayer();
 }
+$('clock').onclick=()=>{ state.h24=!state.h24; save(); tick(); renderWidgets(); toast(state.h24?'24-hour clock':'12-hour clock'); };
 function parseClocks(){ return (state.clocks||'').split(',').map(s=>s.trim()).filter(Boolean).map(s=>{ const [n,z]=s.split('|').map(x=>x.trim()); return {n:n||z,z:z||n}; }); }
 const WX={0:['☀️','Clear'],1:['🌤','Mostly clear'],2:['⛅️','Partly cloudy'],3:['☁️','Cloudy'],45:['🌫','Fog'],48:['🌫','Fog'],51:['🌦','Drizzle'],53:['🌦','Drizzle'],55:['🌦','Drizzle'],61:['🌧','Rain'],63:['🌧','Rain'],65:['🌧','Heavy rain'],71:['🌨','Snow'],80:['🌦','Showers'],81:['🌦','Showers'],82:['⛈','Heavy showers'],95:['⛈','Thunderstorm'],96:['⛈','Thunderstorm'],99:['⛈','Thunderstorm']};
 async function cachedFetch(key,url,maxAge){
@@ -750,28 +815,38 @@ function webSearch(v){
   if(!v) return; const bang=parseBang(v);
   if(bang) return openUrl(bang.b[1]+encodeURIComponent(bang.q));
   const looksUrl=/^(https?:\/\/)?[\w-]+(\.[\w-]+)+(\/\S*)?$/i.test(v) && !v.includes(' ');
-  openUrl(looksUrl?(v.startsWith('http')?v:'https://'+v):'https://www.google.com/search?q='+encodeURIComponent(v));
+  const eng=(ENGINES[state.engine]||ENGINES.google)[1];
+  openUrl(looksUrl?(v.startsWith('http')?v:'https://'+v):eng+encodeURIComponent(v));
 }
+$('engineSel').innerHTML=Object.entries(ENGINES).map(([k,[n]])=>`<option value="${k}">${n}</option>`).join('');
+$('engineSel').onchange=e=>{ state.engine=e.target.value; save(); $('q').focus(); };
 $('searchForm').addEventListener('submit',e=>{ e.preventDefault(); const v=$('q').value.trim(); if(active>=0 && results[active]) openUrl(results[active].t.url); else webSearch(v); });
 
 /* =========================================================
    Drawers
    ========================================================= */
-function openDrawer(id){ closeDrawers(id); $(id).classList.add('open'); $('scrim').classList.add('show'); if(id==='groupsDrawer') renderGroupList(); }
+function openDrawer(id){ closeDrawers(id); $(id).classList.add('open'); $('scrim').classList.add('show'); $('scrim').classList.toggle('clear',id==='groupsDrawer'&&state.groupNav==='menu'); if(id==='groupsDrawer') renderGroupList(); }
+function updateGroupsBtn(){
+  const b=$('groupsBtn'), menu=state.groupNav==='menu', g=state.groups[state.openGroup];
+  b.classList.toggle('menu-mode',menu); $('groupsDrawer').classList.toggle('as-menu',menu);
+  b.innerHTML=menu?`📁 <span>${esc(g?g.title:'Workspaces')}</span> <span style="opacity:.7;font-size:12px">▾</span>`:'☰';
+  $('drawerTitle').textContent=menu?'Workspaces':'☰ Groups'; $('gBadge').textContent=menu?state.groups.length:'';
+}
 function closeDrawers(except){ ['groupsDrawer','notesDrawer'].forEach(d=>{ if(d!==except) $(d).classList.remove('open'); }); if(!except) $('scrim').classList.remove('show'); }
 function toggleDrawer(id){ $(id).classList.contains('open')?closeDrawers():openDrawer(id); }
 $('groupsBtn').onclick=()=>toggleDrawer('groupsDrawer');
 
 $('scrim').onclick=()=>closeDrawers();
 document.querySelectorAll('[data-closedrawer]').forEach(x=>x.onclick=()=>closeDrawers());
-$('edge').addEventListener('mouseenter',()=>{ if(state.hoverEdge) openDrawer('groupsDrawer'); });
+$('edge').addEventListener('mouseenter',()=>{ if(state.hoverEdge && state.groupNav!=='menu') openDrawer('groupsDrawer'); });
 $('edge').addEventListener('dragenter',()=>openDrawer('groupsDrawer'));
 
 function renderGroupList(){
+  updateGroupsBtn();
   const list=$('glist'); list.innerHTML='';
   state.groups.forEach((g,gi)=>{
     const it=document.createElement('div'); it.className='gitem'+(gi===state.openGroup?' active':'');
-    it.innerHTML=`<span class="grip">⋮⋮</span><span>${esc(g.title)}</span><span class="n">${g.tiles.length}</span>`;
+    it.innerHTML=`<span class="grip">⋮⋮</span><span class="gic">${g.icon==='star'?'☆':'🗀'}</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0">${esc(g.title)}</span><span class="n">${g.tiles.length} ${state.groupNav==='menu'?'dials':''}</span>`;
     it.onclick=()=>{ state.openGroup=gi; save(); renderPanel(); renderGroupList(); closeDrawers(); };
     // drop tile onto group / reorder groups
     it.draggable=document.body.classList.contains('edit');
@@ -802,6 +877,7 @@ function renderPanel(){
   title.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); title.blur(); } };
   $('panelCount').textContent=g.tiles.length+' shortcuts';
   const tiles=$('tiles'); tiles.innerHTML='';
+  tiles.style.gridTemplateColumns=state.cols?`repeat(${state.cols},minmax(0,1fr))`:'';
   g.tiles.forEach((t,ti)=>{
     const a=document.createElement('a'); a.className='tile'; a.href=t.url; a.title=t.url; if(state.newTab){ a.target='_blank'; a.rel='noopener'; }
     const base=(t.color&&t.color.startsWith('#'))?t.color:hashColor(hostOf(t.url)||t.name);
@@ -887,7 +963,7 @@ document.querySelectorAll('#tIconType span').forEach(x=>x.onclick=()=>{ if(iconD
 $('tColor').oninput=previewIcon; $('tUrl').onchange=previewIcon;
 $('tIconFile').onchange=e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(), img=new Image();
   r.onload=()=>img.src=r.result;
-  img.onload=()=>{ const c=document.createElement('canvas'); c.width=c.height=128; const k=Math.min(128/img.width,128/img.height); const w=img.width*k,h=img.height*k; c.getContext('2d').drawImage(img,(128-w)/2,(128-h)/2,w,h); iconDraft.icon=c.toDataURL('image/png'); iconDraft.type='upload'; renderIconFields(); };
+  img.onload=()=>{ const c=document.createElement('canvas'); const S=256; c.width=c.height=S; const k=Math.min(S/img.width,S/img.height); const w=img.width*k,h=img.height*k; const cx=c.getContext('2d'); cx.imageSmoothingQuality='high'; cx.drawImage(img,(S-w)/2,(S-h)/2,w,h); iconDraft.icon=c.toDataURL('image/webp',.92); if(!iconDraft.icon.startsWith('data:image/webp')) iconDraft.icon=c.toDataURL('image/png'); iconDraft.type='upload'; renderIconFields(); };
   r.readAsDataURL(f); e.target.value=''; };
 $('tDelete').onclick=()=>{ if(editing.ti==null) return; state.groups[editing.gi].tiles.splice(editing.ti,1); save(); renderPanel(); renderGroupList(); $('tileModal').classList.remove('open'); };
 
@@ -913,18 +989,39 @@ let noteTimer; $('notesArea').oninput=()=>{ clearTimeout(noteTimer); noteTimer=s
 function applyBg(){
   const bg=$('bg'); let blobs=false;
   if(state.bg.startsWith('grad:')){ const g=GRADIENTS[state.bg.slice(5)]||GRADIENTS.aurora; bg.style.background=g.css; blobs=!!g.blobs; }
-  else if(state.bg.startsWith('auto:')){ const a=AUTO_BG[state.bg.slice(5)]||AUTO_BG.daily; bg.style.background=`#111 url("${a.u()}") center/cover no-repeat`; }
+  else if(state.bg.startsWith('auto:')){ const k=state.bg.slice(5), a=AUTO_BG[k]||AUTO_BG.daily;
+    if(k==='solid') bg.style.background='#0b0b10';
+    else if(k==='particles'){ bg.style.background='radial-gradient(1000px 700px at 50% 30%,#1e1b4b 0%,#05060f 70%)'; }
+    else if(k==='nasa'){ bg.style.background='#000'; loadNasa(); }
+    else bg.style.background=`#111 url("${a.u()}") center/cover no-repeat`; }
   else if(state.bg.startsWith('photo:')) bg.style.background=`#111 url("${photoUrl(state.bg.slice(6),2400)}") center/cover no-repeat`;
   else if(state.bg.startsWith('url:')) bg.style.background=`#111 url("${state.bg.slice(4)}") center/cover no-repeat`;
   else if(state.bg==='upload'){ const data=ls(BGKEY)||''; if(data) bg.style.background=`#111 url("${data}") center/cover no-repeat`; else { bg.style.background=GRADIENTS.aurora.css; blobs=true; } }
   document.body.classList.toggle('no-blobs',!blobs); $('dim').style.opacity=(state.dim||0)/100;
+  $('particles').style.display=state.bg==='auto:particles'?'block':'none'; if(state.bg==='auto:particles') startParticles(); 
+  if(state.bg!=='auto:nasa') $('credit').textContent='';
   bg.style.filter=state.blur?`blur(${state.blur}px)`:''; bg.style.inset=state.blur?`-${state.blur*2}px`:'0';
 }
+async function loadNasa(){
+  try{ const d=await cachedFetch('nt.apod.'+new Date().toISOString().slice(0,10),'https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY',12*3600e3);
+    const u=d.media_type==='image'?(d.hdurl||d.url):(d.thumbnail_url||''); if(u && state.bg==='auto:nasa'){ $('bg').style.background=`#000 url("${u}") center/cover no-repeat`; $('credit').innerHTML=`🔭 NASA APOD · ${esc(d.title||'')}`; } }
+  catch(e){ $('credit').textContent='NASA picture unavailable'; }
+}
+let partRun=false;
+function startParticles(){ if(partRun) return; partRun=true; const c=$('particles'), x=c.getContext('2d'); let W,H,P=[];
+  const rs=()=>{ W=c.width=innerWidth; H=c.height=innerHeight; P=Array.from({length:Math.round(W*H/16000)},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.35,vy:(Math.random()-.5)*.35,r:Math.random()*1.8+.6})); };
+  rs(); addEventListener('resize',rs);
+  const step=()=>{ if(state.bg!=='auto:particles'){ partRun=false; x.clearRect(0,0,W,H); return; } if(document.hidden){ requestAnimationFrame(step); return; }
+    x.clearRect(0,0,W,H);
+    for(const p of P){ p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>W) p.vx*=-1; if(p.y<0||p.y>H) p.vy*=-1; x.beginPath(); x.arc(p.x,p.y,p.r,0,7); x.fillStyle='rgba(165,180,252,.8)'; x.fill(); }
+    for(let i=0;i<P.length;i++) for(let j=i+1;j<P.length;j++){ const a=P[i],b=P[j],d=Math.hypot(a.x-b.x,a.y-b.y); if(d<120){ x.strokeStyle=`rgba(129,140,248,${.25*(1-d/120)})`; x.beginPath(); x.moveTo(a.x,a.y); x.lineTo(b.x,b.y); x.stroke(); } }
+    requestAnimationFrame(step); };
+  step(); }
 function setBg(v){ state.bg=v; save(); applyBg(); markSel(); }
 function markSel(){ document.querySelectorAll('.thumb').forEach(t=>t.classList.toggle('sel',t.dataset.v===state.bg)); }
 function buildGallery(){
   const ag=$('autoGallery'); ag.innerHTML='';
-  Object.entries(AUTO_BG).forEach(([k,a])=>{ const t=document.createElement('div'); t.className='thumb'; t.dataset.v='auto:'+k; t.style.background='linear-gradient(135deg,#334155,#0f172a)'; t.innerHTML=`<span style="top:50%;bottom:auto;left:0;right:0;text-align:center;transform:translateY(-50%);font-size:13px">${k==='daily'?'📅':'🎲'} ${a.name}</span>`; t.onclick=()=>setBg(t.dataset.v); ag.append(t); });
+  Object.entries(AUTO_BG).forEach(([k,a])=>{ const t=document.createElement('div'); t.className='thumb'; t.dataset.v='auto:'+k; t.style.background='linear-gradient(135deg,#334155,#0f172a)'; t.innerHTML=`<span style="top:50%;bottom:auto;left:0;right:0;text-align:center;transform:translateY(-50%);font-size:13px">${{daily:'📅',random:'🎲',bing:'🅱️',nasa:'🔭',particles:'✨',solid:'⬛'}[k]||''} ${a.name}</span>`; t.onclick=()=>setBg(t.dataset.v); ag.append(t); });
   const pg=$('photoGallery'); pg.innerHTML='';
   PHOTOS.forEach(([name,id])=>{ const t=document.createElement('div'); t.className='thumb'; t.dataset.v='photo:'+id; const img=new Image(); img.loading='lazy'; img.src=photoUrl(id,400); img.onerror=()=>t.remove(); const s=document.createElement('span'); s.textContent=name; t.append(img,s); t.onclick=()=>setBg(t.dataset.v); pg.append(t); });
   const gg=$('gradGallery'); gg.innerHTML='';
@@ -1018,6 +1115,59 @@ $('qGroups').onclick=()=>{ closeSet(); openDrawer('groupsDrawer'); };
 $('qNotes').onclick=()=>{ closeSet(); openDrawer('notesDrawer'); };
 $('qBg').onclick=()=>showTab('bg');
 $('qImport').onclick=()=>openBookmarks();
+$('qNova').onclick=()=>$('novaFile').click();
+$('qAdd').onclick=()=>{ closeSet(); if(!state.groups.length){ state.groups.push({title:'Favorites',tiles:[]}); state.openGroup=0; } openTile(Math.max(0,state.openGroup),null); };
+$('novaBtn').onclick=()=>$('novaFile').click();
+function shrinkDataUrl(data){ return new Promise(res=>{ const img=new Image(); img.onload=()=>{ const S=256,c=document.createElement('canvas'); c.width=c.height=S; const k=Math.max(S/img.width,S/img.height); const w=img.width*k,h=img.height*k; const cx=c.getContext('2d'); cx.imageSmoothingQuality='high'; cx.drawImage(img,(S-w)/2,(S-h)/2,w,h); let out=c.toDataURL('image/webp',.9); if(!out.startsWith('data:image/webp')) out=c.toDataURL('image/png'); res(out); }; img.onerror=()=>res(null); img.src=data; }); }
+const NOVA_WALL={'gradient-oceanic':'grad:ocean2','gradient-aurora':'grad:aurora','gradient-sunset':'grad:sunset','gradient-forest':'grad:forest','gradient-midnight':'grad:midnight','gradient-nebula':'grad:nebula','gradient-cosmic':'grad:cosmic'};
+async function importNova(d){
+  const replace=confirm(`NovaDial backup: ${d.groups.length} workspaces, ${d.dials.length} dials.\n\nOK = Replace my current groups\nCancel = Add them to my current groups`);
+  const look=confirm('Also apply NovaDial’s look?\n(card-style icons, monospace font, workspace menu, your name and wallpaper settings)');
+  snapshot(true); toast('Importing… please wait');
+  const groups=d.groups.map(g=>({title:g.name,icon:g.icon==='star'?'star':'',tiles:[],_id:g.id}));
+  for(const x of d.dials){
+    const g=groups.find(z=>z._id===x.groupId)||groups[0]; if(!g) continue;
+    const t={name:cleanName(x.title||hostOf(x.url)),url:x.url,color:/^#/.test(x.color||'')?x.color:hashColor(hostOf(x.url))};
+    const v=x.iconValue||'';
+    if(x.iconType==='custom' && v.startsWith('data:')){ const small=await shrinkDataUrl(v); if(small){ t.iconType='upload'; t.icon=small; } }
+    else if(x.iconType==='url' && /^https?:/.test(v)){ /* keep automatic hi-res lookup; NovaDial urls are usually tiny .ico */ }
+    else if(x.iconType==='monogram'){ t.iconType='text'; t.iconText=(x.title||'?').replace(/[^\p{L}\p{N} ]/gu,'').split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase()||'?'; if(/^#/.test(v)) t.color=v; }
+    else if(x.iconType==='emoji' && v){ t.iconType='emoji'; t.iconText=v; }
+    g.tiles.push(t);
+  }
+  groups.forEach(g=>delete g._id);
+  if(replace) state.groups=groups;
+  else groups.forEach(ng=>{ const ex=state.groups.find(z=>z.title.toLowerCase()===ng.title.toLowerCase()); if(!ex) state.groups.push(ng); else ng.tiles.forEach(t=>{ if(!ex.tiles.some(o=>o.url===t.url)) ex.tiles.push(t); }); });
+  const st=d.settings||{}; const act=d.groups.findIndex(g=>g.id===st.activeGroupId);
+  state.openGroup=act>=0&&replace?act:0;
+  if(st.notesContent && !state.notes) state.notes=st.notesContent;
+  if(look){
+    Object.assign(state,{iconStyle:'card',iconShape:'rounded',font:'Monospace (NovaDial)',cfont:'Monospace (NovaDial)',groupNav:'menu',greetStyle:st.greetingStyle==='dynamic'?'dynamic':'simple'});
+    if(st.userName) state.name=st.userName;
+    if(st.clockFormat) state.h24=st.clockFormat==='24h';
+    state.show={clock:st.showClock!==false,date:st.showDate!==false,greet:st.showGreeting!==false};
+    state.newTab=!!(st.openInNewTab||st.searchOpenNewTab); state.titles=st.showTileTitles!==false;
+    if(st.searchEngine && ENGINES[st.searchEngine]) state.engine=st.searchEngine;
+    if(st.gridColumns) state.cols=Math.min(12,st.gridColumns); if(st.gridWidth) state.width=st.gridWidth;
+    if(st.tileSize) state.tileSize=st.tileSize==='compact'?'s':st.tileSize==='large'?'l':'m';
+    if(st.tileShape==='circle') state.iconShape='circle';
+    if(typeof st.wallpaperBlur==='number') state.blur=Math.min(20,st.wallpaperBlur);
+    if(typeof st.wallpaperDim==='number') state.dim=Math.min(70,Math.round(st.wallpaperDim/5)*5);
+    if(st.wallpaperType && NOVA_WALL[st.wallpaperType]) state.bg=NOVA_WALL[st.wallpaperType];
+    else if(st.wallpaperType && /bing/.test(st.wallpaperType)) state.bg='auto:bing';
+    else if(st.wallpaperType && /nasa|apod/.test(st.wallpaperType)) state.bg='auto:nasa';
+    else if(st.wallpaperType && /particle|canvas|live/.test(st.wallpaperType)) state.bg='auto:particles';
+    else if(st.wallpaperType && /solid|dark/.test(st.wallpaperType)) state.bg='auto:solid';
+    else if(st.wallpaperType && /photo|online|random/.test(st.wallpaperType)) state.bg='auto:daily';
+    if(st.theme && /oled|black/.test(st.theme)) state.glass='oled';
+    if(st.fontStyle==='pixel') state.font=state.cfont='Pixel 8-bit';
+    if(st.borderlessDials) state.iconStyle='float';
+    if(st.gridAlignment) state.align=st.gridAlignment==='left'?'left':'center';
+  }
+  save(); fullRender(); closeSet();
+  toast(`✓ Imported ${d.dials.length} dials in ${d.groups.length} workspaces`);
+}
+$('novaFile').onchange=e=>{ const f=e.target.files[0]; if(!f) return; f.text().then(txt=>{ try{ const d=JSON.parse(txt); if(!Array.isArray(d.dials)||!Array.isArray(d.groups)) throw 0; importNova(d); }catch(err){ alert('This does not look like a NovaDial backup file.'); } }); e.target.value=''; };
 $('qSync').onclick=()=>showTab('sync');
 function loadFont(name){ const fam=FONTS[name]; if(!fam) return; const id='font-'+fam.replace(/\s/g,''); if(document.getElementById(id)) return; const l=document.createElement('link'); l.id=id; l.rel='stylesheet'; l.href=`https://fonts.googleapis.com/css2?family=${encodeURIComponent(fam)}:wght@400;500;600;700&display=swap`; document.head.append(l); }
 function applyLook(){
@@ -1029,16 +1179,31 @@ function applyLook(){
   const b=document.body.classList;
   [...b].filter(c=>/^(ist-|ish-|hide-)/.test(c)).forEach(c=>b.remove(c));
   if(state.iconStyle!=='3d') b.add('ist-'+state.iconStyle); if(state.iconShape!=='rounded') b.add('ish-'+state.iconShape);
+  b.remove('align-left','align-center'); if(state.align!=='fill') b.add('align-'+state.align);
+  b.toggle('no-titles',!state.titles); b.toggle('icon-full',!!state.iconFull);
+  document.querySelector('main').style.maxWidth=state.width?`min(${state.width}vw,1700px)`:'';
+  $('engineSel').value=state.engine;
   if(!state.show.clock) b.add('hide-clock'); if(!state.show.date) b.add('hide-date'); if(!state.show.greet) b.add('hide-greet');
 }
 ['sClockS','sWS'].forEach(id=>$(id).oninput=e=>{ $(id+'v').textContent=e.target.value+'%'; if(id==='sClockS') state.clockS=+e.target.value; else state.wS=+e.target.value; applyLook(); });
 ['sFont','sCFont','sIStyle','sIShape'].forEach(id=>$(id).onchange=e=>{ const k={sFont:'font',sCFont:'cfont',sIStyle:'iconStyle',sIShape:'iconShape'}[id]; state[k]=e.target.value; applyLook(); });
+$('sAlign').onchange=e=>{ state.align=e.target.value; applyLook(); renderPanel(); };
+$('sGlass').onchange=e=>{ state.glass=e.target.value; document.body.classList.remove('glass-clear','glass-dark','glass-oled'); if(state.glass!=='frosted') document.body.classList.add('glass-'+state.glass); applyBg(); };
+$('sSize').onchange=e=>{ state.tileSize=e.target.value; document.body.classList.remove('size-s','size-l'); if(state.tileSize!=='m') document.body.classList.add('size-'+state.tileSize); };
+$('sTitles').onchange=e=>{ state.titles=e.target.checked; applyLook(); };
+$('sFull').onchange=e=>{ state.iconFull=e.target.checked; applyLook(); };
+$('sNav').onchange=e=>{ state.groupNav=e.target.value; updateGroupsBtn(); };
+$('sGreet').onchange=e=>{ state.greetStyle=e.target.value; tick(); };
+$('sCols').oninput=e=>{ state.cols=+e.target.value; $('sColsv').textContent=state.cols||'Auto'; renderPanel(); };
+$('sWidth').oninput=e=>{ state.width=+e.target.value; $('sWidthv').textContent=state.width+'%'; applyLook(); };
 ['sShowClock','sShowDate','sShowGreet'].forEach(id=>$(id).onchange=e=>{ state.show[{sShowClock:'clock',sShowDate:'date',sShowGreet:'greet'}[id]]=e.target.checked; applyLook(); });
 function fillSettings(){
   const fo=Object.keys(FONTS).map(n=>`<option>${n}</option>`).join(''); $('sFont').innerHTML=fo; $('sCFont').innerHTML=fo; $('sFont').value=state.font; $('sCFont').value=state.cfont;
   $('sClockS').value=state.clockS; $('sClockSv').textContent=state.clockS+'%'; $('sWS').value=state.wS; $('sWSv').textContent=state.wS+'%';
   $('sShowClock').checked=state.show.clock; $('sShowDate').checked=state.show.date; $('sShowGreet').checked=state.show.greet;
   $('sIStyle').value=state.iconStyle; $('sIShape').value=state.iconShape;
+  $('sAlign').value=state.align; $('sTitles').checked=state.titles; $('sFull').checked=!!state.iconFull; $('sNav').value=state.groupNav; $('sGreet').value=state.greetStyle;
+  $('sCols').value=state.cols; $('sColsv').textContent=state.cols?state.cols:'Auto'; $('sWidth').value=state.width||80; $('sWidthv').textContent=state.width?state.width+'%':'Default';
   $('sName').value=state.name; $('s24').checked=state.h24; $('sNewTab').checked=state.newTab; $('sHover').checked=state.hoverEdge; $('sSize').value=state.tileSize; $('sGlass').value=state.glass;
   $('wWeather').checked=state.widgets.weather; $('wClocks').checked=state.widgets.clocks; $('wPrayer').checked=state.widgets.prayer; $('wHijri').checked=state.widgets.hijri;
   $('sLoc').innerHTML=Object.entries(LOCS).map(([k,l])=>`<option value="${k}">${l.name}</option>`).join(''); $('sLoc').value=state.loc; $('sClocks').value=state.clocks;
@@ -1058,7 +1223,7 @@ $('refreshIconsBtn').onclick=()=>{ iconCache={}; saveIconCache(); renderPanel();
 $('restoreSnap').onclick=()=>{ let snaps=[]; try{ snaps=JSON.parse(ls(SNAPKEY))||[]; }catch(e){} const s=snaps[+$('snapSel').value]; if(!s) return; if(!confirm('Restore this backup? Current shortcuts will be replaced.')) return; snapshot(true); const keep=state.sync; state=normalize(s.data); state.sync=keep; save(); fullRender(); $('setModal').classList.remove('open'); toast('Backup restored'); };
 $('exportBtn').onclick=()=>{ const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='newtab-backup-'+new Date().toISOString().slice(0,10)+'.json'; a.click(); };
 $('importBtn').onclick=()=>$('importFile').click();
-$('importFile').onchange=e=>{ const f=e.target.files[0]; if(!f) return; f.text().then(txt=>{ try{ const s=JSON.parse(txt); if(!s.groups) throw 0; snapshot(true); const keep=state.sync; state=normalize(s); state.sync=keep; save(); fullRender(); $('setModal').classList.remove('open'); toast('Backup imported'); }catch(err){ alert('Invalid backup file'); } }); e.target.value=''; };
+$('importFile').onchange=e=>{ const f=e.target.files[0]; if(!f) return; f.text().then(txt=>{ try{ const s=JSON.parse(txt); if(Array.isArray(s.dials)){ importNova(s); return; } if(!s.groups) throw 0; snapshot(true); const keep=state.sync; state=normalize(s); state.sync=keep; save(); fullRender(); $('setModal').classList.remove('open'); toast('Backup imported'); }catch(err){ alert('Invalid backup file'); } }); e.target.value=''; };
 $('resetBtn').onclick=()=>{ if(confirm('Reset everything to defaults? (A backup snapshot is kept.)')){ snapshot(true); state=normalize(null); try{localStorage.removeItem(BGKEY);}catch(e){} save(); fullRender(); $('setModal').classList.remove('open'); } };
 
 /* =========================================================
@@ -1084,7 +1249,7 @@ document.addEventListener('keydown',e=>{
 window.addEventListener('storage',e=>{ if(e.key===KEY){ try{ state=normalize(JSON.parse(e.newValue)); fullRender(); }catch(_){} } });
 
 function fullRender(){
-  document.body.classList.remove('size-s','size-l','glass-clear','glass-dark');
+  document.body.classList.remove('size-s','size-l','glass-clear','glass-dark','glass-oled');
   if(state.tileSize!=='m') document.body.classList.add('size-'+state.tileSize);
   if(state.glass!=='frosted') document.body.classList.add('glass-'+state.glass);
   applyLook(); applyBg(); renderWidgets(); renderPanel(); renderGroupList(); renderTodos(); $('notesArea').value=state.notes||''; tick();
