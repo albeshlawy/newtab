@@ -288,6 +288,77 @@
   body.wx-mini .mini-wx{display:flex}
   .mini-wx:empty{display:none!important}
   /* Samsung-style folder row */
+  /* ===== LSP extras: daily focus, meditation, passcode, analog clock, video wallpaper ===== */
+  #bgVideo{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;display:none}
+  .focus{margin-top:16px;display:flex;justify-content:center;width:100%}
+  .focus input{background:transparent;border:0;border-bottom:2px solid rgba(255,255,255,.55);color:#fff;font-size:20px;text-align:center;width:min(520px,90%);padding:6px 4px;outline:none;font-family:inherit;text-shadow:0 2px 8px rgba(0,0,0,.4)}
+  .focus input::placeholder{color:rgba(255,255,255,.7)}
+  .focus .fdone{display:flex;align-items:center;gap:12px;font-size:21px;font-weight:600;text-shadow:0 2px 10px rgba(0,0,0,.45)}
+  .focus .fdone .lbl{font-size:11px;letter-spacing:2px;text-transform:uppercase;opacity:.7;display:block;text-align:center;margin-bottom:4px}
+  .focus .fdone input[type=checkbox]{width:22px;height:22px;accent-color:#10b981;cursor:pointer}
+  .focus .fdone.ok .t{text-decoration:line-through;opacity:.6}
+  .focus .fdone .x{cursor:pointer;opacity:.5;font-size:15px}
+  body.no-focus .focus{display:none}
+  .med{position:fixed;inset:0;z-index:60;display:none;flex-direction:column;align-items:center;justify-content:center;gap:26px;background:rgba(0,0,0,.25);color:#fff}
+  .med.open{display:flex}
+  body.meditating main,body.meditating .dock,body.meditating #groupsDrawer,body.meditating .lsp-arrow,body.meditating .mini-wx,body.meditating .topbar{opacity:0!important;pointer-events:none!important}
+  .med .circle{width:220px;height:220px;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.55),rgba(255,255,255,.12));box-shadow:0 0 80px rgba(255,255,255,.35);display:grid;place-items:center;font-size:20px;font-weight:600;transform:scale(.6);transition:transform 4s ease-in-out}
+  .med .circle.in{transform:scale(1)}
+  .med .ctl{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .med select,.med button{background:rgba(0,0,0,.45);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:8px 16px;font-size:14px;font-family:inherit;cursor:pointer}
+  .med .left{font-size:15px;opacity:.8;font-variant-numeric:tabular-nums}
+  .lock{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;background:rgba(5,6,15,.82);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+  .lock.open{display:flex}
+  .lock input{font-size:26px;letter-spacing:10px;text-align:center;width:220px;padding:10px;border-radius:14px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;outline:none}
+  .lock .err{color:#fca5a5;font-size:14px;min-height:18px}
+  .aclock{display:none}
+  body.clock-analog .clock .dig{display:none}
+  body.clock-analog .clock .aclock{display:block;width:calc(170px * var(--clockS));height:calc(170px * var(--clockS));margin:0 auto}
+  body.clock-thin .clock{font-weight:200;letter-spacing:0}
+  body.layout-lsp .clock{font-size:calc(54px * var(--clockS));letter-spacing:-1px}
+  body.layout-lsp.clock-analog .clock .aclock{width:calc(96px * var(--clockS));height:calc(96px * var(--clockS))}
+  body.layout-lsp .date{font-size:14px;margin-top:6px}
+  body.layout-lsp .greet{font-size:17px;margin-top:4px}
+  body.layout-lsp.meditating #groupsDrawer{opacity:0!important;pointer-events:none!important}
+  body.layout-lsp .panel,body.layout-lsp .search-wrap{width:100%}
+  body.layout-lsp .thumb-body.light{background:linear-gradient(160deg,#ffffff,#eef0f3)!important}
+
+  /* ===== LSP layout: groups panel pinned on the right, big cards, bottom toolbar ===== */
+  body.layout-lsp #groupsDrawer{transform:none!important;opacity:1!important;pointer-events:auto!important;left:auto!important;right:18px!important;top:120px!important;bottom:96px!important;max-height:none!important;width:280px!important;border-radius:18px!important;background:rgba(10,12,20,.72)!important;z-index:9;transition:transform .28s ease}
+  body.layout-lsp.lsp-hide #groupsDrawer{transform:translateX(calc(100% + 30px))!important}
+  body.layout-lsp #groupsDrawer h3{justify-content:center;font-size:22px;letter-spacing:0;text-transform:none;color:#fff;border-bottom:2px solid rgba(255,255,255,.85);padding-bottom:12px;margin-bottom:12px}
+  body.layout-lsp #groupsDrawer h3 .x,body.layout-lsp #groupsDrawer h3 .badge,body.layout-lsp #drawerHint,body.layout-lsp #groupsDrawer .gfoot{display:none!important}
+  body.layout-lsp #groupsDrawer .gitem{font-size:16px;padding:12px 14px;border-radius:6px}
+  body.layout-lsp #groupsDrawer .gitem .gic{width:22px;height:22px;flex:none;border-radius:5px;display:grid;place-items:center;font-size:12px;background:linear-gradient(145deg,#6ee7b7,#10b981);color:transparent}
+  body.layout-lsp #groupsDrawer .gitem:first-child .gic{color:#064e3b;border-radius:50%}
+  body.layout-lsp #groupsDrawer .gitem .grip{display:none}
+  body.layout-lsp #groupsDrawer .gitem .n{opacity:.45;font-size:12px}
+  body.layout-lsp #groupsDrawer .gitem.active{background:rgba(148,163,200,.55)}
+  body.layout-lsp #scrim{display:none}
+  body.layout-lsp .topbar.left,body.layout-lsp .topbar.right{display:none}
+  body.layout-lsp .folds,body.layout-lsp #widgets,body.layout-lsp #emptyHint{display:none!important}
+  body.layout-lsp main{max-width:none;margin:0;padding:7vh 340px 120px 40px;transition:padding .28s}
+  body.layout-lsp.lsp-hide main{padding-right:40px}
+  body.layout-lsp main>*{max-width:1100px;margin-left:auto;margin-right:auto}
+  body.layout-lsp .search-wrap{max-width:820px;width:100%}
+  body.layout-lsp .panel{background:none!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;padding:8px 0 0;margin-top:26px}
+  body.layout-lsp:not(.edit) .panel-head{display:none}
+  body.layout-lsp.ist-thumb .tiles{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))!important;gap:22px}
+  body.layout-lsp .dock{display:flex;bottom:22px;left:calc(50% - 150px);padding:8px 14px;border-radius:999px;gap:12px;background:rgba(10,12,20,.7)}
+  body.layout-lsp.lsp-hide .dock{left:50%}
+  body.layout-lsp .dock .icon-btn{width:46px;height:46px;font-size:22px}
+  body.layout-lsp .mini-wx{display:flex;top:24px;right:24px;background:rgba(10,12,20,.55)}
+  .lsp-arrow{display:none;position:fixed;top:50%;right:306px;transform:translateY(-50%);z-index:10;width:28px;height:56px;border-radius:10px;align-items:center;justify-content:center;font-size:26px;font-weight:700;cursor:pointer;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.6);transition:right .28s}
+  body.layout-lsp .lsp-arrow{display:flex}
+  body.layout-lsp.lsp-hide .lsp-arrow{right:8px;transform:translateY(-50%) scaleX(-1)}
+  .gtab-gear{display:none;font-size:18px;opacity:.75;cursor:pointer;margin-left:10px}
+  body.layout-lsp .gtab-gear{display:inline}
+  body.layout-lsp .tile.lsp{border-radius:4px;background:#f1f1f1}
+  body.layout-lsp .thumb-head{font-size:15px;padding:8px 12px;min-height:38px;background:#f1f1f1}
+  body.layout-lsp .thumb-body{aspect-ratio:16/9.5}
+  body.layout-lsp .thumb-body img{width:58%;height:66%}
+  @media (max-width:900px){ body.layout-lsp main{padding-right:24px} body.layout-lsp #groupsDrawer{transform:translateX(calc(100% + 30px))!important} body.layout-lsp.lsp-open #groupsDrawer{transform:none!important} body.layout-lsp .lsp-arrow{right:8px} }
+
   .folds{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;margin-top:26px;width:100%}
   .fold{display:flex;flex-direction:column;align-items:center;cursor:pointer;width:150px;user-select:none}
   .fstack{position:relative;width:150px;height:92px}
@@ -345,14 +416,16 @@
 </style>
 </head>
 <body>
-<div id="bg"></div><canvas id="particles"></canvas><div id="dim"></div><div class="credit" id="credit"></div>
+<div id="bg"></div><video id="bgVideo" autoplay muted loop playsinline></video><canvas id="particles"></canvas><div id="dim"></div><div class="credit" id="credit"></div>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <div class="edge" id="edge"></div>
 <div class="mini-wx glass" id="miniWx"></div>
+<div class="lsp-arrow" id="lspArrow" title="Show / hide groups">❯</div>
 <div class="dock glass" id="dock">
   <div class="icon-btn" id="dGroups" title="Groups">▦</div>
   <div class="icon-btn" id="dNotes" title="To-do &amp; notes">☑︎</div>
   <div class="icon-btn" id="dEdit" title="Edit">✎</div>
+  <div class="icon-btn" id="dMed" title="Meditation mode">🧘</div>
   <div class="icon-btn" id="dSet" title="Settings">⚙︎</div>
 </div>
 <div class="scrim" id="scrim"></div>
@@ -366,7 +439,7 @@
 
 <!-- groups drawer -->
 <aside class="drawer left glass" id="groupsDrawer">
-  <h3><span id="drawerTitle">☰ Groups</span> <span class="badge" id="gBadge"></span><span class="x" data-closedrawer>✕</span></h3>
+  <h3><span id="drawerTitle">☰ Groups</span><span class="gtab-gear" id="drawerAdd" title="New group">＋</span><span class="gtab-gear" id="drawerGear" title="Settings">⚙︎</span> <span class="badge" id="gBadge"></span><span class="x" data-closedrawer>✕</span></h3>
   <div class="glist" id="glist"></div>
   <div class="gfoot">
     <button class="btn full" id="newGroupBtn" style="justify-content:center">+ New group</button>
@@ -400,6 +473,7 @@
     </form>
     <div class="results glass" id="results"></div>
   </div>
+  <div class="focus" id="focus"></div>
 
   <div class="widgets" id="widgets"></div>
 
@@ -418,6 +492,16 @@
   </section>
   <div class="empty-hint" id="emptyHint" style="display:none">Open a group from <b>☰</b> (top-left), press <span class="kbd">[</span>, or just start typing to search all your shortcuts.</div>
 </main>
+<div class="med" id="med">
+  <div class="circle" id="medCircle">Breathe in</div>
+  <div class="left" id="medLeft"></div>
+  <div class="ctl">
+    <select id="medSound" title="Ambient sound"><option value="none">🔇 Silence</option><option value="rain">🌧 Rain</option><option value="ocean">🌊 Ocean waves</option><option value="brown">🌬 Soft wind</option></select>
+    <select id="medMin" title="Timer"><option value="0">No timer</option><option value="1">1 min</option><option value="3">3 min</option><option value="5" selected>5 min</option><option value="10">10 min</option><option value="20">20 min</option></select>
+    <button id="medClose">Done</button>
+  </div>
+</div>
+<div class="lock" id="lock"><div style="font-size:34px">🔒</div><div>Enter passcode</div><input id="lockIn" type="password" inputmode="numeric" autocomplete="off"><div class="err" id="lockErr"></div></div>
 
 <!-- tile modal -->
 <div class="modal-bg" id="tileModal">
@@ -493,6 +577,11 @@
     </div>
 
     <div class="tabpane active" data-pane="quick">
+      <label style="margin-top:0">Page layout</label>
+      <select id="sLayout"><option value="lsp">LSP — groups list on the right, big cards</option><option value="classic">Classic — clock in the middle, group bar</option></select>
+      <label>Shortcut style</label>
+      <select id="sIStyleQ"><option value="thumb">Thumbnails (LSP)</option><option value="3d">3D glossy</option><option value="glass">Glass</option><option value="card">Cards (NovaDial)</option><option value="flat">Flat</option><option value="neon">Neon</option><option value="float">Floating</option></select>
+      <div style="height:14px"></div>
       <div class="quick">
         <div class="qbtn" id="qEdit"><span class="e">✎</span>Edit shortcuts</div>
         <div class="qbtn" id="qGroups"><span class="e">☰</span>Groups</div>
@@ -508,6 +597,7 @@
     <div class="tabpane" data-pane="general">
       <label>Your name</label><input id="sName">
       <label>Font</label><select id="sFont"></select>
+      <label>Clock design</label><select id="sClockStyle"><option value="digital">Digital</option><option value="thin">Digital — thin</option><option value="analog">Analog</option></select>
       <label>Clock font</label><select id="sCFont"></select>
       <label>Clock size</label><div class="range-row"><input type="range" id="sClockS" min="50" max="180" step="5"><b id="sClockSv"></b></div>
       <label>Widget size</label><div class="range-row"><input type="range" id="sWS" min="70" max="150" step="5"><b id="sWSv"></b></div>
@@ -551,7 +641,7 @@
       <div class="row">
         <button class="btn" id="uploadBgBtn">⬆︎ Upload from computer</button>
         <input type="file" id="uploadBg" accept="image/*" hidden>
-        <input id="bgUrl" placeholder="…or paste an image link (https://…)" style="flex:1;min-width:220px">
+        <input id="bgUrl" placeholder="…or paste an image or video link (https://… .jpg / .mp4)" style="flex:1;min-width:220px">
         <button class="btn" id="bgUrlBtn">Use link</button>
       </div>
       <h4>Darken</h4><div class="range-row"><input type="range" id="dimRange" min="0" max="70" step="5"><b id="dimV"></b></div>
@@ -560,6 +650,7 @@
 
     <div class="tabpane" data-pane="widgets">
       <label class="check"><input type="checkbox" id="wWeather"><span>Weather</span></label>
+      <label class="check"><input type="checkbox" id="wFocus"><span>Daily focus under the search bar (like LSP)</span></label>
       <label class="check"><input type="checkbox" id="wMini"><span>Small weather badge in the corner (like LSP)</span></label>
       <label class="check"><input type="checkbox" id="wClocks"><span>World clocks</span></label>
       <label class="check"><input type="checkbox" id="wPrayer"><span>Prayer times</span></label>
@@ -582,6 +673,9 @@
     </div>
 
     <div class="tabpane" data-pane="sync">
+      <h4 style="margin-top:6px">🔒 Passcode — <span id="pinState"></span></h4>
+      <p class="hint">Asks for a 4–8 digit code whenever the page opens, so people using your computer can't see your shortcuts. It is a privacy screen, not encryption.</p>
+      <div class="row"><input id="pinNew" type="password" inputmode="numeric" placeholder="New passcode" style="flex:1;min-width:140px"><button class="btn" id="pinSet">Set</button><button class="btn" id="pinOff">Remove</button></div>
       <h4 style="margin-top:6px">☁︎ Cloud sync (private GitHub Gist)</h4>
       <p class="hint">Keeps your groups, shortcuts, to-do and notes identical in Firefox, Brave and on any computer. Create a token at <b>github.com → Settings → Developer settings → Personal access tokens → Fine-grained</b> with <b>Gists: Read and write</b> permission only, then paste it below. The token is stored only in this browser and is never uploaded.</p>
       <label>GitHub token</label><input id="ghToken" type="password" placeholder="github_pat_…">
@@ -698,8 +792,8 @@ const BANGS={
 const DEFAULTS={
   name:'Ahmed',h24:false,bg:'grad:aurora',dim:0,
   openGroup:0,newTab:false,hoverEdge:true,tileSize:'m',glass:'frosted',
-  font:'System',cfont:'System',align:'fill',showFolders:true,foldStyle:'tabs',dock:false,mostUsed:true,hits:{},groupNav:'menu',engine:'google',greetStyle:'dynamic',titles:true,iconFull:false,cols:0,width:0,clockS:100,wS:100,blur:0,show:{clock:true,date:true,greet:true},iconStyle:'3d',iconShape:'rounded',
-  widgets:{weather:true,clocks:true,prayer:true,hijri:true,mini:false},
+  font:'System',cfont:'System',align:'fill',showFolders:true,foldStyle:'tabs',layout:'lsp',lspHide:false,dock:false,mostUsed:true,hits:{},groupNav:'menu',engine:'google',greetStyle:'dynamic',titles:true,iconFull:false,cols:0,width:0,clockS:100,wS:100,blur:0,show:{clock:true,date:true,greet:true},iconStyle:'3d',iconShape:'rounded',
+  widgets:{weather:true,clocks:true,prayer:true,hijri:true,mini:false,focus:true},clockStyle:'digital',focus:null,pinHash:'',medSound:'none',medMin:5,
   loc:'khafji',clocks:'Khafji|Asia/Riyadh, Cairo|Africa/Cairo',
   todos:[],notes:'',updatedAt:0,sync:{gistId:'',auto:false},
   groups:[
@@ -727,6 +821,7 @@ function normalize(s){
   if(!s.hits||typeof s.hits!=='object') s.hits={};
   if(!Array.isArray(s.folders)) s.folders=defaultFolders(s.groups);
   if(!s.foldStyle) s.foldStyle='tabs';
+  if(!s._lspInit){ s._lspInit=1; s.layout='lsp'; s.iconStyle='thumb'; s.show={clock:false,date:false,greet:false}; }
   s.groups.forEach(g=>(g.tiles||[]).forEach(t=>{ if(t.icon && !t.iconType) t.iconType='url'; }));
   if(!Array.isArray(s.todos)) s.todos=[];
   if(!s.bg) s.bg='grad:aurora';
@@ -807,8 +902,10 @@ function loadIcon(t,wrap){
    ========================================================= */
 function tick(){
   const d=new Date(); let h=d.getHours(), m=String(d.getMinutes()).padStart(2,'0');
-  if(state.h24) $('clock').innerHTML=`${String(h).padStart(2,'0')}:${m}`;
-  else { const ap=h>=12?'PM':'AM'; h=h%12||12; $('clock').innerHTML=`${h}:${m}<small>${ap}</small>`; }
+  let dig;
+  if(state.h24) dig=`${String(h).padStart(2,'0')}:${m}`;
+  else { const ap=h>=12?'PM':'AM'; h=h%12||12; dig=`${h}:${m}<small>${ap}</small>`; }
+  $('clock').innerHTML=`<span class="dig">${dig}</span>`+(state.clockStyle==='analog'?drawAnalog(d):'');
   let ds=d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
   if(state.widgets.hijri){ try{ ds+=' · '+new Intl.DateTimeFormat('en-u-ca-islamic-umalqura',{day:'numeric',month:'long',year:'numeric'}).format(d); }catch(e){} }
   $('date').textContent=ds;
@@ -929,7 +1026,7 @@ $('groupsBtn').onclick=()=>toggleDrawer('groupsDrawer');
 $('scrim').onclick=()=>closeDrawers();
 document.querySelectorAll('[data-closedrawer]').forEach(x=>x.onclick=()=>closeDrawers());
 $('edge').addEventListener('mouseenter',()=>{ if(state.hoverEdge && state.groupNav!=='menu') openDrawer('groupsDrawer'); });
-$('dGroups').onclick=()=>toggleDrawer('groupsDrawer'); $('dNotes').onclick=()=>toggleDrawer('notesDrawer'); $('dEdit').onclick=()=>toggleEdit(); $('dSet').onclick=()=>openSettings();
+$('dGroups').onclick=()=>{ if(state.layout==='lsp'){ $('lspArrow').click(); return; } toggleDrawer('groupsDrawer'); }; $('dNotes').onclick=()=>toggleDrawer('notesDrawer'); $('dEdit').onclick=()=>toggleEdit(); $('dSet').onclick=()=>openSettings();
 $('edge').addEventListener('dragenter',()=>openDrawer('groupsDrawer'));
 
 function renderGroupList(){
@@ -978,7 +1075,7 @@ function buildThumb(a,t,base){
   const body=document.createElement('div'); body.className='thumb-body';
   body.style.setProperty('--c1',shade(base,.15)); body.style.setProperty('--c2',shade(base,-.2));
   if((t.iconType==='upload'||t.iconType==='url') && t.icon){ body.classList.add('cover','light'); const im=new Image(); im.src=t.icon; im.onerror=()=>{ body.classList.remove('cover','light'); im.remove(); loadIcon({...t,iconType:'auto'},body); }; body.append(im); }
-  else loadIcon(t,body);
+  else { loadIcon(t,body); const im=body.querySelector('img'); if(im){ const chk=()=>{ if(im.naturalWidth>=48) body.classList.add('light'); }; if(im.complete) chk(); im.addEventListener('load',chk); } }
   return [head,body];
 }
 function renderPanel(){
@@ -1152,8 +1249,10 @@ function applyBg(){
     else if(k==='nasa'){ bg.style.background='#000'; loadNasa(); }
     else bg.style.background=`#111 url("${a.u()}") center/cover no-repeat`; }
   else if(state.bg.startsWith('photo:')) bg.style.background=`#111 url("${photoUrl(state.bg.slice(6),2400)}") center/cover no-repeat`;
+  else if(state.bg.startsWith('url:') && /\.(mp4|webm|mov)(\?|#|$)/i.test(state.bg)) bg.style.background='#000';
   else if(state.bg.startsWith('url:')) bg.style.background=`#111 url("${state.bg.slice(4)}") center/cover no-repeat`;
   else if(state.bg==='upload'){ const data=ls(BGKEY)||''; if(data) bg.style.background=`#111 url("${data}") center/cover no-repeat`; else { bg.style.background=GRADIENTS.aurora.css; blobs=true; } }
+  { const v=$('bgVideo'), isV=state.bg.startsWith('url:') && /\.(mp4|webm|mov)(\?|#|$)/i.test(state.bg); if(isV){ blobs=false; if(v.src!==state.bg.slice(4)) v.src=state.bg.slice(4); v.style.display='block'; v.play().catch(()=>{}); } else { v.style.display='none'; v.removeAttribute('src'); } }
   document.body.classList.toggle('no-blobs',!blobs); $('dim').style.opacity=(state.dim||0)/100;
   $('particles').style.display=state.bg==='auto:particles'?'block':'none'; if(state.bg==='auto:particles') startParticles(); 
   if(state.bg!=='auto:nasa') $('credit').textContent='';
@@ -1341,8 +1440,8 @@ function applyLook(){
   [...b].filter(c=>/^(ist-|ish-|hide-)/.test(c)).forEach(c=>b.remove(c));
   if(state.iconStyle!=='3d') b.add('ist-'+state.iconStyle); if(state.iconShape!=='rounded') b.add('ish-'+state.iconShape);
   b.remove('align-left','align-center'); if(state.align!=='fill') b.add('align-'+state.align);
-  b.toggle('no-titles',!state.titles); b.toggle('has-dock',!!state.dock); b.toggle('icon-full',!!state.iconFull);
-  document.querySelector('main').style.maxWidth=state.width?`min(${state.width}vw,1700px)`:'';
+  b.toggle('no-titles',!state.titles); b.toggle('has-dock',!!state.dock); b.toggle('layout-lsp',state.layout==='lsp'); b.toggle('clock-analog',state.clockStyle==='analog'); b.toggle('clock-thin',state.clockStyle==='thin'); b.toggle('lsp-hide',state.layout==='lsp'&&!!state.lspHide); $('drawerTitle').textContent=state.layout==='lsp'?'Groups':'☰ Groups'; b.toggle('icon-full',!!state.iconFull);
+  document.querySelector('main').style.maxWidth=(state.width && state.layout!=='lsp')?`min(${state.width}vw,1700px)`:'';
   $('engineSel').value=state.engine;
   if(!state.show.clock) b.add('hide-clock'); if(!state.show.date) b.add('hide-date'); if(!state.show.greet) b.add('hide-greet');
 }
@@ -1352,6 +1451,11 @@ function fillFoldPick(){ const c=$('sFoldList'); c.innerHTML=state.groups.map((g
   c.querySelectorAll('input').forEach(x=>x.onchange=()=>{ const sel=[...c.querySelectorAll('input:checked')].map(y=>y.dataset.t); if(sel.length>8){ x.checked=false; toast('Up to 8 folders'); return; } state.folders=sel; renderFolders(); }); }
 $('sFoldStyle').onchange=e=>{ const v=e.target.value; state.showFolders=v!=='off'; if(v!=='off') state.foldStyle=v; save(); renderPanel(); };
 $('sDock').onchange=e=>{ state.dock=e.target.checked; applyLook(); };
+$('sLayout').onchange=e=>{ state.layout=e.target.value; if(state.layout==='lsp') document.querySelector('main').style.maxWidth=''; if(state.layout==='lsp' && state.openGroup===-1) state.openGroup=0; save(); applyLook(); renderPanel(); renderGroupList(); };
+$('sIStyleQ').onchange=e=>{ state.iconStyle=e.target.value; $('sIStyle').value=state.iconStyle; save(); applyLook(); renderPanel(); };
+$('lspArrow').onclick=()=>{ if(innerWidth<=900){ document.body.classList.toggle('lsp-open'); return; } state.lspHide=!state.lspHide; save(); applyLook(); };
+$('drawerGear').onclick=e=>{ e.stopPropagation(); openSettings(); };
+$('drawerAdd').onclick=e=>{ e.stopPropagation(); $('newGroupBtn').click(); };
 $('sMost').onchange=e=>{ state.mostUsed=e.target.checked; if(!state.mostUsed&&state.openGroup===-2) state.openGroup=0; renderGroupList(); renderPanel(); };
 $('sAlign').onchange=e=>{ state.align=e.target.value; applyLook(); renderPanel(); };
 $('sGlass').onchange=e=>{ state.glass=e.target.value; if(state.glass==='oled'){ state.bg='auto:solid'; toast('OLED: pure black background — you can still pick another background'); } document.body.classList.remove('glass-clear','glass-dark','glass-oled'); if(state.glass!=='frosted') document.body.classList.add('glass-'+state.glass); applyBg(); };
@@ -1367,7 +1471,7 @@ function fillSettings(){
   const fo=Object.keys(FONTS).map(n=>`<option>${n}</option>`).join(''); $('sFont').innerHTML=fo; $('sCFont').innerHTML=fo; $('sFont').value=state.font; $('sCFont').value=state.cfont;
   $('sClockS').value=state.clockS; $('sClockSv').textContent=state.clockS+'%'; $('sWS').value=state.wS; $('sWSv').textContent=state.wS+'%';
   $('sShowClock').checked=state.show.clock; $('sShowDate').checked=state.show.date; $('sShowGreet').checked=state.show.greet;
-  $('sIStyle').value=state.iconStyle; $('sIShape').value=state.iconShape;
+  $('sIStyle').value=state.iconStyle; $('sIShape').value=state.iconShape; $('sClockStyle').value=state.clockStyle||'digital'; $('wFocus').checked=state.widgets.focus!==false; fillPin(); $('sLayout').value=state.layout; $('sIStyleQ').value=state.iconStyle;
   $('sFoldStyle').value=state.showFolders?state.foldStyle:'off'; fillFoldPick();
   $('sDock').checked=!!state.dock; $('sMost').checked=!!state.mostUsed; $('wMini').checked=!!state.widgets.mini;
   $('sAlign').value=state.align; $('sTitles').checked=state.titles; $('sFull').checked=!!state.iconFull; $('sNav').value=state.groupNav; $('sGreet').value=state.greetStyle;
@@ -1401,8 +1505,74 @@ function toggleEdit(on){ const v=on===undefined?!document.body.classList.contain
 $('editDone').onclick=()=>toggleEdit(false);
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>{ const m=b.closest('.modal-bg'); m.classList.remove('open'); if(m.id==='setModal'){ save(); } });
 document.querySelectorAll('.modal-bg').forEach(m=>m.addEventListener('mousedown',e=>{ if(e.target===m) m.classList.remove('open'); }));
+/* ===== Daily focus (LSP) ===== */
+function todayKey(){ const d=new Date(); return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(); }
+function renderFocus(){
+  const w=$('focus'); if(!w) return; w.innerHTML='';
+  document.body.classList.toggle('no-focus',state.widgets.focus===false);
+  const f=state.focus;
+  if(!f || !f.text || f.date!==todayKey()){
+    const i=document.createElement('input'); i.placeholder='What is your main focus for today?'; i.maxLength=120;
+    i.onkeydown=e=>{ if(e.key==='Enter' && i.value.trim()){ state.focus={text:i.value.trim(),date:todayKey(),done:false}; save(); renderFocus(); } };
+    w.append(i); return;
+  }
+  const d=document.createElement('div'); d.className='fdone'+(f.done?' ok':'');
+  d.innerHTML=`<div><span class="lbl">Today</span><div style="display:flex;align-items:center;gap:12px"><input type="checkbox" ${f.done?'checked':''}><span class="t">${esc(f.text)}</span><span class="x" title="Clear">✕</span></div></div>`;
+  d.querySelector('input').onchange=e=>{ f.done=e.target.checked; save(); renderFocus(); if(f.done) toast('Well done ✓'); };
+  d.querySelector('.x').onclick=()=>{ state.focus=null; save(); renderFocus(); };
+  w.append(d);
+}
+
+/* ===== Meditation mode (LSP) — breathing guide + generated ambient sound, works offline ===== */
+let medT=null, medEnd=0, medBreath=null, actx=null, anode=null;
+function stopSound(){ try{ anode&&anode.stop(); }catch(e){} anode=null; }
+function playSound(kind){
+  stopSound(); if(kind==='none') return;
+  actx=actx||new (window.AudioContext||window.webkitAudioContext)(); actx.resume();
+  const len=actx.sampleRate*6, buf=actx.createBuffer(2,len,actx.sampleRate);
+  for(let c=0;c<2;c++){ const d=buf.getChannelData(c); let last=0,b0=0,b1=0,b2=0;
+    for(let i=0;i<len;i++){ const w=Math.random()*2-1;
+      if(kind==='rain'){ b0=.99765*b0+w*.099046; b1=.963*b1+w*.2965164; b2=.57*b2+w*1.0526913; d[i]=(b0+b1+b2+w*.1848)*.11; }
+      else { last=(last+.02*w)/1.02; d[i]=last*3.2; if(kind==='ocean') d[i]*=.55+.45*Math.sin(i/actx.sampleRate*Math.PI*2/6); } } }
+  const src=actx.createBufferSource(); src.buffer=buf; src.loop=true;
+  const g=actx.createGain(); g.gain.value=.5; src.connect(g).connect(actx.destination); src.start(); anode=src;
+}
+function openMed(){
+  $('med').classList.add('open'); document.body.classList.add('meditating'); closeDrawers();
+  const c=$('medCircle'); let inhale=true;
+  const step=()=>{ c.classList.toggle('in',inhale); c.textContent=inhale?'Breathe in':'Breathe out'; inhale=!inhale; };
+  step(); medBreath=setInterval(step,4000);
+  const mins=+$('medMin').value; medEnd=mins?Date.now()+mins*60000:0; clearInterval(medT);
+  medT=setInterval(()=>{ if(!medEnd){ $('medLeft').textContent=''; return; } const s=Math.max(0,Math.round((medEnd-Date.now())/1000)); $('medLeft').textContent=`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`; if(!s) closeMed(); },500);
+  playSound($('medSound').value);
+}
+function closeMed(){ $('med').classList.remove('open'); document.body.classList.remove('meditating'); clearInterval(medT); clearInterval(medBreath); stopSound(); }
+$('dMed').onclick=openMed; $('medClose').onclick=closeMed;
+$('medSound').onchange=e=>{ playSound(e.target.value); state.medSound=e.target.value; save(); };
+$('medMin').onchange=e=>{ const m=+e.target.value; state.medMin=m; save(); medEnd=m?Date.now()+m*60000:0; };
+
+/* ===== Passcode (LSP Pro) — a privacy screen for this page ===== */
+async function sha(t){ const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('glassNT:'+t)); return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join(''); }
+function showLock(){ if(!state.pinHash) return; $('lock').classList.add('open'); setTimeout(()=>$('lockIn').focus(),50); }
+$('lockIn').addEventListener('keydown',async e=>{ if(e.key!=='Enter') return; if(await sha($('lockIn').value)===state.pinHash){ $('lock').classList.remove('open'); $('lockIn').value=''; $('lockErr').textContent=''; $('q').focus(); } else { $('lockErr').textContent='Wrong passcode'; $('lockIn').select(); } });
+$('pinSet').onclick=async()=>{ const a=$('pinNew').value.trim(); if(!/^\d{4,8}$/.test(a)){ alert('Use 4–8 digits'); return; } state.pinHash=await sha(a); $('pinNew').value=''; save({noPush:true}); fillPin(); toast('Passcode set — it will be asked each time the page opens'); };
+$('pinOff').onclick=async()=>{ const a=prompt('Enter the current passcode to remove it'); if(a==null) return; if(await sha(a)===state.pinHash){ state.pinHash=''; save({noPush:true}); fillPin(); toast('Passcode removed'); } else alert('Wrong passcode'); };
+function fillPin(){ $('pinState').textContent=state.pinHash?'On':'Off'; $('pinOff').style.display=state.pinHash?'':'none'; }
+
+/* ===== Clock designs ===== */
+function drawAnalog(d){
+  const h=d.getHours()%12, m=d.getMinutes(), s=d.getSeconds();
+  const hand=(deg,len,w,op)=>`<line x1="50" y1="50" x2="${50+len*Math.sin(deg*Math.PI/180)}" y2="${50-len*Math.cos(deg*Math.PI/180)}" stroke="#fff" stroke-width="${w}" stroke-linecap="round" opacity="${op}"/>`;
+  let ticks=''; for(let i=0;i<12;i++){ const a=i*30*Math.PI/180; ticks+=`<line x1="${50+40*Math.sin(a)}" y1="${50-40*Math.cos(a)}" x2="${50+45*Math.sin(a)}" y2="${50-45*Math.cos(a)}" stroke="#fff" stroke-width="${i%3?1.2:2.4}" opacity=".85"/>`; }
+  return `<svg class="aclock" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="rgba(0,0,0,.18)" stroke="rgba(255,255,255,.6)" stroke-width="1.5"/>${ticks}${hand(h*30+m/2,24,3.4,1)}${hand(m*6,34,2.2,1)}${hand(s*6,38,1,.7)}<circle cx="50" cy="50" r="2.6" fill="#fff"/></svg>`;
+}
+
+$('sClockStyle').onchange=e=>{ state.clockStyle=e.target.value; save(); applyLook(); tick(); };
+$('wFocus').onchange=e=>{ state.widgets.focus=e.target.checked; save(); renderFocus(); };
 document.addEventListener('keydown',e=>{
   const typing=/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)||document.activeElement.isContentEditable;
+  if(e.key==='Escape' && document.body.classList.contains('meditating')){ closeMed(); return; }
+  if($('lock').classList.contains('open')) return;
   if(e.key==='Escape'){ document.querySelectorAll('.modal-bg.open').forEach(m=>m.classList.remove('open')); closeDrawers(); return; }
   const emptySearch=document.activeElement===$('q') && !$('q').value;
   if(emptySearch && (e.key==='['||e.key===']')){ e.preventDefault(); $('q').blur(); toggleDrawer(e.key==='['?'groupsDrawer':'notesDrawer'); return; }
@@ -1423,7 +1593,7 @@ function fullRender(){
   applyLook(); applyBg(); renderWidgets(); renderPanel(); renderGroupList(); renderTodos(); $('notesArea').value=state.notes||''; tick();
   setSyncStatus('');
 }
-fullRender(); setInterval(tick,1000);
+fullRender(); setInterval(tick,1000); renderFocus(); showLock(); $('medSound').value=state.medSound||'none'; $('medMin').value=String(state.medMin??5);
 if('serviceWorker' in navigator && location.protocol==='https:'){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 addEventListener('offline',()=>toast('Offline — showing saved shortcuts'));
 addEventListener('online',()=>{ toast('Back online'); renderWidgets(); });
