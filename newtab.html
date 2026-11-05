@@ -315,8 +315,6 @@
   body.align-left .tiles{justify-content:start}
   body.align-center .tiles{grid-template-columns:repeat(auto-fill,minmax(var(--tilew),var(--tilew)))!important;justify-content:center}
   body.ist-card.align-center .tiles{grid-template-columns:repeat(auto-fill,minmax(calc(var(--tilew) + 14px),calc(var(--tilew) + 14px)))!important}
-  body.glass-oled #bg{background:#000!important}
-  body.glass-oled .blob{display:none}
   body.glass-oled{--glass:rgba(255,255,255,.04);--glass-strong:rgba(255,255,255,.1);--border:rgba(255,255,255,.14)}
   .clock{cursor:pointer;user-select:none}
   #particles{position:fixed;inset:0;z-index:-2;pointer-events:none;display:none}
@@ -1124,7 +1122,7 @@ function applyBg(){
   const bg=$('bg'); let blobs=false;
   if(state.bg.startsWith('grad:')){ const g=GRADIENTS[state.bg.slice(5)]||GRADIENTS.aurora; bg.style.background=g.css; blobs=!!g.blobs; }
   else if(state.bg.startsWith('auto:')){ const k=state.bg.slice(5), a=AUTO_BG[k]||AUTO_BG.daily;
-    if(k==='solid') bg.style.background='#0b0b10';
+    if(k==='solid') bg.style.background=state.glass==='oled'?'#000':'#0b0b10';
     else if(k==='particles'){ bg.style.background='radial-gradient(1000px 700px at 50% 30%,#1e1b4b 0%,#05060f 70%)'; }
     else if(k==='nasa'){ bg.style.background='#000'; loadNasa(); }
     else bg.style.background=`#111 url("${a.u()}") center/cover no-repeat`; }
@@ -1327,7 +1325,7 @@ $('sFolds').onchange=e=>{ state.showFolders=e.target.checked; renderFolders(); }
 $('sDock').onchange=e=>{ state.dock=e.target.checked; applyLook(); };
 $('sMost').onchange=e=>{ state.mostUsed=e.target.checked; if(!state.mostUsed&&state.openGroup===-2) state.openGroup=0; renderGroupList(); renderPanel(); };
 $('sAlign').onchange=e=>{ state.align=e.target.value; applyLook(); renderPanel(); };
-$('sGlass').onchange=e=>{ state.glass=e.target.value; document.body.classList.remove('glass-clear','glass-dark','glass-oled'); if(state.glass!=='frosted') document.body.classList.add('glass-'+state.glass); applyBg(); };
+$('sGlass').onchange=e=>{ state.glass=e.target.value; if(state.glass==='oled'){ state.bg='auto:solid'; toast('OLED: pure black background — you can still pick another background'); } document.body.classList.remove('glass-clear','glass-dark','glass-oled'); if(state.glass!=='frosted') document.body.classList.add('glass-'+state.glass); applyBg(); };
 $('sSize').onchange=e=>{ state.tileSize=e.target.value; document.body.classList.remove('size-s','size-l'); if(state.tileSize!=='m') document.body.classList.add('size-'+state.tileSize); };
 $('sTitles').onchange=e=>{ state.titles=e.target.checked; applyLook(); };
 $('sFull').onchange=e=>{ state.iconFull=e.target.checked; applyLook(); };

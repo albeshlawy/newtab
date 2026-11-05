@@ -1,6 +1,6 @@
 /* Glass New Tab — offline support */
-const CACHE='glass-newtab-v1';
-const ASSETS='glass-newtab-assets-v1';
+const CACHE='glass-newtab-v2';
+const ASSETS='glass-newtab-assets-v2';
 self.addEventListener('install',e=>{
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./newtab.html'])).then(()=>self.skipWaiting()));
 });
@@ -20,7 +20,7 @@ self.addEventListener('fetch',e=>{
     return;
   }
   // Icons, fonts, background images: serve from cache, refresh in background
-  if(['image','font','style'].includes(req.destination)){
+  if(req.destination==='image'){
     e.respondWith(caches.open(ASSETS).then(async c=>{
       const hit=await c.match(req);
       const net=fetch(req).then(r=>{ if(r && (r.ok||r.type==='opaque')) c.put(req,r.clone()); return r; }).catch(()=>hit);
