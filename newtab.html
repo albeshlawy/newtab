@@ -580,7 +580,7 @@
 <!-- settings -->
 <div class="modal-bg" id="setModal">
   <div class="modal wide glass">
-    <h3>Settings</h3>
+    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.05-r12</span></h3>
     <div class="tabs" id="setTabs">
       <div class="tab active" data-tab="quick">Quick</div>
       <div class="tab" data-tab="general">Appearance</div>
@@ -1633,6 +1633,16 @@ function fullRender(){
   setSyncStatus('');
 }
 fullRender(); setInterval(tick,1000); renderFocus(); showLock(); $('medSound').value=state.medSound||'none'; $('medMin').value=String(state.medMin??5);
+/* ===== always run the newest version: check GitHub, reload once if a newer file is there ===== */
+const APP_VER='2026.11.05-r12';
+if(location.protocol==='https:' && navigator.onLine){
+  fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{
+    const m=t.match(/const APP_VER='([^']+)'/); if(!m || m[1]===APP_VER) return;
+    const k='glassNewTab.lastUpdate'; if(sessionStorage.getItem(k)===m[1]) return; sessionStorage.setItem(k,m[1]);
+    if('caches' in window) caches.keys().then(ks=>Promise.all(ks.map(x=>caches.delete(x)))).finally(()=>location.replace(location.pathname+'?v='+m[1]));
+    else location.replace(location.pathname+'?v='+m[1]);
+  }).catch(()=>{});
+}
 if('serviceWorker' in navigator && location.protocol==='https:'){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
 addEventListener('offline',()=>toast('Offline — showing saved shortcuts'));
 addEventListener('online',()=>{ toast('Back online'); renderWidgets(); });

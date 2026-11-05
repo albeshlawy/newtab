@@ -1,6 +1,6 @@
 /* Glass New Tab — offline support */
-const CACHE='glass-newtab-v3';
-const ASSETS='glass-newtab-assets-v3';
+const CACHE='glass-newtab-v4';
+const ASSETS='glass-newtab-assets-v4';
 self.addEventListener('install',e=>{
   e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./newtab.html'])).then(()=>self.skipWaiting()));
 });
@@ -14,7 +14,7 @@ self.addEventListener('fetch',e=>{
   // The page itself: network first (fresh version), fall back to cache when offline
   if(req.mode==='navigate' || (url.origin===location.origin && url.pathname.endsWith('.html'))){
     e.respondWith(
-      timeout(5000,fetch(req.url,{cache:'no-cache',credentials:'same-origin'})).then(r=>{ const cp=r.clone(); caches.open(CACHE).then(c=>c.put('./newtab.html',cp)); return r; })
+      timeout(5000,fetch(req.url,{cache:'no-store',credentials:'same-origin'})).then(r=>{ const cp=r.clone(); caches.open(CACHE).then(c=>c.put('./newtab.html',cp)); return r; })
         .catch(()=>caches.match('./newtab.html'))
     );
     return;
