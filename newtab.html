@@ -588,6 +588,7 @@
         <div class="qbtn" id="qNova">✦ NovaDial backup</div>
         <div class="qbtn" id="cleanAllBtn">✂︎ Shorten names</div>
         <div class="qbtn" id="refreshIconsBtn">↻ Refresh icons</div>
+        <div class="qbtn" id="wipeBtn" style="border-color:rgba(248,113,113,.5);color:#fecaca">🗑 Start fresh</div>
         <span id="qGroups" hidden></span><span id="qNotes" hidden></span><span id="qBg" hidden></span><span id="qSync" hidden></span>
       </div>
     </div>
@@ -828,6 +829,15 @@ function save(opts={}){
   if(ls(KEY,JSON.stringify(state))===null && opts.alert!==false){}
   snapshot();
   if(state.sync.auto && ls(TOKENKEY) && !opts.noPush){ clearTimeout(pushTimer); pushTimer=setTimeout(()=>cloudPush(true),3000); }
+}
+function wipeAll(){
+  const n=state.groups.reduce((a,g)=>a+g.tiles.length,0);
+  if(!confirm(`Delete ALL ${state.groups.length} groups and ${n} shortcuts?\n\nA backup is saved first — you can bring everything back from ⚙︎ → Sync & Backup → Automatic backups.`)) return;
+  snapshot(true);
+  state.groups=[]; state.folders=[]; state.hits={}; state.openGroup=-1;
+  save(); renderGroupList(); renderPanel();
+  toast('Cleared — now choose your bookmarks file');
+  openBookmarks();
 }
 function snapshot(force){
   let snaps=[]; try{ snaps=JSON.parse(ls(SNAPKEY))||[]; }catch(e){}
@@ -1361,6 +1371,7 @@ $('qGroups').onclick=()=>{ closeSet(); openDrawer('groupsDrawer'); };
 $('qNotes').onclick=()=>{ closeSet(); openDrawer('notesDrawer'); };
 $('qBg').onclick=()=>showTab('bg');
 $('qImport').onclick=()=>openBookmarks();
+$('wipeBtn').onclick=wipeAll;
 $('qNova').onclick=()=>$('novaFile').click();
 $('qAdd').onclick=()=>{ closeSet(); if(!state.groups.length){ state.groups.push({title:'Favorites',tiles:[]}); state.openGroup=0; } openTile(Math.max(0,state.openGroup),null); };
 $('novaBtn').onclick=()=>$('novaFile').click();
