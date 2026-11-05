@@ -810,6 +810,7 @@ function normalize(s){
   if(!s.hits||typeof s.hits!=='object') s.hits={};
   if(!Array.isArray(s.folders)) s.folders=defaultFolders(s.groups);
   if(!s.foldStyle) s.foldStyle='tabs';
+  if(!s._bgFix){ s._bgFix=1; if((s.dim||0)>30) s.dim=20; if((s.blur||0)>4) s.blur=0; }
   if(!s._lspInit){ s._lspInit=1; s.layout='lsp'; s.iconStyle='thumb'; s.show={clock:false,date:false,greet:false}; }
   s.groups.forEach(g=>(g.tiles||[]).forEach(t=>{ if(t.icon && !t.iconType) t.iconType='url'; }));
   if(!Array.isArray(s.todos)) s.todos=[];
@@ -1400,8 +1401,8 @@ async function importNova(d){
     if(st.gridColumns) state.cols=Math.min(12,st.gridColumns); if(st.gridWidth) state.width=st.gridWidth;
     if(st.tileSize) state.tileSize=st.tileSize==='compact'?'s':st.tileSize==='large'?'l':'m';
     if(st.tileShape==='circle') state.iconShape='circle';
-    if(typeof st.wallpaperBlur==='number') state.blur=Math.min(20,st.wallpaperBlur);
-    if(typeof st.wallpaperDim==='number') state.dim=Math.min(70,Math.round(st.wallpaperDim/5)*5);
+    if(typeof st.wallpaperBlur==='number') state.blur=Math.min(4,Math.round(st.wallpaperBlur/4));
+    if(typeof st.wallpaperDim==='number') state.dim=Math.min(30,Math.round(st.wallpaperDim/3/5)*5);
     if(st.wallpaperType && NOVA_WALL[st.wallpaperType]) state.bg=NOVA_WALL[st.wallpaperType];
     else if(st.wallpaperType && /bing/.test(st.wallpaperType)) state.bg='auto:bing';
     else if(st.wallpaperType && /nasa|apod/.test(st.wallpaperType)) state.bg='auto:nasa';
