@@ -78,6 +78,14 @@
   /* widgets */
   .widgets{margin-top:22px;width:100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(calc(230px*var(--wS)),1fr));gap:14px}
   .widget{font-size:calc(16px*var(--wS))}
+  :root{--textS:1;--textW:600}
+  .tile .label{font-size:calc(13.5px*var(--textS))!important;font-weight:var(--textW)!important;max-width:calc(var(--tilew)*var(--textS))}
+  .thumb-head,body.layout-lsp .thumb-head{font-size:calc(15px*var(--textS))!important;font-weight:var(--textW)}
+  #groupsDrawer .gitem,body.layout-lsp #groupsDrawer .gitem{font-size:calc(16px*var(--textS))!important;font-weight:var(--textW)}
+  body.layout-lsp #groupsDrawer h3{font-size:calc(22px*var(--textS))!important}
+  .search input{font-size:calc(18px*var(--textS))!important}
+  .greet,body.layout-lsp .greet{font-size:calc(17px*var(--textS))!important}
+  .gtab{font-size:calc(14px*var(--textS))!important}
   .widget h4{font-size:.75em!important}
   .wx .big{font-size:2.4em!important}
   .wx .t{font-size:1.9em!important}
@@ -340,7 +348,7 @@
   body.layout-lsp .thumb-body.light{background:linear-gradient(160deg,#ffffff,#eef0f3)!important}
 
   /* ===== LSP layout: groups panel pinned on the right, big cards, bottom toolbar ===== */
-  body.layout-lsp #groupsDrawer{transform:none!important;opacity:1!important;pointer-events:auto!important;left:auto!important;right:18px!important;top:120px!important;bottom:96px!important;max-height:none!important;width:280px!important;border-radius:18px!important;background:rgba(10,12,20,.72)!important;z-index:9;transition:transform .28s ease}
+  body.layout-lsp #groupsDrawer{transform:none!important;opacity:1!important;pointer-events:auto!important;left:auto!important;right:18px!important;top:120px!important;bottom:24px!important;max-height:none!important;width:280px!important;border-radius:18px!important;background:rgba(10,12,20,.72)!important;z-index:9;transition:transform .28s ease}
   body.layout-lsp.lsp-hide #groupsDrawer{transform:translateX(calc(100% + 30px))!important}
   body.layout-lsp #groupsDrawer h3{justify-content:center;font-size:22px;letter-spacing:0;text-transform:none;color:#fff;border-bottom:2px solid rgba(255,255,255,.85);padding-bottom:12px;margin-bottom:12px}
   body.layout-lsp #groupsDrawer h3 .x,body.layout-lsp #groupsDrawer h3 .badge,body.layout-lsp #drawerHint,body.layout-lsp #groupsDrawer .gfoot{display:none!important}
@@ -360,14 +368,18 @@
   body.layout-lsp .panel{background:none!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;padding:8px 0 0;margin-top:26px}
   body.layout-lsp:not(.edit) .panel-head{display:none}
   body.layout-lsp.ist-thumb .tiles{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))!important;gap:22px}
-  body.layout-lsp .dock{display:flex;bottom:22px;left:calc(50% - 150px);padding:8px 14px;border-radius:999px;gap:12px;background:rgba(10,12,20,.7)}
+  body.layout-lsp .dock{display:none}
+  body.layout-lsp.has-dock .dock{display:flex;bottom:22px;left:calc(50% - 150px);padding:8px 14px;border-radius:999px;gap:12px;background:rgba(10,12,20,.7)}
   body.layout-lsp.lsp-hide .dock{left:50%}
   body.layout-lsp .dock .icon-btn{width:46px;height:46px;font-size:22px}
   body.layout-lsp .mini-wx{display:flex;top:24px;right:24px;background:rgba(10,12,20,.55)}
   .lsp-arrow{display:none;position:fixed;top:50%;right:306px;transform:translateY(-50%);z-index:10;width:28px;height:56px;border-radius:10px;align-items:center;justify-content:center;font-size:26px;font-weight:700;cursor:pointer;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.6);transition:right .28s}
   body.layout-lsp .lsp-arrow{display:flex}
   body.layout-lsp.lsp-hide .lsp-arrow{right:8px;transform:translateY(-50%) scaleX(-1)}
-  .gtab-gear{display:none;font-size:18px;opacity:.75;cursor:pointer;margin-left:10px}
+  body.layout-lsp.has-dock #groupsDrawer{bottom:96px!important}
+  .gtab-gear{display:none;font-size:17px;opacity:.75;cursor:pointer;margin-left:8px;transition:opacity .15s,transform .15s}
+  .gtab-gear:hover{opacity:1;transform:scale(1.15)}
+  body.edit #drawerEdit{opacity:1;color:#fde047}
   body.layout-lsp .gtab-gear{display:inline}
   body.layout-lsp .tile.lsp{border-radius:4px;background:#f1f1f1}
   body.layout-lsp .thumb-head{font-size:15px;padding:8px 12px;min-height:38px;background:#f1f1f1}
@@ -455,7 +467,7 @@
 
 <!-- groups drawer -->
 <aside class="drawer left glass" id="groupsDrawer">
-  <h3><span id="drawerTitle">☰ Groups</span><span class="gtab-gear" id="drawerAdd" title="New group">＋</span><span class="gtab-gear" id="drawerGear" title="Settings">⚙︎</span> <span class="badge" id="gBadge"></span><span class="x" data-closedrawer>✕</span></h3>
+  <h3><span id="drawerTitle">☰ Groups</span><span class="gtab-gear" id="drawerAdd" title="New group">＋</span><span class="gtab-gear" id="drawerEdit" title="Edit shortcuts (E)">✎</span><span class="gtab-gear" id="drawerNotes" title="To-do &amp; notes">☑︎</span><span class="gtab-gear" id="drawerMed" title="Meditation mode">🧘</span><span class="gtab-gear" id="drawerGear" title="Settings">⚙︎</span> <span class="badge" id="gBadge"></span><span class="x" data-closedrawer>✕</span></h3>
   <div class="glist" id="glist"></div>
   <div class="gfoot">
     <button class="btn full" id="newGroupBtn" style="justify-content:center">+ New group</button>
@@ -581,7 +593,7 @@
 <!-- settings -->
 <div class="modal-bg" id="setModal">
   <div class="modal wide glass">
-    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.05-r16</span></h3>
+    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.05-r17</span></h3>
     <div class="tabs" id="setTabs">
       <div class="tab active" data-tab="quick">Quick</div>
       <div class="tab" data-tab="general">Appearance</div>
@@ -614,6 +626,8 @@
     <div class="tabpane" data-pane="general">
       <label>Your name</label><input id="sName">
       <label>Font</label><select id="sFont"></select>
+      <label>Text size</label><div class="range-row"><input type="range" id="sTextS" min="80" max="150" step="5"><b id="sTextSv"></b></div>
+      <label>Text weight</label><select id="sTextW"><option value="400">Regular</option><option value="500">Medium</option><option value="600">Semi-bold</option><option value="700">Bold</option></select>
       <label>Clock design</label><select id="sClockStyle"><option value="digital">Digital</option><option value="thin">Digital — thin</option><option value="analog">Analog</option></select>
       <label>Clock font</label><select id="sCFont"></select>
       <label>Clock size</label><div class="range-row"><input type="range" id="sClockS" min="50" max="180" step="5"><b id="sClockSv"></b></div>
@@ -633,7 +647,7 @@
       <select id="sFoldStyle"><option value="tabs">Simple name bar (like LSP)</option><option value="folders">Folders (Samsung style)</option><option value="off">Hidden — use the menu only</option></select>
       <div class="fold-pick" id="sFoldList"></div>
       <div class="hint">Tick up to 8 groups to show on the main screen (name bar or folders). The rest stay under ⋯ / the menu.</div>
-      <label class="check"><input type="checkbox" id="sDock"><span>Bottom toolbar (⚙︎ ▦ ☑︎ ✎) instead of the gear button</span></label>
+      <label class="check"><input type="checkbox" id="sDock"><span>Bottom toolbar (⚙︎ ▦ ☑︎ ✎ 🧘) — off by default; the same buttons are in the Groups header</span></label>
       <label class="check"><input type="checkbox" id="sMost"><span>Show “Most used” group (learns from your clicks)</span></label>
       <label>Greeting</label>
       <select id="sGreet"><option value="dynamic">Dynamic (with a short message)</option><option value="simple">Simple</option></select>
@@ -721,7 +735,7 @@
       <h4>Search shortcuts — type the letter, a space, then your words</h4>
       <table class="help" id="bangTable"></table>
       <h4>Edit mode (✎)</h4>
-      <p class="hint" style="font-size:14px">Open it from ⚙︎ → Quick → Edit shortcuts (or press <span class="kbd">E</span>). Drag icons to reorder them, or drop an icon on a group name in the ☰ panel to move it there. Drag group names in the ☰ panel to reorder groups. Click an icon to rename it or change its colour; click the group title to rename the group.</p>
+      <p class="hint" style="font-size:14px">Open it from ⚙︎ → Quick → Edit shortcuts (or press <span class="kbd">E</span>). Drag icons with the mouse to reorder them (works any time, no need for edit mode), or drop an icon on a group name in the ☰ panel to move it there. Drag group names in the ☰ panel to reorder groups. Click an icon to rename it or change its colour; click the group title to rename the group.</p>
     </div>
 
     <div class="actions">
@@ -756,7 +770,26 @@ const GRADIENTS={
 };
 const MORE_PHOTOS=[['Valley road','1469474968028-56623f02e42e'],['Yosemite','1506744038136-46273834b3fb'],['Ocean wave','1518837695005-2083093ee35b'],['Pine forest','1502082553048-f009c37129b9'],['Green hills','1472214103451-9374bd1c798e'],['Waterfall','1433086966358-54859d0ed716'],['Desert peaks','1500964757637-c85e8a162699'],['Flowers','1490750967868-88aa4486c946'],['Galaxy','1462331940025-496dfbfc7564'],['Snow peak','1454496522488-7a8e488e8606'],['Alpine','1477346611705-65d1883cee1e'],['Aurora sky','1531366936337-7c912a4589a7'],['Autumn forest','1473448912268-2022ce9509d8'],['Calm lake','1439066615861-d1af74d74000'],['Mountain lake','1475924156734-496f6cac6ec1'],['Nature','1426604966848-d7adac402bff'],['Sunset lake','1500534314209-a25ddb2bd429'],['Sea sunset','1504198453319-5ce911bafcde']];
 PHOTOS.push(...MORE_PHOTOS);
+PHOTOS.push(['Dolomites','1464278533981-50106e6176b1'],['Lake & peaks','1501854140801-50d01698950b'],['Foggy forest','1448375240586-882707db888b'],['Tropical beach','1519046904884-53103b34b206'],['Lavender','1499002238440-d264edd596ec'],['Iceland','1476514525535-07fb3b4ae5f1'],['Milky Way','1444703686981-a3abbc4d4fe3'],['Canyon','1474044159687-1ee9f3a51722'],['Snowy forest','1418985991508-e47386d96a71'],['Rolling dunes','1473580044384-7ba9967e16a0'],['Cherry blossom','1522383225653-ed111181a951'],['Sea cliffs','1506197603052-3cc9c3a201bd'],['Golden field','1500382017468-9049fed747ef'],['Northern lights','1579033461380-adb47c3eb938'],['Lighthouse','1500530855697-b586d89ba3ee']);
 Object.assign(GRADIENTS,{
+  emerald:{name:'Emerald (animated)',blobs:true,css:'radial-gradient(900px 700px at 20% 20%,#065f46 0%,transparent 60%),radial-gradient(800px 600px at 85% 75%,#0e7490 0%,transparent 60%),#021412'},
+  ember:{name:'Ember (animated)',blobs:true,css:'radial-gradient(900px 700px at 25% 25%,#9a3412 0%,transparent 60%),radial-gradient(800px 600px at 80% 80%,#7f1d1d 0%,transparent 60%),#120604'},
+  dusk:{name:'Desert dusk',css:'linear-gradient(180deg,#1e3a5f 0%,#5b4b8a 35%,#c97b63 70%,#f2b880 100%)'},
+  peach:{name:'Peach',css:'linear-gradient(135deg,#ffecd2 0%,#fcb69f 100%)'},
+  sky:{name:'Clear sky',css:'linear-gradient(180deg,#2193b0 0%,#6dd5ed 100%)'},
+  lavender:{name:'Lavender',css:'linear-gradient(135deg,#4b3f72 0%,#8e7cc3 50%,#e0c3fc 100%)'},
+  mint:{name:'Mint',css:'linear-gradient(135deg,#0f766e 0%,#5eead4 100%)'},
+  royal:{name:'Royal blue',css:'linear-gradient(135deg,#141e30 0%,#243b55 100%)'},
+  wine:{name:'Wine',css:'linear-gradient(135deg,#2b0a1a 0%,#6d1a36 55%,#b23a48 100%)'},
+  sand:{name:'Sand',css:'linear-gradient(160deg,#3e2c1c 0%,#a47148 50%,#e6c79c 100%)'},
+  steel:{name:'Steel',css:'linear-gradient(160deg,#232526 0%,#414345 100%)'},
+  candy:{name:'Candy',css:'linear-gradient(135deg,#ff6a88 0%,#ff99ac 40%,#fcb69f 100%)'},
+  northern:{name:'Northern lights',css:'radial-gradient(1000px 500px at 50% 0%,#22c55e55 0%,transparent 60%),radial-gradient(900px 500px at 70% 20%,#06b6d455 0%,transparent 60%),linear-gradient(180deg,#020617,#0f172a)'},
+  mesh:{name:'Mesh colours',css:'radial-gradient(at 20% 20%,#f472b6 0,transparent 50%),radial-gradient(at 80% 10%,#60a5fa 0,transparent 50%),radial-gradient(at 70% 80%,#facc15 0,transparent 50%),radial-gradient(at 10% 90%,#34d399 0,transparent 50%),#1e1b4b'},
+  khafji:{name:'Gulf evening',css:'linear-gradient(180deg,#0c1b33 0%,#1f4e79 45%,#e08e45 85%,#f6c177 100%)'},
+  coffee:{name:'Coffee',css:'linear-gradient(160deg,#1c1310 0%,#4a3426 55%,#8b6b4a 100%)'},
+  ice:{name:'Ice',css:'linear-gradient(160deg,#e0f2fe 0%,#bae6fd 40%,#7dd3fc 100%)'},
+  black:{name:'Pure black',css:'#000'},
   nebula:{name:'Nebula (animated)',blobs:true,css:'radial-gradient(900px 700px at 20% 30%,#5b21b6 0%,transparent 60%),radial-gradient(800px 600px at 80% 70%,#be185d 0%,transparent 60%),#0a0418'},
   ocean2:{name:'Deep sea (animated)',blobs:true,css:'radial-gradient(900px 700px at 30% 20%,#0e7490 0%,transparent 60%),radial-gradient(800px 600px at 80% 80%,#1e3a8a 0%,transparent 60%),#020617'},
   dusk:{name:'Dusk',css:'linear-gradient(180deg,#0f2027 0%,#2c5364 40%,#f2994a 100%)'},
@@ -773,7 +806,7 @@ Object.assign(GRADIENTS,{
   gold:{name:'Gold',css:'linear-gradient(135deg,#1c1c1c 0%,#5c4413 50%,#e6b35a 100%)'},
 });
 const AUTO_BG={bing:{name:'Bing image of the day',u:()=>`https://bing.biturl.top/?resolution=1920&format=image&index=0&mkt=en-US&d=${new Date().toISOString().slice(0,10)}`},nasa:{name:'NASA picture of the day',u:()=>null},particles:{name:'Live particles',u:()=>null},solid:{name:'Solid dark',u:()=>null},daily:{name:'Photo of the day',u:()=>`https://picsum.photos/seed/${new Date().toISOString().slice(0,10)}/2400/1500`},random:{name:'New photo every tab',u:()=>`https://picsum.photos/seed/${Math.random().toString(36).slice(2)}/2400/1500`}};
-const FONTS={'System':'','Pixel 8-bit':'Press Start 2P','Retro terminal':'VT323','Monospace (NovaDial)':'JetBrains Mono','Space Mono':'Space Mono','Inter':'Inter','Poppins':'Poppins','Montserrat':'Montserrat','Nunito':'Nunito','Quicksand':'Quicksand','Raleway':'Raleway','Outfit':'Outfit','Space Grotesk':'Space Grotesk','Playfair Display':'Playfair Display','Orbitron':'Orbitron','Rajdhani':'Rajdhani','Cairo (Arabic)':'Cairo','Tajawal (Arabic)':'Tajawal','Almarai (Arabic)':'Almarai','IBM Plex Sans Arabic':'IBM Plex Sans Arabic','Readex Pro':'Readex Pro'};
+const FONTS={'System':'','Pixel 8-bit':'Press Start 2P','Retro terminal':'VT323','Monospace (NovaDial)':'JetBrains Mono','Space Mono':'Space Mono','Inter':'Inter','Poppins':'Poppins','Montserrat':'Montserrat','Nunito':'Nunito','Quicksand':'Quicksand','Raleway':'Raleway','Outfit':'Outfit','Space Grotesk':'Space Grotesk','Playfair Display':'Playfair Display','Orbitron':'Orbitron','Rajdhani':'Rajdhani','Cairo (Arabic)':'Cairo','Tajawal (Arabic)':'Tajawal','Almarai (Arabic)':'Almarai','IBM Plex Sans Arabic':'IBM Plex Sans Arabic','Readex Pro':'Readex Pro','Roboto':'Roboto','Open Sans':'Open Sans','Lato':'Lato','Ubuntu':'Ubuntu','DM Sans':'DM Sans','Manrope':'Manrope','Lexend':'Lexend','Sora':'Sora','Plus Jakarta Sans':'Plus Jakarta Sans','Urbanist':'Urbanist','Figtree':'Figtree','Rubik':'Rubik','Work Sans':'Work Sans','Josefin Sans':'Josefin Sans','Comfortaa':'Comfortaa','Fredoka':'Fredoka','Baloo 2':'Baloo 2','Varela Round':'Varela Round','Exo 2':'Exo 2','Audiowide':'Audiowide','Righteous':'Righteous','Bebas Neue':'Bebas Neue','Oswald':'Oswald','Lora':'Lora','Merriweather':'Merriweather','Cormorant Garamond':'Cormorant Garamond','Dancing Script':'Dancing Script','Pacifico':'Pacifico','Caveat':'Caveat','Satisfy':'Satisfy','Noto Kufi Arabic':'Noto Kufi Arabic','Noto Naskh Arabic':'Noto Naskh Arabic','Amiri (Arabic)':'Amiri','Changa (Arabic)':'Changa','El Messiri (Arabic)':'El Messiri','Lalezar (Arabic)':'Lalezar','Reem Kufi (Arabic)':'Reem Kufi','Markazi Text (Arabic)':'Markazi Text','Harmattan (Arabic)':'Harmattan','Aref Ruqaa (Arabic)':'Aref Ruqaa','Lateef (Arabic)':'Lateef','Mada (Arabic)':'Mada','Baloo Bhaijaan 2 (Arabic)':'Baloo Bhaijaan 2'};
 const EMOJIS='🩺 🦴 🖐️ 🏥 📚 📖 🔬 🧪 💊 🩻 🧠 ❤️ 🫀 📰 🎓 🏛️ 💼 📧 📅 📝 📂 🗂️ 🔗 🌐 🔎 🤖 ✨ 💬 🎥 ▶️ 🎵 🛒 🏦 💳 ✈️ 🚗 🏠 🕌 📿 ☕ 🍽️ ⚽ 📷 🧾 ⚙️ 🔒 ⭐ 🚀'.split(' ');
 const ENGINES={google:['Google','https://www.google.com/search?q='],pubmed:['PubMed','https://pubmed.ncbi.nlm.nih.gov/?term='],scholar:['Scholar','https://scholar.google.com/scholar?q='],duckduckgo:['DuckDuckGo','https://duckduckgo.com/?q='],bing:['Bing','https://www.bing.com/search?q='],youtube:['YouTube','https://www.youtube.com/results?search_query='],claude:['Claude','https://claude.ai/new?q='],chatgpt:['ChatGPT','https://chatgpt.com/?q=']};
 const GREETS={morning:['Have a productive day.','A fresh start — make it count.','Let’s get things done.'],afternoon:['Keep up the great work.','Stay focused, you’re doing well.','Halfway there — keep going.'],evening:['Hope your day went well.','Time to slow down a little.','Well done today.'],night:['Time to unwind and recharge.','Rest well — tomorrow brings a clean slate.','A quiet night ahead.']};
@@ -801,7 +834,7 @@ const BANGS={
 const DEFAULTS={
   name:'Ahmed',h24:false,bg:'grad:aurora',dim:0,
   openGroup:0,newTab:false,hoverEdge:true,tileSize:'m',glass:'frosted',
-  font:'System',cfont:'System',align:'fill',showFolders:true,foldStyle:'tabs',layout:'lsp',lspHide:false,dock:false,mostUsed:true,hits:{},groupNav:'menu',engine:'google',greetStyle:'dynamic',titles:true,iconFull:false,cols:0,width:0,clockS:100,wS:100,blur:0,show:{clock:true,date:true,greet:true},iconStyle:'3d',iconShape:'rounded',
+  font:'System',cfont:'System',align:'fill',showFolders:true,foldStyle:'tabs',layout:'lsp',lspHide:false,dock:false,mostUsed:true,hits:{},groupNav:'menu',engine:'google',greetStyle:'dynamic',titles:true,iconFull:false,cols:0,width:0,clockS:100,wS:100,textS:100,textW:'600',blur:0,show:{clock:true,date:true,greet:true},iconStyle:'3d',iconShape:'rounded',
   widgets:{weather:true,clocks:true,prayer:true,hijri:true,mini:false,focus:true},clockStyle:'digital',tapAnim:'pop',focus:null,pinHash:'',medSound:'none',medMin:5,
   loc:'khafji',clocks:'Khafji|Asia/Riyadh, Cairo|Africa/Cairo',
   todos:[],notes:'',updatedAt:0,sync:{gistId:'',auto:false},
@@ -831,6 +864,7 @@ function normalize(s){
   if(!Array.isArray(s.folders)) s.folders=defaultFolders(s.groups);
   if(!s.foldStyle) s.foldStyle='tabs';
   if(!s._bgFix){ s._bgFix=1; if((s.dim||0)>30) s.dim=20; if((s.blur||0)>4) s.blur=0; }
+  if(!s._noDock){ s._noDock=1; s.dock=false; }
   if(!s._lspInit){ s._lspInit=1; s.layout='lsp'; s.iconStyle='thumb'; s.show={clock:false,date:false,greet:false}; }
   s.groups.forEach(g=>(g.tiles||[]).forEach(t=>{ if(t.icon && !t.iconType) t.iconType='url'; }));
   if(!Array.isArray(s.todos)) s.todos=[];
@@ -1071,7 +1105,7 @@ function renderGroupList(){
     it.innerHTML=`<span class="grip">⋮⋮</span><span class="gic">${g.icon==='star'?'☆':'🗀'}</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0">${esc(g.title)}</span><span class="n">${g.tiles.length}${state.groupNav==='menu'&&state.layout!=='lsp'?' dials':''}</span>`;
     it.onclick=()=>{ state.openGroup=gi; save(); renderPanel(); renderGroupList(); closeDrawers(); };
     // drop tile onto group / reorder groups
-    it.draggable=document.body.classList.contains('edit');
+    it.draggable=true;
     it.addEventListener('dragstart',e=>{ e.dataTransfer.setData('text/group',gi); e.dataTransfer.effectAllowed='move'; });
     it.addEventListener('dragover',e=>{ if(drag||e.dataTransfer.types.includes('text/group')){ e.preventDefault(); it.classList.add('drop'); } });
     it.addEventListener('dragleave',()=>it.classList.remove('drop'));
@@ -1137,7 +1171,7 @@ function renderPanel(){
     ed.onclick=e=>{ e.preventDefault(); e.stopPropagation(); openTile(gi,ti); };
     dl.onclick=e=>{ e.preventDefault(); e.stopPropagation(); g.tiles.splice(ti,1); save(); renderPanel(); toast('Shortcut deleted'); };
     a.addEventListener('click',e=>{ if(document.body.classList.contains('edit') && !most){ e.preventDefault(); openTile(gi,ti);} });
-    if(editing){
+    if(!most){
       a.draggable=true;
       a.addEventListener('dragstart',e=>{ drag={gi,ti}; a.classList.add('dragging'); e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain',t.url); });
       a.addEventListener('dragend',()=>{ a.classList.remove('dragging'); document.querySelectorAll('.drop-before').forEach(x=>x.classList.remove('drop-before')); tiles.classList.remove('drop-end'); });
@@ -1146,6 +1180,7 @@ function renderPanel(){
     } else a.draggable=false;
     if(most){ ed.remove(); dl.remove(); }
     if(thumb) a.append(ed,dl,...buildThumb(a,t,base)); else a.append(ed,dl,ic,lb);
+    a.querySelectorAll('img').forEach(im=>im.draggable=false);
     tiles.append(a);
   });
   if(most) return;
@@ -1497,7 +1532,7 @@ function applyLook(){
   [...b].filter(c=>/^(ist-|ish-|hide-)/.test(c)).forEach(c=>b.remove(c));
   if(state.iconStyle!=='3d') b.add('ist-'+state.iconStyle); if(state.iconShape!=='rounded') b.add('ish-'+state.iconShape);
   b.remove('align-left','align-center'); if(state.align!=='fill') b.add('align-'+state.align);
-  b.toggle('no-titles',!state.titles); b.toggle('has-dock',!!state.dock); b.toggle('layout-lsp',state.layout==='lsp'); b.toggle('clock-analog',state.clockStyle==='analog'); b.toggle('clock-thin',state.clockStyle==='thin'); b.toggle('lsp-hide',state.layout==='lsp'&&!!state.lspHide); $('drawerTitle').textContent=state.layout==='lsp'?'Groups':'☰ Groups'; b.toggle('icon-full',!!state.iconFull);
+  b.toggle('no-titles',!state.titles); document.documentElement.style.setProperty('--textS',(state.textS||100)/100); document.documentElement.style.setProperty('--textW',state.textW||'600'); b.toggle('has-dock',!!state.dock); b.toggle('layout-lsp',state.layout==='lsp'); b.toggle('clock-analog',state.clockStyle==='analog'); b.toggle('clock-thin',state.clockStyle==='thin'); b.toggle('lsp-hide',state.layout==='lsp'&&!!state.lspHide); $('drawerTitle').textContent=state.layout==='lsp'?'Groups':'☰ Groups'; b.toggle('icon-full',!!state.iconFull);
   document.querySelector('main').style.maxWidth=(state.width && state.layout!=='lsp')?`min(${state.width}vw,1700px)`:'';
   $('engineSel').value=state.engine;
   if(!state.show.clock) b.add('hide-clock'); if(!state.show.date) b.add('hide-date'); if(!state.show.greet) b.add('hide-greet');
@@ -1508,11 +1543,16 @@ function fillFoldPick(){ const c=$('sFoldList'); c.innerHTML=state.groups.map((g
   c.querySelectorAll('input').forEach(x=>x.onchange=()=>{ const sel=[...c.querySelectorAll('input:checked')].map(y=>y.dataset.t); if(sel.length>8){ x.checked=false; toast('Up to 8 folders'); return; } state.folders=sel; renderFolders(); }); }
 $('sFoldStyle').onchange=e=>{ const v=e.target.value; state.showFolders=v!=='off'; if(v!=='off') state.foldStyle=v; save(); renderPanel(); };
 $('sDock').onchange=e=>{ state.dock=e.target.checked; applyLook(); };
+$('sTextS').oninput=e=>{ state.textS=+e.target.value; $('sTextSv').textContent=state.textS+'%'; applyLook(); }; $('sTextS').onchange=()=>save();
+$('sTextW').onchange=e=>{ state.textW=e.target.value; applyLook(); save(); };
 $('sLayout').onchange=e=>{ state.layout=e.target.value; if(state.layout==='lsp') document.querySelector('main').style.maxWidth=''; if(state.layout==='lsp' && state.openGroup===-1) state.openGroup=0; save(); applyLook(); renderPanel(); renderGroupList(); };
 $('sIStyleQ').onchange=e=>{ state.iconStyle=e.target.value; $('sIStyle').value=state.iconStyle; save(); applyLook(); renderPanel(); };
 $('lspArrow').onclick=()=>{ if(innerWidth<=900){ document.body.classList.toggle('lsp-open'); return; } state.lspHide=!state.lspHide; save(); applyLook(); };
 $('drawerGear').onclick=e=>{ e.stopPropagation(); openSettings(); };
 $('drawerAdd').onclick=e=>{ e.stopPropagation(); $('newGroupBtn').click(); };
+$('drawerEdit').onclick=e=>{ e.stopPropagation(); toggleEdit(); };
+$('drawerNotes').onclick=e=>{ e.stopPropagation(); toggleDrawer('notesDrawer'); };
+$('drawerMed').onclick=e=>{ e.stopPropagation(); $('dMed').click(); };
 $('sMost').onchange=e=>{ state.mostUsed=e.target.checked; if(!state.mostUsed&&state.openGroup===-2) state.openGroup=0; renderGroupList(); renderPanel(); };
 $('sAlign').onchange=e=>{ state.align=e.target.value; applyLook(); renderPanel(); };
 $('sGlass').onchange=e=>{ state.glass=e.target.value; if(state.glass==='oled'){ state.bg='auto:solid'; toast('OLED: pure black background — you can still pick another background'); } document.body.classList.remove('glass-clear','glass-dark','glass-oled'); if(state.glass!=='frosted') document.body.classList.add('glass-'+state.glass); applyBg(); };
@@ -1530,6 +1570,7 @@ function fillSettings(){
   $('sShowClock').checked=state.show.clock; $('sShowDate').checked=state.show.date; $('sShowGreet').checked=state.show.greet;
   $('sIStyle').value=state.iconStyle; $('sIShape').value=state.iconShape; $('sClockStyle').value=state.clockStyle||'digital'; $('wFocus').checked=state.widgets.focus!==false; fillPin(); $('sLayout').value=state.layout; $('sTapAnim').value=state.tapAnim||'pop'; $('sIStyleQ').value=state.iconStyle;
   $('sFoldStyle').value=state.showFolders?state.foldStyle:'off'; fillFoldPick();
+  $('sTextS').value=state.textS||100; $('sTextSv').textContent=(state.textS||100)+'%'; $('sTextW').value=state.textW||'600';
   $('sDock').checked=!!state.dock; $('sMost').checked=!!state.mostUsed; $('wMini').checked=!!state.widgets.mini;
   $('sAlign').value=state.align; $('sTitles').checked=state.titles; $('sFull').checked=!!state.iconFull; $('sNav').value=state.groupNav; $('sGreet').value=state.greetStyle;
   $('sCols').value=state.cols; $('sColsv').textContent=state.cols?state.cols:'Auto'; $('sWidth').value=state.width||80; $('sWidthv').textContent=state.width?state.width+'%':'Default';
@@ -1654,7 +1695,7 @@ function fullRender(){
 }
 fullRender(); setInterval(tick,1000); renderFocus(); showLock(); $('medSound').value=state.medSound||'none'; $('medMin').value=String(state.medMin??5);
 /* ===== always run the newest version: check GitHub, reload once if a newer file is there ===== */
-const APP_VER='2026.11.05-r16';
+const APP_VER='2026.11.05-r17';
 if(location.protocol==='https:' && navigator.onLine){
   fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{
     const m=t.match(/const APP_VER='([^']+)'/); if(!m || m[1]===APP_VER) return;
