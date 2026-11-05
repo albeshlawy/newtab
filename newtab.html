@@ -739,9 +739,11 @@ $('clock').onclick=()=>{ state.h24=!state.h24; save(); tick(); renderWidgets(); 
 function parseClocks(){ return (state.clocks||'').split(',').map(s=>s.trim()).filter(Boolean).map(s=>{ const [n,z]=s.split('|').map(x=>x.trim()); return {n:n||z,z:z||n}; }); }
 const WX={0:['☀️','Clear'],1:['🌤','Mostly clear'],2:['⛅️','Partly cloudy'],3:['☁️','Cloudy'],45:['🌫','Fog'],48:['🌫','Fog'],51:['🌦','Drizzle'],53:['🌦','Drizzle'],55:['🌦','Drizzle'],61:['🌧','Rain'],63:['🌧','Rain'],65:['🌧','Heavy rain'],71:['🌨','Snow'],80:['🌦','Showers'],81:['🌦','Showers'],82:['⛈','Heavy showers'],95:['⛈','Thunderstorm'],96:['⛈','Thunderstorm'],99:['⛈','Thunderstorm']};
 async function cachedFetch(key,url,maxAge){
-  try{ const c=JSON.parse(ls(key)); if(c && Date.now()-c.t<maxAge) return c.d; }catch(e){}
-  const r=await fetch(url); if(!r.ok) throw 0; const d=await r.json(); ls(key,JSON.stringify({t:Date.now(),d})); return d;
+  let c=null; try{ c=JSON.parse(ls(key)); if(c && Date.now()-c.t<maxAge) return c.d; }catch(e){}
+  try{ const r=await fetch(url); if(!r.ok) throw 0; const d=await r.json(); ls(key,JSON.stringify({t:Date.now(),d})); return d; }
+  catch(e){ if(c&&c.d) return c.d; throw e; }   // offline: use last saved data
 }
+function lastKey(prefix){ try{ let best=null; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k.startsWith(prefix) && (!best||k>best)) best=k; } return best; }catch(e){ return null; } }
 function renderWidgets(){
   const w=$('widgets'); w.innerHTML=''; const L=LOCS[state.loc]||LOCS.khafji;
   if(state.widgets.weather){
@@ -758,7 +760,8 @@ function renderWidgets(){
   if(state.widgets.prayer){
     const c=document.createElement('div'); c.className='widget glass'; c.id='prayerW'; c.innerHTML=`<h4>Prayer times · ${esc(L.name)}</h4><div class="w-muted">Loading…</div>`; w.append(c);
     const d=new Date(), ds=`${String(d.getDate()).padStart(2,'0')}-${String(d.getMonth()+1).padStart(2,'0')}-${d.getFullYear()}`;
-    cachedFetch(`nt.pr.${state.loc}.${ds}`,`https://api.aladhan.com/v1/timings/${ds}?latitude=${L.lat}&longitude=${L.lon}&method=${L.method}`,24*3600e3)
+    const prKey=`nt.pr.${state.loc}.${ds}`;
+    (navigator.onLine===false && !ls(prKey) && lastKey(`nt.pr.${state.loc}.`) ? Promise.resolve(JSON.parse(ls(lastKey(`nt.pr.${state.loc}.`))).d) : cachedFetch(prKey,`https://api.aladhan.com/v1/timings/${ds}?latitude=${L.lat}&longitude=${L.lon}&method=${L.method}`,24*3600e3))
       .then(r=>{ const t=r.data.timings; const names=[['Fajr','الفجر'],['Dhuhr','الظهر'],['Asr','العصر'],['Maghrib','المغرب'],['Isha','العشاء']];
         c.innerHTML=`<h4>Prayer times · ${esc(L.name)}</h4>`+names.map(([k,a])=>`<div class="pr-row" data-pt="${t[k].slice(0,5)}"><span>${k} · ${a}</span><b>${fmtTime(t[k].slice(0,5))}</b></div>`).join(''); markNextPrayer(); })
       .catch(()=>{ c.querySelector('.w-muted').textContent='Prayer times unavailable (offline?)'; });
@@ -1256,6 +1259,9 @@ function fullRender(){
   setSyncStatus('');
 }
 fullRender(); setInterval(tick,1000);
+if('serviceWorker' in navigator && location.protocol==='https:'){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+addEventListener('offline',()=>toast('Offline — showing saved shortcuts'));
+addEventListener('online',()=>{ toast('Back online'); renderWidgets(); });
 if(state.sync.auto && ls(TOKENKEY) && state.sync.gistId) cloudPull(true);
 </script>
 </body>
