@@ -100,6 +100,13 @@
   .w-muted{color:var(--muted);font-size:13px}
 
   /* open group panel */
+  .folds.gtabs{display:flex!important;grid-template-columns:none!important;flex-wrap:wrap;justify-content:center;gap:8px!important;margin-top:18px;width:100%;padding:0!important}
+  .gtab{padding:7px 16px;border-radius:999px;font-size:14px;font-weight:600;cursor:pointer;color:rgba(255,255,255,.75);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);white-space:nowrap;transition:.15s;user-select:none}
+  .gtab:hover{color:#fff;background:rgba(255,255,255,.14)}
+  .gtab.active{color:#111;background:rgba(255,255,255,.92);border-color:transparent}
+  .gtab .n{opacity:.55;font-weight:500;margin-inline-start:6px;font-size:12px}
+  body.tabs-mode .panel{background:none!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;padding:6px 0 0;margin-top:10px}
+  body.tabs-mode:not(.edit) .panel-head{display:none}
   .panel{margin-top:22px;width:100%;border-radius:24px;padding:16px 22px 22px}
   .panel-head{display:flex;align-items:center;gap:10px;margin-bottom:14px}
   .panel-title{font-size:16px;font-weight:700;letter-spacing:.6px;text-transform:uppercase}
@@ -515,9 +522,10 @@
       <label class="check"><input type="checkbox" id="sFull"><span>Let the image fill the whole icon (for photo icons)</span></label>
       <label>Groups menu</label>
       <select id="sNav"><option value="menu">Workspace menu (top-left, like NovaDial)</option><option value="drawer">Side panel — left</option><option value="right">Side panel — right (like LSP)</option></select>
-      <label class="check"><input type="checkbox" id="sFolds"><span>Show favourite groups as folders on the main screen (Samsung style)</span></label>
+      <label>Groups on the main screen</label>
+      <select id="sFoldStyle"><option value="tabs">Simple name bar (like LSP)</option><option value="folders">Folders (Samsung style)</option><option value="off">Hidden — use the menu only</option></select>
       <div class="fold-pick" id="sFoldList"></div>
-      <div class="hint">Tick up to 8 groups to show as folders.</div>
+      <div class="hint">Tick up to 8 groups to show on the main screen (name bar or folders). The rest stay under ⋯ / the menu.</div>
       <label class="check"><input type="checkbox" id="sDock"><span>Bottom toolbar (⚙︎ ▦ ☑︎ ✎) instead of the gear button</span></label>
       <label class="check"><input type="checkbox" id="sMost"><span>Show “Most used” group (learns from your clicks)</span></label>
       <label>Greeting</label>
@@ -690,7 +698,7 @@ const BANGS={
 const DEFAULTS={
   name:'Ahmed',h24:false,bg:'grad:aurora',dim:0,
   openGroup:0,newTab:false,hoverEdge:true,tileSize:'m',glass:'frosted',
-  font:'System',cfont:'System',align:'fill',showFolders:true,dock:false,mostUsed:true,hits:{},groupNav:'menu',engine:'google',greetStyle:'dynamic',titles:true,iconFull:false,cols:0,width:0,clockS:100,wS:100,blur:0,show:{clock:true,date:true,greet:true},iconStyle:'3d',iconShape:'rounded',
+  font:'System',cfont:'System',align:'fill',showFolders:true,foldStyle:'tabs',dock:false,mostUsed:true,hits:{},groupNav:'menu',engine:'google',greetStyle:'dynamic',titles:true,iconFull:false,cols:0,width:0,clockS:100,wS:100,blur:0,show:{clock:true,date:true,greet:true},iconStyle:'3d',iconShape:'rounded',
   widgets:{weather:true,clocks:true,prayer:true,hijri:true,mini:false},
   loc:'khafji',clocks:'Khafji|Asia/Riyadh, Cairo|Africa/Cairo',
   todos:[],notes:'',updatedAt:0,sync:{gistId:'',auto:false},
@@ -718,6 +726,7 @@ function normalize(s){
   s.show=Object.assign({},DEFAULTS.show,s.show||{});
   if(!s.hits||typeof s.hits!=='object') s.hits={};
   if(!Array.isArray(s.folders)) s.folders=defaultFolders(s.groups);
+  if(!s.foldStyle) s.foldStyle='tabs';
   s.groups.forEach(g=>(g.tiles||[]).forEach(t=>{ if(t.icon && !t.iconType) t.iconType='url'; }));
   if(!Array.isArray(s.todos)) s.todos=[];
   if(!s.bg) s.bg='grad:aurora';
@@ -1020,6 +1029,21 @@ function renderPanel(){
 }
 function renderFolders(){
   const w=$('folds'); w.innerHTML='';
+  const tabs=state.showFolders && state.foldStyle==='tabs';
+  document.body.classList.toggle('tabs-mode',tabs); w.classList.toggle('gtabs',tabs);
+  if(tabs){
+    w.style.display='';
+    if(state.openGroup===-1 && state.groups.length){ state.openGroup=0; setTimeout(renderPanel,0); }
+    const mk=(label,n,idx)=>{ const b=document.createElement('div'); b.className='gtab'+(idx===state.openGroup?' active':''); b.innerHTML=esc(label)+(n!=null?`<span class="n">${n}</span>`:''); b.onclick=()=>{ state.openGroup=idx; save(); renderPanel(); renderGroupList(); }; w.append(b); };
+    if(state.mostUsed) mk('★',null,-2);
+    let list=state.folders.map(t=>state.groups.findIndex(g=>g.title===t)).filter(i=>i>=0);
+    if(!list.length) list=state.groups.map((g,i)=>i).slice(0,6);
+    if(state.openGroup>=0 && !list.includes(state.openGroup)) list.push(state.openGroup);
+    list.forEach(i=>mk(state.groups[i].title,null,i));
+    const rest=state.groups.length-list.length;
+    if(rest>0){ const m=document.createElement('div'); m.className='gtab more'; m.textContent='⋯ '+rest; m.title='All groups'; m.onclick=e=>{ e.stopPropagation(); openDrawer('groupsDrawer'); }; w.append(m); }
+    return;
+  }
   if(!state.showFolders){ w.style.display='none'; return; }
   let list=state.folders.map(t=>state.groups.findIndex(g=>g.title===t)).filter(i=>i>=0);
   if(!list.length){ state.folders=defaultFolders(state.groups); list=state.folders.map(t=>state.groups.findIndex(g=>g.title===t)).filter(i=>i>=0); }
@@ -1326,7 +1350,7 @@ function applyLook(){
 ['sFont','sCFont','sIStyle','sIShape'].forEach(id=>$(id).onchange=e=>{ const k={sFont:'font',sCFont:'cfont',sIStyle:'iconStyle',sIShape:'iconShape'}[id]; state[k]=e.target.value; applyLook(); if(id==='sIStyle') renderPanel(); });
 function fillFoldPick(){ const c=$('sFoldList'); c.innerHTML=state.groups.map((g,i)=>`<label class="check" style="margin:0"><input type="checkbox" data-t="${esc(g.title)}" ${state.folders.includes(g.title)?'checked':''}><span>${esc(g.title)}</span></label>`).join('');
   c.querySelectorAll('input').forEach(x=>x.onchange=()=>{ const sel=[...c.querySelectorAll('input:checked')].map(y=>y.dataset.t); if(sel.length>8){ x.checked=false; toast('Up to 8 folders'); return; } state.folders=sel; renderFolders(); }); }
-$('sFolds').onchange=e=>{ state.showFolders=e.target.checked; renderFolders(); };
+$('sFoldStyle').onchange=e=>{ const v=e.target.value; state.showFolders=v!=='off'; if(v!=='off') state.foldStyle=v; save(); renderPanel(); };
 $('sDock').onchange=e=>{ state.dock=e.target.checked; applyLook(); };
 $('sMost').onchange=e=>{ state.mostUsed=e.target.checked; if(!state.mostUsed&&state.openGroup===-2) state.openGroup=0; renderGroupList(); renderPanel(); };
 $('sAlign').onchange=e=>{ state.align=e.target.value; applyLook(); renderPanel(); };
@@ -1344,7 +1368,7 @@ function fillSettings(){
   $('sClockS').value=state.clockS; $('sClockSv').textContent=state.clockS+'%'; $('sWS').value=state.wS; $('sWSv').textContent=state.wS+'%';
   $('sShowClock').checked=state.show.clock; $('sShowDate').checked=state.show.date; $('sShowGreet').checked=state.show.greet;
   $('sIStyle').value=state.iconStyle; $('sIShape').value=state.iconShape;
-  $('sFolds').checked=!!state.showFolders; fillFoldPick();
+  $('sFoldStyle').value=state.showFolders?state.foldStyle:'off'; fillFoldPick();
   $('sDock').checked=!!state.dock; $('sMost').checked=!!state.mostUsed; $('wMini').checked=!!state.widgets.mini;
   $('sAlign').value=state.align; $('sTitles').checked=state.titles; $('sFull').checked=!!state.iconFull; $('sNav').value=state.groupNav; $('sGreet').value=state.greetStyle;
   $('sCols').value=state.cols; $('sColsv').textContent=state.cols?state.cols:'Auto'; $('sWidth').value=state.width||80; $('sWidthv').textContent=state.width?state.width+'%':'Default';
