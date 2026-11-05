@@ -1054,7 +1054,7 @@ function renderGroupList(){
     m.onclick=()=>{ state.openGroup=-2; save(); renderPanel(); renderGroupList(); closeDrawers(); }; list.append(m); }
   state.groups.forEach((g,gi)=>{
     const it=document.createElement('div'); it.className='gitem'+(gi===state.openGroup?' active':'');
-    it.innerHTML=`<span class="grip">⋮⋮</span><span class="gic">${g.icon==='star'?'☆':'🗀'}</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0">${esc(g.title)}</span><span class="n">${g.tiles.length} ${state.groupNav==='menu'?'dials':''}</span>`;
+    it.innerHTML=`<span class="grip">⋮⋮</span><span class="gic">${g.icon==='star'?'☆':'🗀'}</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0">${esc(g.title)}</span><span class="n">${g.tiles.length}${state.groupNav==='menu'&&state.layout!=='lsp'?' dials':''}</span>`;
     it.onclick=()=>{ state.openGroup=gi; save(); renderPanel(); renderGroupList(); closeDrawers(); };
     // drop tile onto group / reorder groups
     it.draggable=document.body.classList.contains('edit');
@@ -1531,7 +1531,9 @@ $('refreshIconsBtn').onclick=()=>{ iconCache={}; saveIconCache(); renderPanel();
 $('restoreSnap').onclick=()=>{ let snaps=[]; try{ snaps=JSON.parse(ls(SNAPKEY))||[]; }catch(e){} const s=snaps[+$('snapSel').value]; if(!s) return; if(!confirm('Restore this backup? Current shortcuts will be replaced.')) return; snapshot(true); const keep=state.sync; state=normalize(s.data); state.sync=keep; save(); fullRender(); $('setModal').classList.remove('open'); toast('Backup restored'); };
 $('exportBtn').onclick=()=>{ const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='newtab-backup-'+new Date().toISOString().slice(0,10)+'.json'; a.click(); };
 $('importBtn').onclick=()=>$('importFile').click();
-$('importFile').onchange=e=>{ const f=e.target.files[0]; if(!f) return; f.text().then(txt=>{ try{ const s=JSON.parse(txt); if(Array.isArray(s.dials)){ importNova(s); return; } if(!s.groups) throw 0; snapshot(true); const keep=state.sync; state=normalize(s); state.sync=keep; save(); fullRender(); $('setModal').classList.remove('open'); toast('Backup imported'); }catch(err){ alert('Invalid backup file'); } }); e.target.value=''; };
+$('importFile').onchange=e=>{ const f=e.target.files[0]; if(!f) return; f.text().then(txt=>{ try{ const s=JSON.parse(txt); if(Array.isArray(s.dials)){ importNova(s); return; }
+      if(s.type==='groups' && Array.isArray(s.groups)){ const n=s.groups.reduce((x,g)=>x+g.tiles.length,0); if(!confirm(`Replace your shortcuts with ${s.groups.length} groups (${n} shortcuts) from this file?\n\nYour look and settings stay as they are. A backup is saved first.`)) return; snapshot(true); state.groups=s.groups.map(g=>({title:g.title,tiles:g.tiles.map(t=>Object.assign({},t))})); state.folders=Array.isArray(s.folders)?s.folders:defaultFolders(state.groups); state.hits={}; state.openGroup=0; save(); fullRender(); $('setModal').classList.remove('open'); toast(`Loaded ${n} shortcuts in ${s.groups.length} groups`); return; }
+      if(!s.groups) throw 0; snapshot(true); const keep=state.sync; state=normalize(s); state.sync=keep; save(); fullRender(); $('setModal').classList.remove('open'); toast('Backup imported'); }catch(err){ alert('Invalid backup file'); } }); e.target.value=''; };
 $('resetBtn').onclick=()=>{ if(confirm('Reset everything to defaults? (A backup snapshot is kept.)')){ snapshot(true); state=normalize(null); try{localStorage.removeItem(BGKEY);}catch(e){} save(); fullRender(); $('setModal').classList.remove('open'); } };
 
 /* =========================================================
