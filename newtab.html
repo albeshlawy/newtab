@@ -303,6 +303,93 @@
   .tile.lsp:has(.bg-glass) .thumb-head,body.layout-lsp .tile.lsp:has(.bg-glass) .thumb-head{background:rgba(255,255,255,.14)!important;color:#fff}
   .tile.lsp:has(.bg-dark) .thumb-head,body.layout-lsp .tile.lsp:has(.bg-dark) .thumb-head{background:#1d2028!important;color:#f4f4f5}
   .tile.img-drop{outline:3px dashed #fde047;outline-offset:3px}
+
+  /* ================= icon styles (r19) ================= */
+  @property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
+  .icon3d img,.icon3d .letter,.icon3d .emoji{position:relative;z-index:2}
+  /* 3D extruded */
+  body.ist-3d .icon3d{border-radius:calc(var(--tile)*.27);background:linear-gradient(165deg,var(--c1) 0%,var(--c2) 75%);transform:translateY(-4px);
+    box-shadow:0 1px 0 var(--c3),0 2px 0 var(--c3),0 3px 0 var(--c3),0 4px 0 var(--c3),0 5px 0 var(--c3),0 6px 0 var(--c3),0 7px 2px rgba(0,0,0,.3),0 18px 24px -8px rgba(0,0,0,.6),inset 0 1.5px 0 rgba(255,255,255,.6),inset 0 -3px 6px rgba(0,0,0,.18)}
+  body.ist-3d .icon3d::before{inset:0;height:auto;border-radius:inherit;background:radial-gradient(130% 75% at var(--mx,30%) 0%,rgba(255,255,255,.55),rgba(255,255,255,0) 58%)}
+  body.ist-3d .icon3d::after{content:"";position:absolute;inset:15%;border-radius:calc(var(--tile)*.17);background:linear-gradient(180deg,#fff,#eef1f5);box-shadow:0 2px 4px rgba(0,0,0,.28),inset 0 -2px 3px rgba(0,0,0,.08);z-index:1}
+  body.ist-3d .icon3d:has(.letter)::after,body.ist-3d .icon3d:has(.emoji)::after{display:none}
+  body.ist-3d .icon3d img{width:calc(52% * var(--k,1));height:calc(52% * var(--k,1));filter:none;transform:none;border-radius:4px}
+  body.ist-3d .tile:hover .icon3d{transform:translateY(-9px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+    box-shadow:0 1px 0 var(--c3),0 2px 0 var(--c3),0 3px 0 var(--c3),0 4px 0 var(--c3),0 5px 0 var(--c3),0 6px 0 var(--c3),0 7px 0 var(--c3),0 8px 0 var(--c3),0 9px 2px rgba(0,0,0,.3),0 28px 30px -10px rgba(0,0,0,.6),inset 0 1.5px 0 rgba(255,255,255,.6),inset 0 -3px 6px rgba(0,0,0,.18)}
+  body.ist-3d .tile:active .icon3d{transform:translateY(1px);box-shadow:0 1px 0 var(--c3),0 2px 0 var(--c3),0 3px 1px rgba(0,0,0,.3),0 8px 12px -6px rgba(0,0,0,.5),inset 0 1.5px 0 rgba(255,255,255,.5)}
+  /* App icon (white / colour) */
+  body.ist-ios .icon3d,body.ist-ioscolor .icon3d{border-radius:22.5%;background:linear-gradient(180deg,#ffffff,#f1f3f6);box-shadow:0 1px 1.5px rgba(0,0,0,.3),0 12px 22px -10px rgba(0,0,0,.6),inset 0 0 0 .5px rgba(0,0,0,.08);transform:none}
+  body.ist-ioscolor .icon3d{background:linear-gradient(160deg,var(--c1),var(--c2))}
+  body.ist-ios .icon3d::before,body.ist-ioscolor .icon3d::before{display:none}
+  body.ist-ios .icon3d img,body.ist-ioscolor .icon3d img{width:calc(66% * var(--k,1));height:calc(66% * var(--k,1));filter:none;transform:none;border-radius:12%}
+  body.ist-ioscolor .icon3d img{filter:drop-shadow(0 2px 3px rgba(0,0,0,.25))}
+  body.ist-ios .icon3d .letter{color:var(--c2);text-shadow:none;transform:none}
+  body.ist-ios .tile:hover .icon3d,body.ist-ioscolor .tile:hover .icon3d{transform:translateY(-4px) scale(1.05);box-shadow:0 1px 1.5px rgba(0,0,0,.3),0 20px 28px -12px rgba(0,0,0,.65)}
+  /* Clay */
+  body.ist-clay .icon3d{border-radius:32%;background:linear-gradient(150deg,color-mix(in srgb,var(--c1) 55%,#fff),color-mix(in srgb,var(--c1) 85%,#fff));
+    box-shadow:0 14px 22px -8px color-mix(in srgb,var(--c3) 75%,transparent),inset -6px -7px 12px color-mix(in srgb,var(--c2) 55%,transparent),inset 6px 7px 12px rgba(255,255,255,.7)}
+  body.ist-clay .icon3d::before{display:none}
+  body.ist-clay .icon3d img{width:calc(56% * var(--k,1));height:calc(56% * var(--k,1));filter:drop-shadow(0 3px 3px rgba(0,0,0,.22));transform:none}
+  body.ist-clay .icon3d .letter{color:var(--c3);text-shadow:0 2px 0 rgba(255,255,255,.6);transform:none}
+  body.ist-clay .tile:hover .icon3d{transform:translateY(-5px) scale(1.04)}
+  /* Soft UI */
+  body.ist-neu .icon3d{border-radius:30%;background:linear-gradient(145deg,#f3f5f9,#dfe3ea);box-shadow:9px 9px 18px rgba(0,0,0,.42),-5px -5px 12px rgba(255,255,255,.14),inset 1px 1px 0 #fff;transform:none}
+  body.ist-neu .icon3d::before{display:none}
+  body.ist-neu .icon3d img{width:calc(56% * var(--k,1));height:calc(56% * var(--k,1));filter:none;transform:none}
+  body.ist-neu .icon3d .letter{color:var(--c2);text-shadow:none;transform:none}
+  body.ist-neu .tile:hover .icon3d{transform:none;box-shadow:inset 5px 5px 10px rgba(0,0,0,.18),inset -5px -5px 10px rgba(255,255,255,.9),2px 2px 6px rgba(0,0,0,.3)}
+  /* Bubble */
+  body.ist-bubble .icon3d{border-radius:50%;background:radial-gradient(circle at 32% 26%,#fff 0 6%,color-mix(in srgb,var(--c1) 70%,#fff) 22%,var(--c1) 48%,var(--c2) 78%,var(--c3) 100%);box-shadow:0 16px 22px -8px rgba(0,0,0,.6),inset 0 -8px 16px rgba(0,0,0,.25),inset 0 4px 10px rgba(255,255,255,.35)}
+  body.ist-bubble .icon3d::before{inset:6% 22% auto 22%;height:30%;border-radius:50%;background:linear-gradient(180deg,rgba(255,255,255,.75),rgba(255,255,255,0))}
+  body.ist-bubble .icon3d::after{content:"";position:absolute;inset:22%;border-radius:50%;background:rgba(255,255,255,.93);box-shadow:0 3px 6px rgba(0,0,0,.25);z-index:1}
+  body.ist-bubble .icon3d:has(.letter)::after,body.ist-bubble .icon3d:has(.emoji)::after{display:none}
+  body.ist-bubble .icon3d img{width:calc(40% * var(--k,1));height:calc(40% * var(--k,1));filter:none;transform:none}
+  body.ist-bubble .tile:hover .icon3d{transform:translateY(-6px) scale(1.06)}
+  /* Glow ring */
+  body.ist-ring .icon3d{border-radius:28%;border:3px solid transparent;background:linear-gradient(rgba(14,16,28,.88),rgba(14,16,28,.88)) padding-box,conic-gradient(from var(--ang),var(--c1),#fff,var(--c2),var(--c1)) border-box;box-shadow:0 0 18px -4px var(--c1),0 12px 20px -10px rgba(0,0,0,.7);transform:none}
+  body.ist-ring .icon3d::before{display:none}
+  body.ist-ring .icon3d img{width:calc(56% * var(--k,1));height:calc(56% * var(--k,1));filter:none;transform:none}
+  body.ist-ring .tile:hover .icon3d{animation:ringSpin 1.6s linear infinite;box-shadow:0 0 26px -2px var(--c1),0 14px 24px -10px rgba(0,0,0,.7);transform:translateY(-3px)}
+  @keyframes ringSpin{to{--ang:360deg}}
+  /* Stickers */
+  body.ist-sticker .icon3d{border-radius:26%;background:#fff;box-shadow:0 0 0 4px #fff,0 0 0 5px rgba(0,0,0,.08),0 12px 18px -6px rgba(0,0,0,.6);transform:rotate(-4deg)}
+  body.ist-sticker .tile:nth-child(3n+1) .icon3d{transform:rotate(3deg)}
+  body.ist-sticker .tile:nth-child(3n+2) .icon3d{transform:rotate(-1.5deg)}
+  body.ist-sticker .icon3d::before{display:none}
+  body.ist-sticker .icon3d img{width:calc(66% * var(--k,1));height:calc(66% * var(--k,1));filter:none;transform:none}
+  body.ist-sticker .icon3d .letter{color:var(--c2);text-shadow:none;transform:none}
+  body.ist-sticker .tile:hover .icon3d{transform:rotate(0) scale(1.08)}
+  /* Outline */
+  body.ist-outline .icon3d{border-radius:26%;background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.55);box-shadow:none;transform:none}
+  body.ist-outline .icon3d::before{display:none}
+  body.ist-outline .icon3d img{width:calc(54% * var(--k,1));height:calc(54% * var(--k,1));filter:none;transform:none}
+  body.ist-outline .icon3d .letter{text-shadow:none;transform:none}
+  body.ist-outline .tile:hover .icon3d{background:rgba(255,255,255,.14);border-color:#fff;transform:translateY(-3px);box-shadow:0 0 16px -4px rgba(255,255,255,.6)}
+  /* List */
+  body.ist-list .tiles{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))!important;gap:10px!important}
+  body.ist-list .tile{flex-direction:row;justify-content:flex-start;gap:12px;padding:9px 14px 9px 10px;border-radius:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:background .15s,transform .15s}
+  body.ist-list .tile:hover{background:rgba(255,255,255,.18);transform:translateY(-2px)}
+  body.ist-list .icon3d{width:38px;height:38px;flex:none;border-radius:10px;background:#fff;box-shadow:0 3px 8px -3px rgba(0,0,0,.5);transform:none!important}
+  body.ist-list .icon3d::before{display:none}
+  body.ist-list .icon3d img{width:calc(70% * var(--k,1));height:calc(70% * var(--k,1));filter:none;transform:none}
+  body.ist-list .icon3d .letter{font-size:17px;color:var(--c2);text-shadow:none;transform:none}
+  body.ist-list .icon3d .emoji{font-size:20px;transform:none}
+  body.ist-list .tile .label{max-width:none;text-align:left;font-size:calc(14.5px*var(--textS))!important;text-shadow:none}
+  body.ist-list .tile .ctrl{top:-8px}
+  body.ist-list.no-titles .tile .label{display:block}
+
+  /* ===== thumbnails: card size + crisper picture ===== */
+  :root{--thumbW:200px}
+  body.ist-thumb .tiles,body.layout-lsp.ist-thumb .tiles{grid-template-columns:repeat(auto-fill,var(--thumbW))!important;gap:20px!important;justify-content:start}
+  body.ist-thumb.align-center .tiles{justify-content:center}
+  body.ist-thumb .tile.lsp .thumb-head,body.layout-lsp .thumb-head{padding:6px 10px!important;min-height:32px!important;font-size:calc(min(15px,var(--thumbW)*.07) * var(--textS))!important;gap:7px}
+  .thumb-head .fav,.thumb-head .fav img{width:16px;height:16px}
+  .thumb-body{container-type:size}
+  .thumb-body .ib{left:0;top:0;right:0;bottom:0;margin:auto;transform:none!important;width:calc(58cqw * var(--k,1));height:calc(66cqh * var(--k,1))}
+  .thumb-body.fr-circle .ib,.thumb-body.fr-rounded .ib,.thumb-body.fr-square .ib{width:calc(70cqh * var(--k,1));height:calc(70cqh * var(--k,1));max-width:96cqw;max-height:96cqh}
+  .thumb-body.fit-cover .ib{width:100%;height:100%;transform:scale(max(1,var(--k,1)))!important}
+  .thumb-body .ib img{image-rendering:auto;backface-visibility:hidden}
+  body.layout-lsp .tile.lsp:hover,.tile.lsp:hover{transform:translateY(-3px)}
   .tile .icon3d img{width:calc(56% * var(--k,1));height:calc(56% * var(--k,1))}
   /* picture picker */
   .ipick{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:8px;margin-top:10px}
@@ -316,7 +403,7 @@
   .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
   .tprev{width:230px;flex:none}
   .tprev .tile.lsp,.iprev .tile.lsp{pointer-events:none;width:100%;display:flex;flex-direction:column}
-  .iprev{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px;margin:6px 0 4px}
+  .iprev{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin:6px 0 4px}
   #tileModal .modal{width:min(720px,94vw)}
   .thumb-body .letter{font-size:calc(var(--tile)*.7);font-weight:800;color:#fff;text-shadow:0 3px 8px rgba(0,0,0,.3)}
   .thumb-body .emoji{font-size:calc(var(--tile)*.8)}
@@ -403,7 +490,7 @@
   body.layout-lsp .search-wrap{max-width:820px;width:100%}
   body.layout-lsp .panel{background:none!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;padding:8px 0 0;margin-top:26px}
   body.layout-lsp:not(.edit) .panel-head{display:none}
-  body.layout-lsp.ist-thumb .tiles{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))!important;gap:22px}
+  body.layout-lsp.ist-thumb .tiles{gap:20px}
   body.layout-lsp .dock{display:none}
   body.layout-lsp.has-dock .dock{display:flex;bottom:22px;left:calc(50% - 150px);padding:8px 14px;border-radius:999px;gap:12px;background:rgba(10,12,20,.7)}
   body.layout-lsp.lsp-hide .dock{left:50%}
@@ -644,7 +731,7 @@
 <!-- settings -->
 <div class="modal-bg" id="setModal">
   <div class="modal wide glass">
-    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.05-r18</span></h3>
+    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.05-r19</span></h3>
     <div class="tabs" id="setTabs">
       <div class="tab active" data-tab="quick">Quick</div>
       <div class="tab" data-tab="general">Appearance</div>
@@ -661,7 +748,7 @@
       <label>Tap animation</label>
       <select id="sTapAnim"><option value="pop">Bounce + ripple</option><option value="spin">Spin (3D flip)</option><option value="zoom">Zoom out</option><option value="none">None</option></select>
       <label>Icon style</label>
-      <select id="sIStyleQ"><option value="thumb">Thumbnails (LSP)</option><option value="3d">3D glossy</option><option value="glass">Glass</option><option value="card">Cards (NovaDial)</option><option value="flat">Flat</option><option value="neon">Neon</option><option value="float">Floating</option></select>
+      <select id="sIStyleQ"><option value="thumb">Thumbnails (LSP)</option><option value="3d">3D — extruded (new)</option><option value="glossy">3D — glossy (classic)</option><option value="ios">App icon — white (iPhone style)</option><option value="ioscolor">App icon — colour</option><option value="clay">Clay — soft 3D</option><option value="neu">Soft UI (neumorphic)</option><option value="bubble">Bubble — glossy sphere</option><option value="ring">Glow ring</option><option value="sticker">Stickers</option><option value="outline">Outline — minimal</option><option value="glass">Glass</option><option value="card">Cards (NovaDial)</option><option value="list">List — icon + name in a row</option><option value="flat">Flat</option><option value="neon">Neon</option><option value="float">Floating</option></select>
       <label>Shortcuts</label>
       <div class="quick">
         <div class="qbtn" id="qEdit">✎ Edit</div>
@@ -688,7 +775,7 @@
       <label class="check"><input type="checkbox" id="sShowDate"><span>Show date</span></label>
       <label class="check"><input type="checkbox" id="sShowGreet"><span>Show greeting</span></label>
       <label>Icon style</label>
-      <select id="sIStyle"><option value="3d">3D glossy</option><option value="flat">Flat</option><option value="glass">Glass</option><option value="neon">Neon</option><option value="card">Cards (NovaDial style)</option><option value="float">Floating (borderless)</option><option value="thumb">Thumbnails (LSP style)</option></select>
+      <select id="sIStyle"><option value="thumb">Thumbnails (LSP)</option><option value="3d">3D — extruded (new)</option><option value="glossy">3D — glossy (classic)</option><option value="ios">App icon — white (iPhone style)</option><option value="ioscolor">App icon — colour</option><option value="clay">Clay — soft 3D</option><option value="neu">Soft UI (neumorphic)</option><option value="bubble">Bubble — glossy sphere</option><option value="ring">Glow ring</option><option value="sticker">Stickers</option><option value="outline">Outline — minimal</option><option value="glass">Glass</option><option value="card">Cards (NovaDial)</option><option value="list">List — icon + name in a row</option><option value="flat">Flat</option><option value="neon">Neon</option><option value="float">Floating</option></select>
       <label>Grid alignment</label>
       <select id="sAlign"><option value="fill">Fill width</option><option value="center">Center</option><option value="left">Left</option></select>
       <label class="check"><input type="checkbox" id="sTitles"><span>Show names under icons</span></label>
@@ -727,6 +814,7 @@
         <div><label>Frame</label><select id="iFrame"><option value="none">None — the picture alone</option><option value="circle">Circle</option><option value="rounded">Rounded square</option><option value="square">Square</option></select></div>
         <div><label>Picture size</label><div class="range-row"><input type="range" id="iSize" min="40" max="160" step="5"><b id="iSizeV"></b></div></div>
       </div>
+      <label>Card size (Thumbnails style)</label><div class="range-row"><input type="range" id="iThumbW" min="130" max="320" step="10"><b id="iThumbWv"></b></div>
       <label class="check"><input type="checkbox" id="iShadow"><span>Soft shadow under the picture</span></label>
       <div class="quick" style="margin-top:14px">
         <div class="qbtn" id="iRefresh">↻ Find sharper logos again</div>
@@ -905,7 +993,7 @@ const BANGS={
 const DEFAULTS={
   name:'Ahmed',h24:false,bg:'grad:aurora',dim:0,
   openGroup:0,newTab:false,hoverEdge:true,tileSize:'m',glass:'frosted',
-  font:'System',cfont:'System',align:'fill',showFolders:true,foldStyle:'tabs',layout:'lsp',lspHide:false,dock:false,mostUsed:true,hits:{},groupNav:'menu',engine:'google',greetStyle:'dynamic',titles:true,iconFull:false,cols:0,width:0,clockS:100,wS:100,textS:100,textW:'600',img:{src:'logo',fit:'fit',bg:'auto',frame:'none',size:100,shadow:true},blur:0,show:{clock:true,date:true,greet:true},iconStyle:'3d',iconShape:'rounded',
+  font:'System',cfont:'System',align:'fill',showFolders:true,foldStyle:'tabs',layout:'lsp',lspHide:false,dock:false,mostUsed:true,hits:{},groupNav:'menu',engine:'google',greetStyle:'dynamic',titles:true,iconFull:false,cols:0,width:0,clockS:100,wS:100,textS:100,textW:'600',img:{src:'logo',fit:'fit',bg:'auto',frame:'none',size:100,shadow:true,thumbW:200},blur:0,show:{clock:true,date:true,greet:true},iconStyle:'3d',iconShape:'rounded',
   widgets:{weather:true,clocks:true,prayer:true,hijri:true,mini:false,focus:true},clockStyle:'digital',tapAnim:'pop',focus:null,pinHash:'',medSound:'none',medMin:5,
   loc:'khafji',clocks:'Khafji|Asia/Riyadh, Cairo|Africa/Cairo',
   todos:[],notes:'',updatedAt:0,sync:{gistId:'',auto:false},
@@ -935,7 +1023,7 @@ function normalize(s){
   if(!Array.isArray(s.folders)) s.folders=defaultFolders(s.groups);
   if(!s.foldStyle) s.foldStyle='tabs';
   if(!s._bgFix){ s._bgFix=1; if((s.dim||0)>30) s.dim=20; if((s.blur||0)>4) s.blur=0; }
-  s.img=Object.assign({src:'logo',fit:'fit',bg:'auto',frame:'none',size:100,shadow:true},s.img||{});
+  s.img=Object.assign({src:'logo',fit:'fit',bg:'auto',frame:'none',size:100,shadow:true,thumbW:200},s.img||{});
   if(!s._noDock){ s._noDock=1; s.dock=false; }
   if(!s._lspInit){ s._lspInit=1; s.layout='lsp'; s.iconStyle='thumb'; s.show={clock:false,date:false,greet:false}; }
   s.groups.forEach(g=>(g.tiles||[]).forEach(t=>{ if(t.icon && !t.iconType) t.iconType='url'; }));
@@ -1257,7 +1345,8 @@ function paintThumbBody(body,t,base,o){
   body.append(bl,ib);
   const hook=im=>{ if(!im) return; const go=()=>{ if(!im.naturalWidth || !im.getAttribute('src')) return; const src=im.currentSrc||im.src;
       if(o.bg==='blur') bl.style.backgroundImage=`url("${src.replace(/"/g,'%22')}")`;
-      if(o.bg==='auto' && !body.classList.contains('fit-cover')){ const light=im.naturalWidth>=48; body.classList.toggle('bg-white',light); body.classList.toggle('bg-color',!light); } };
+      if(o.bg==='auto' && !body.classList.contains('fit-cover')){ const light=im.naturalWidth>=48; body.classList.toggle('bg-white',light); body.classList.toggle('bg-color',!light); }
+      if(!body.classList.contains('fit-cover') && im.naturalWidth && im.naturalWidth<96 && !/^data:image\/svg|\.svg(\?|$)/i.test(src)){ const m=Math.round(im.naturalWidth*1.6*(t.imgSize||(state.img&&state.img.size)||100)/100)+'px', cap=body.classList.contains('fr-none')?'100%':'62%'; im.style.width=im.style.height=`min(${cap},${m})`; } };
     if(im.complete) go(); im.addEventListener('load',go); };
   if(shot){ const im=new Image(); im.alt=''; im.src=shotUrl(t.url);
     im.onerror=()=>{ im.remove(); body.classList.remove('fit-cover','fr-none'); body.classList.add('fit-fit','fr-'+o.frame); loadIcon(t,ib); hook(ib.querySelector('img')); };
@@ -1286,7 +1375,8 @@ function renderPanel(){
     const thumb=state.iconStyle==='thumb';
     if(!thumb) loadIcon(t,ic);
     if(t.imgSize) ic.style.setProperty('--k',t.imgSize/100);
-    a.addEventListener('mousemove',e=>{ const r=a.getBoundingClientRect(); a.style.setProperty('--ry',((e.clientX-r.left)/r.width-.5)*24+'deg'); });
+    a.addEventListener('mousemove',e=>{ const r=a.getBoundingClientRect(); a.style.setProperty('--ry',((e.clientX-r.left)/r.width-.5)*24+'deg'); a.style.setProperty('--rx',(.5-(e.clientY-r.top)/r.height)*20+'deg'); a.style.setProperty('--mx',((e.clientX-r.left)/r.width*100).toFixed(1)+'%'); a.style.setProperty('--my',((e.clientY-r.top)/r.height*100).toFixed(1)+'%'); });
+    a.addEventListener('mouseleave',()=>{ a.style.removeProperty('--rx'); a.style.removeProperty('--ry'); });
     const lb=document.createElement('div'); lb.className='label'; lb.textContent=t.name;
     const ed=document.createElement('div'); ed.className='ctrl edit-t'; ed.textContent='✎';
     const dl=document.createElement('div'); dl.className='ctrl del-t'; dl.textContent='✕';
@@ -1728,9 +1818,9 @@ function applyLook(){
   r.setProperty('--clockS',(state.clockS||100)/100); r.setProperty('--wS',(state.wS||100)/100);
   const b=document.body.classList;
   [...b].filter(c=>/^(ist-|ish-|hide-)/.test(c)).forEach(c=>b.remove(c));
-  if(state.iconStyle!=='3d') b.add('ist-'+state.iconStyle); if(state.iconShape!=='rounded') b.add('ish-'+state.iconShape);
+  b.add('ist-'+state.iconStyle); if(state.iconShape!=='rounded') b.add('ish-'+state.iconShape);
   b.remove('align-left','align-center'); if(state.align!=='fill') b.add('align-'+state.align);
-  b.toggle('no-titles',!state.titles); document.documentElement.style.setProperty('--textS',(state.textS||100)/100); document.documentElement.style.setProperty('--textW',state.textW||'600'); document.documentElement.style.setProperty('--k',((state.img&&state.img.size)||100)/100); b.toggle('has-dock',!!state.dock); b.toggle('layout-lsp',state.layout==='lsp'); b.toggle('clock-analog',state.clockStyle==='analog'); b.toggle('clock-thin',state.clockStyle==='thin'); b.toggle('lsp-hide',state.layout==='lsp'&&!!state.lspHide); $('drawerTitle').textContent=state.layout==='lsp'?'Groups':'☰ Groups'; b.toggle('icon-full',!!state.iconFull);
+  b.toggle('no-titles',!state.titles); document.documentElement.style.setProperty('--textS',(state.textS||100)/100); document.documentElement.style.setProperty('--textW',state.textW||'600'); document.documentElement.style.setProperty('--k',((state.img&&state.img.size)||100)/100); document.documentElement.style.setProperty('--thumbW',((state.img&&state.img.thumbW)||200)+'px'); b.toggle('has-dock',!!state.dock); b.toggle('layout-lsp',state.layout==='lsp'); b.toggle('clock-analog',state.clockStyle==='analog'); b.toggle('clock-thin',state.clockStyle==='thin'); b.toggle('lsp-hide',state.layout==='lsp'&&!!state.lspHide); $('drawerTitle').textContent=state.layout==='lsp'?'Groups':'☰ Groups'; b.toggle('icon-full',!!state.iconFull);
   document.querySelector('main').style.maxWidth=(state.width && state.layout!=='lsp')?`min(${state.width}vw,1700px)`:'';
   $('engineSel').value=state.engine;
   if(!state.show.clock) b.add('hide-clock'); if(!state.show.date) b.add('hide-date'); if(!state.show.greet) b.add('hide-greet');
@@ -1742,7 +1832,7 @@ function fillFoldPick(){ const c=$('sFoldList'); c.innerHTML=state.groups.map((g
 $('sFoldStyle').onchange=e=>{ const v=e.target.value; state.showFolders=v!=='off'; if(v!=='off') state.foldStyle=v; save(); renderPanel(); };
 $('sDock').onchange=e=>{ state.dock=e.target.checked; applyLook(); };
 function fillIconsTab(){
-  const G=state.img; $('iSrc').value=G.src; $('iFit').value=G.fit; $('iBg').value=G.bg; $('iFrame').value=G.frame; $('iSize').value=G.size; $('iSizeV').textContent=G.size+'%'; $('iShadow').checked=G.shadow!==false;
+  const G=state.img; $('iSrc').value=G.src; $('iFit').value=G.fit; $('iBg').value=G.bg; $('iFrame').value=G.frame; $('iSize').value=G.size; $('iSizeV').textContent=G.size+'%'; $('iShadow').checked=G.shadow!==false; $('iThumbW').value=G.thumbW||200; $('iThumbWv').textContent=(G.thumbW||200)+'px';
   renderIconPrev();
 }
 function renderIconPrev(){
@@ -1758,6 +1848,7 @@ $('iBg').onchange=e=>setImg('bg',e.target.value);
 $('iFrame').onchange=e=>setImg('frame',e.target.value);
 $('iSize').oninput=e=>{ $('iSizeV').textContent=e.target.value+'%'; setImg('size',+e.target.value); };
 $('iShadow').onchange=e=>setImg('shadow',e.target.checked);
+$('iThumbW').oninput=e=>{ $('iThumbWv').textContent=e.target.value+'px'; state.img.thumbW=+e.target.value; applyLook(); clearTimeout(wheelSave); wheelSave=setTimeout(()=>save(),300); };
 $('iRefresh').onclick=()=>{ iconCache={}; saveIconCache(); renderPanel(); renderIconPrev(); toast('Looking for sharper logos…'); };
 $('iClear').onclick=()=>{ if(!confirm('Remove the size, frame, fill and background you set on single cards, so all cards follow these settings? (Pictures you picked or uploaded are kept.)')) return; let n=0; state.groups.forEach(g=>g.tiles.forEach(t=>{ ['imgFit','imgBg','imgFrame','imgSize'].forEach(k=>{ if(t[k]){ delete t[k]; n++; } }); })); save(); renderPanel(); renderIconPrev(); toast(n?'All cards now follow the Icons settings':'Nothing to reset'); };
 $('sTextS').oninput=e=>{ state.textS=+e.target.value; $('sTextSv').textContent=state.textS+'%'; applyLook(); }; $('sTextS').onchange=()=>save();
@@ -1912,7 +2003,7 @@ function fullRender(){
 }
 fullRender(); setInterval(tick,1000); renderFocus(); showLock(); $('medSound').value=state.medSound||'none'; $('medMin').value=String(state.medMin??5);
 /* ===== always run the newest version: check GitHub, reload once if a newer file is there ===== */
-const APP_VER='2026.11.05-r18';
+const APP_VER='2026.11.05-r19';
 if(location.protocol==='https:' && navigator.onLine){
   fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{
     const m=t.match(/const APP_VER='([^']+)'/); if(!m || m[1]===APP_VER) return;
