@@ -628,7 +628,7 @@
    Data & constants
    ========================================================= */
 const KEY='glassNewTab.v1', BGKEY='glassNewTab.bgImage', TOKENKEY='glassNewTab.ghToken',
-      SNAPKEY='glassNewTab.snaps', ICONKEY='glassNewTab.icons3';
+      SNAPKEY='glassNewTab.snaps', ICONKEY='glassNewTab.icons4';
 const $=id=>document.getElementById(id);
 
 const PHOTOS=[['Mountains','1506905925346-21bda4d32df4'],['Starry peaks','1519681393784-d120267933ba'],['Misty hills','1470071459604-3b5ec3a7fe05'],['Lake','1501785888041-af3ef285b470'],['Beach','1507525428034-b723cf961d3e'],['Desert dunes','1509316785289-025f5b846b35'],['Night sky','1419242902214-272b3f66ee7a'],['Earth','1446776811953-b23d57bd21aa'],['Forest','1441974231531-c6227db76b6e'],['Valley','1464822759023-fed622ff2c3b'],['Aurora','1483728642387-6c3bdd6c93e5'],['Coast','1505144808419-1957a94ca61e']];
@@ -765,15 +765,14 @@ function openUrl(u){ if(state.newTab) window.open(u,'_blank','noopener'); else l
 /* ---------- smart icons with fallbacks ---------- */
 let iconCache={}; try{ iconCache=JSON.parse(ls(ICONKEY))||{}; }catch(e){}
 function saveIconCache(){ ls(ICONKEY,JSON.stringify(iconCache)); }
-function iconCandidates(host){
-  const parts=host.split('.'); const root=parts.length>2?parts.slice(-2).join('.'):host;
-  const c=[
-    {u:`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://${host}&size=256`,min:64},
-    {u:`https://${host}/apple-touch-icon.png`,min:64},
-    {u:`https://www.google.com/s2/favicons?domain=${host}&sz=256`,min:48},
-    {u:`https://icons.duckduckgo.com/ip3/${host}.ico`,min:48},
-  ];
-  if(root!==host) c.push({u:`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://${root}&size=256`,min:64});
+function iconCandidates(host,fav){
+  const c=[];
+  if(fav) c.push({u:fav,min:1});            // the site's own icon (from NovaDial / the site itself)
+  c.push(
+    {u:`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${host}&size=256`,min:17},
+    {u:`https://${host}/apple-touch-icon.png`,min:32},
+    {u:`https://icons.duckduckgo.com/ip3/${host}.ico`,min:16},
+  );
   return c;
 }
 function loadIcon(t,wrap){
@@ -782,12 +781,14 @@ function loadIcon(t,wrap){
   if(t.iconType==='text' && t.iconText){ const s=document.createElement('span'); s.className='letter'+(t.iconText.length>1?' small':''); s.textContent=t.iconText.slice(0,3); wrap.append(s); return; }
   if((t.iconType==='url'||t.iconType==='upload') && t.icon){ const img=new Image(); img.src=t.icon; img.onerror=letter; wrap.append(img); return; }
   const host=hostOf(t.url); if(!host){ letter(); return; }
-  if(iconCache[host]==='letter'){ letter(); return; }
-  if(iconCache[host]){ const img=new Image(); img.src=iconCache[host]; img.onerror=()=>{ delete iconCache[host]; saveIconCache(); letter(); }; wrap.append(img); return; }
-  const cands=iconCandidates(host); let i=0, best=null;
+  if(!t.favicon && iconCache[host]==='letter'){ letter(); return; }
+  if(!t.favicon && iconCache[host]){ const img=new Image(); img.src=iconCache[host]; img.onerror=()=>{ delete iconCache[host]; saveIconCache(); letter(); }; wrap.append(img); return; }
+  const ck=t.favicon?host+'|'+t.favicon:host;
+  if(t.favicon && iconCache[ck]){ const im=new Image(); im.src=iconCache[ck]; im.onerror=()=>{ delete iconCache[ck]; saveIconCache(); letter(); }; wrap.append(im); return; }
+  const cands=iconCandidates(host,t.favicon); let i=0, best=null;
   const img=new Image(); img.alt='';
-  const next=()=>{ if(i>=cands.length){ if(best){ iconCache[host]=best.u; saveIconCache(); img.onload=null; img.src=best.u; return; } iconCache[host]='letter'; saveIconCache(); letter(); return; } img.dataset.min=cands[i].min; img.src=cands[i].u; i++; };
-  img.onload=()=>{ const w=img.naturalWidth; if(w>=+img.dataset.min){ iconCache[host]=img.src; saveIconCache(); } else { if(w>16 && (!best||w>best.w)) best={u:img.src,w}; next(); } };
+  const next=()=>{ if(i>=cands.length){ if(best){ iconCache[ck]=best.u; saveIconCache(); img.onload=null; img.src=best.u; return; } iconCache[ck]='letter'; saveIconCache(); letter(); return; } img.dataset.min=cands[i].min; img.src=cands[i].u; i++; };
+  img.onload=()=>{ const w=img.naturalWidth; if(w>=+img.dataset.min){ iconCache[ck]=img.src; saveIconCache(); } else { if(w>16 && (!best||w>best.w)) best={u:img.src,w}; next(); } };
   img.onerror=next;
   wrap.append(img); next();
 }
@@ -1262,14 +1263,14 @@ async function importNova(d){
     const t={name:cleanName(x.title||hostOf(x.url)),url:x.url,color:/^#/.test(x.color||'')?x.color:hashColor(hostOf(x.url))};
     const v=x.iconValue||'';
     if(x.iconType==='custom' && v.startsWith('data:')){ const small=await shrinkDataUrl(v); if(small){ t.iconType='upload'; t.icon=small; } }
-    else if(x.iconType==='url' && /^https?:/.test(v)){ /* keep automatic hi-res lookup; NovaDial urls are usually tiny .ico */ }
+    else if(x.iconType==='url' && /^https?:/.test(v)){ t.favicon=v; }
     else if(x.iconType==='monogram'){ t.iconType='text'; t.iconText=(x.title||'?').replace(/[^\p{L}\p{N} ]/gu,'').split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase()||'?'; if(/^#/.test(v)) t.color=v; }
     else if(x.iconType==='emoji' && v){ t.iconType='emoji'; t.iconText=v; }
     g.tiles.push(t);
   }
   groups.forEach(g=>delete g._id);
   if(replace) state.groups=groups;
-  else groups.forEach(ng=>{ const ex=state.groups.find(z=>z.title.toLowerCase()===ng.title.toLowerCase()); if(!ex) state.groups.push(ng); else ng.tiles.forEach(t=>{ if(!ex.tiles.some(o=>o.url===t.url)) ex.tiles.push(t); }); });
+  else groups.forEach(ng=>{ const ex=state.groups.find(z=>z.title.toLowerCase()===ng.title.toLowerCase()); if(!ex) state.groups.push(ng); else ng.tiles.forEach(t=>{ const o=ex.tiles.find(o=>o.url===t.url); if(!o) ex.tiles.push(t); else if(t.favicon && !o.favicon) o.favicon=t.favicon; }); });
   const st=d.settings||{}; const act=d.groups.findIndex(g=>g.id===st.activeGroupId);
   state.openGroup=act>=0&&replace?act:0;
   if(st.notesContent && !state.notes) state.notes=st.notesContent;
