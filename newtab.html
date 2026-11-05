@@ -662,6 +662,7 @@
       </div>
       <h4>Darken</h4><div class="range-row"><input type="range" id="dimRange" min="0" max="70" step="5"><b id="dimV"></b></div>
       <h4>Blur</h4><div class="range-row"><input type="range" id="blurRange" min="0" max="20" step="1"><b id="blurV"></b></div>
+      <div class="row" style="margin-top:10px;align-items:center"><button class="btn" id="bgReset">↺ Reset background</button><span class="hint" id="bgDiag" style="margin:0"></span></div>
     </div>
 
     <div class="tabpane" data-pane="widgets">
@@ -1290,7 +1291,7 @@ function startParticles(){ if(partRun) return; partRun=true; const c=$('particle
     for(let i=0;i<P.length;i++) for(let j=i+1;j<P.length;j++){ const a=P[i],b=P[j],d=Math.hypot(a.x-b.x,a.y-b.y); if(d<120){ x.strokeStyle=`rgba(129,140,248,${.25*(1-d/120)})`; x.beginPath(); x.moveTo(a.x,a.y); x.lineTo(b.x,b.y); x.stroke(); } }
     requestAnimationFrame(step); };
   step(); }
-function setBg(v){ state.bg=v; save(); applyBg(); markSel(); }
+function setBg(v){ state.bg=v; save(); applyBg(); markSel(); if($('bgDiag')) $('bgDiag').textContent=bgDiag(); }
 function markSel(){ document.querySelectorAll('.thumb').forEach(t=>t.classList.toggle('sel',t.dataset.v===state.bg)); }
 function buildGallery(){
   const ag=$('autoGallery'); ag.innerHTML='';
@@ -1301,9 +1302,11 @@ function buildGallery(){
   Object.entries(GRADIENTS).forEach(([k,g])=>{ const t=document.createElement('div'); t.className='thumb'; t.dataset.v='grad:'+k; t.style.background=g.css; const s=document.createElement('span'); s.textContent=g.name; t.append(s); t.onclick=()=>setBg(t.dataset.v); gg.append(t); });
   markSel();
 }
-function fillBgTab(){ buildGallery(); $('dimRange').value=state.dim||0; $('dimV').textContent=(state.dim||0)+'%'; $('blurRange').value=state.blur||0; $('blurV').textContent=(state.blur||0)+'px'; $('bgUrl').value=state.bg.startsWith('url:')?state.bg.slice(4):''; }
+function bgDiag(){ const b=$('bg'), cs=getComputedStyle(b); return `Now: ${state.bg} · darken ${state.dim||0}% · blur ${state.blur||0}px · glass ${state.glass} · painted: ${cs.backgroundImage!=='none'?'image':cs.backgroundColor} · z ${cs.zIndex} · ${cs.display}`; }
+function fillBgTab(){ setTimeout(()=>{ if($('bgDiag')) $('bgDiag').textContent=bgDiag(); },50); buildGallery(); $('dimRange').value=state.dim||0; $('dimV').textContent=(state.dim||0)+'%'; $('blurRange').value=state.blur||0; $('blurV').textContent=(state.blur||0)+'px'; $('bgUrl').value=state.bg.startsWith('url:')?state.bg.slice(4):''; }
 $('dimRange').oninput=e=>{ state.dim=+e.target.value; $('dimV').textContent=state.dim+'%'; applyBg(); }; $('dimRange').onchange=()=>save();
 $('blurRange').oninput=e=>{ state.blur=+e.target.value; $('blurV').textContent=state.blur+'px'; applyBg(); }; $('blurRange').onchange=()=>save();
+$('bgReset').onclick=()=>{ state.dim=0; state.blur=0; state.glass='frosted'; document.body.classList.remove('glass-clear','glass-dark','glass-oled'); if($('sGlass')) $('sGlass').value='frosted'; state.bg='grad:aurora'; save(); applyBg(); fillBgTab(); markSel(); toast('Background reset'); };
 $('bgUrlBtn').onclick=()=>{ const u=$('bgUrl').value.trim(); if(/^https?:\/\//i.test(u)) setBg('url:'+u); else alert('Please paste a link starting with https://'); };
 $('uploadBgBtn').onclick=()=>$('uploadBg').click();
 $('uploadBg').onchange=e=>{ const f=e.target.files[0]; if(!f) return; const img=new Image(), r=new FileReader(); r.onload=()=>{ img.src=r.result; };
@@ -1523,7 +1526,7 @@ function fillSettings(){
 $('setBtn').onclick=()=>openSettings();
 $('sSave').onclick=()=>{
   Object.assign(state,{font:$('sFont').value,cfont:$('sCFont').value,clockS:+$('sClockS').value,wS:+$('sWS').value,iconStyle:$('sIStyle').value,iconShape:$('sIShape').value,name:$('sName').value.trim(),h24:$('s24').checked,newTab:$('sNewTab').checked,hoverEdge:$('sHover').checked,tileSize:$('sSize').value,glass:$('sGlass').value,loc:$('sLoc').value,clocks:$('sClocks').value.trim()});
-  state.widgets={weather:$('wWeather').checked,clocks:$('wClocks').checked,prayer:$('wPrayer').checked,hijri:$('wHijri').checked,mini:$('wMini').checked};
+  state.widgets={weather:$('wWeather').checked,clocks:$('wClocks').checked,prayer:$('wPrayer').checked,hijri:$('wHijri').checked,mini:$('wMini').checked,focus:$('wFocus').checked};
   saveSyncFields(); save(); fullRender(); $('setModal').classList.remove('open'); toast('Settings saved');
 };
 $('cleanAllBtn').onclick=()=>{ let n=0; state.groups.forEach(g=>g.tiles.forEach(t=>{ const c=cleanName(t.name); if(c!==t.name){ t.name=c; n++; } })); save(); renderPanel(); toast(n?`Shortened ${n} names`:'All names are already short'); };
