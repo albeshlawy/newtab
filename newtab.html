@@ -252,6 +252,42 @@
   body.ist-card.edit .tile .icon3d{animation:none!important}
   body.icon-full:not(.ist-card) .icon3d img{width:100%;height:100%;border-radius:inherit;object-fit:cover;filter:none;transform:none}
   body.no-titles .tile .label{display:none}
+  /* LSP-style thumbnail tiles */
+  body.ist-thumb .tiles{gap:16px;grid-template-columns:repeat(auto-fill,minmax(calc(var(--tilew)*1.75),1fr))}
+  body.ist-thumb.align-center .tiles{grid-template-columns:repeat(auto-fill,minmax(calc(var(--tilew)*1.75),calc(var(--tilew)*1.75)))!important}
+  .tile.lsp{gap:0;border-radius:10px;overflow:hidden;background:#f4f4f5;box-shadow:0 12px 26px -12px rgba(0,0,0,.65);transition:transform .2s,box-shadow .2s;align-items:stretch}
+  .tile.lsp:hover{transform:translateY(-4px);box-shadow:0 20px 34px -14px rgba(0,0,0,.75)}
+  .thumb-head{display:flex;align-items:center;gap:7px;padding:6px 9px;background:#f4f4f5;color:#27272a;font-size:12.5px;font-weight:500;min-height:28px}
+  .thumb-head .fav{width:16px;height:16px;flex:none;display:grid;place-items:center}
+  .thumb-head .fav img{width:16px;height:16px;object-fit:contain}
+  .thumb-head .fav .letter,.thumb-head .fav .emoji{font-size:11px;font-weight:800;color:#555}
+  .thumb-head span.t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .thumb-body{aspect-ratio:16/10;display:grid;place-items:center;background:linear-gradient(145deg,var(--c1),var(--c2));overflow:hidden}
+  .thumb-body.light{background:#fff}
+  .thumb-body img{width:46%;height:56%;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.25))}
+  .thumb-body.cover img{width:100%;height:100%;object-fit:cover;filter:none}
+  .thumb-body .letter{font-size:calc(var(--tile)*.7);font-weight:800;color:#fff;text-shadow:0 3px 8px rgba(0,0,0,.3)}
+  .thumb-body .emoji{font-size:calc(var(--tile)*.8)}
+  body.edit .tile.lsp{animation:wiggle .35s ease-in-out infinite alternate}
+  .tile.lsp .ctrl{top:4px}
+  .tile.lsp .ctrl.edit-t{right:6px}.tile.lsp .ctrl.del-t{left:auto;right:36px}
+  .add-tile.thumb-add .icon3d{width:100%;height:auto;aspect-ratio:16/10;border-radius:10px;margin-top:28px}
+  /* right-side groups panel */
+  .drawer.left.as-right{left:auto;right:0;border-radius:24px 0 0 24px;transform:translateX(105%)}
+  .drawer.left.as-right.open{transform:none}
+  .edge.right{left:auto;right:0}
+  /* mini weather + bottom dock */
+  .mini-wx{position:fixed;top:70px;right:22px;z-index:6;padding:8px 14px;border-radius:16px;display:none;align-items:center;gap:10px;font-weight:700}
+  body.wx-mini .mini-wx{display:flex}
+  .mini-wx:empty{display:none!important}
+  body.has-dock main{padding-bottom:100px}
+  .mini-wx .big{font-size:26px}.mini-wx .t{font-size:22px}.mini-wx .c{font-size:11px;letter-spacing:1px;color:var(--muted);text-transform:uppercase}
+  .dock{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:11;display:none;gap:6px;padding:6px;border-radius:18px}
+  body.has-dock .dock{display:flex}
+  body.has-dock .topbar.right #setBtn{display:none}
+  body.has-dock.edit .edit-done{bottom:84px}
+  .dock .icon-btn{width:40px;height:40px;border-radius:12px;background:transparent;border:0;box-shadow:none}
+  .dock .icon-btn:hover{background:rgba(255,255,255,.18)}
   body.ist-float .tiles{gap:14px}
   body.ist-float .icon3d{background:none!important;box-shadow:none!important;border:0!important}
   body.ist-float .icon3d::before{display:none}
@@ -289,6 +325,13 @@
 <div id="bg"></div><canvas id="particles"></canvas><div id="dim"></div><div class="credit" id="credit"></div>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <div class="edge" id="edge"></div>
+<div class="mini-wx glass" id="miniWx"></div>
+<div class="dock glass" id="dock">
+  <div class="icon-btn" id="dGroups" title="Groups">▦</div>
+  <div class="icon-btn" id="dNotes" title="To-do &amp; notes">☑︎</div>
+  <div class="icon-btn" id="dEdit" title="Edit">✎</div>
+  <div class="icon-btn" id="dSet" title="Settings">⚙︎</div>
+</div>
 <div class="scrim" id="scrim"></div>
 
 <div class="topbar left">
@@ -448,13 +491,15 @@
       <label class="check"><input type="checkbox" id="sShowDate"><span>Show date</span></label>
       <label class="check"><input type="checkbox" id="sShowGreet"><span>Show greeting</span></label>
       <label>Icon style</label>
-      <select id="sIStyle"><option value="3d">3D glossy</option><option value="flat">Flat</option><option value="glass">Glass</option><option value="neon">Neon</option><option value="card">Cards (NovaDial style)</option><option value="float">Floating (borderless)</option></select>
+      <select id="sIStyle"><option value="3d">3D glossy</option><option value="flat">Flat</option><option value="glass">Glass</option><option value="neon">Neon</option><option value="card">Cards (NovaDial style)</option><option value="float">Floating (borderless)</option><option value="thumb">Thumbnails (LSP style)</option></select>
       <label>Grid alignment</label>
       <select id="sAlign"><option value="fill">Fill width</option><option value="center">Center</option><option value="left">Left</option></select>
       <label class="check"><input type="checkbox" id="sTitles"><span>Show names under icons</span></label>
       <label class="check"><input type="checkbox" id="sFull"><span>Let the image fill the whole icon (for photo icons)</span></label>
       <label>Groups menu</label>
-      <select id="sNav"><option value="menu">Workspace menu (top-left, like NovaDial)</option><option value="drawer">Side panel</option></select>
+      <select id="sNav"><option value="menu">Workspace menu (top-left, like NovaDial)</option><option value="drawer">Side panel — left</option><option value="right">Side panel — right (like LSP)</option></select>
+      <label class="check"><input type="checkbox" id="sDock"><span>Bottom toolbar (⚙︎ ▦ ☑︎ ✎) instead of the gear button</span></label>
+      <label class="check"><input type="checkbox" id="sMost"><span>Show “Most used” group (learns from your clicks)</span></label>
       <label>Greeting</label>
       <select id="sGreet"><option value="dynamic">Dynamic (with a short message)</option><option value="simple">Simple</option></select>
       <label>Columns</label><div class="range-row"><input type="range" id="sCols" min="0" max="12" step="1"><b id="sColsv"></b></div>
@@ -487,6 +532,7 @@
 
     <div class="tabpane" data-pane="widgets">
       <label class="check"><input type="checkbox" id="wWeather"><span>Weather</span></label>
+      <label class="check"><input type="checkbox" id="wMini"><span>Small weather badge in the corner (like LSP)</span></label>
       <label class="check"><input type="checkbox" id="wClocks"><span>World clocks</span></label>
       <label class="check"><input type="checkbox" id="wPrayer"><span>Prayer times</span></label>
       <label class="check"><input type="checkbox" id="wHijri"><span>Hijri date under the clock</span></label>
@@ -624,8 +670,8 @@ const BANGS={
 const DEFAULTS={
   name:'Ahmed',h24:false,bg:'grad:aurora',dim:0,
   openGroup:0,newTab:false,hoverEdge:true,tileSize:'m',glass:'frosted',
-  font:'System',cfont:'System',align:'fill',groupNav:'menu',engine:'google',greetStyle:'dynamic',titles:true,iconFull:false,cols:0,width:0,clockS:100,wS:100,blur:0,show:{clock:true,date:true,greet:true},iconStyle:'3d',iconShape:'rounded',
-  widgets:{weather:true,clocks:true,prayer:true,hijri:true},
+  font:'System',cfont:'System',align:'fill',dock:false,mostUsed:true,hits:{},groupNav:'menu',engine:'google',greetStyle:'dynamic',titles:true,iconFull:false,cols:0,width:0,clockS:100,wS:100,blur:0,show:{clock:true,date:true,greet:true},iconStyle:'3d',iconShape:'rounded',
+  widgets:{weather:true,clocks:true,prayer:true,hijri:true,mini:false},
   loc:'khafji',clocks:'Khafji|Asia/Riyadh, Cairo|Africa/Cairo',
   todos:[],notes:'',updatedAt:0,sync:{gistId:'',auto:false},
   groups:[
@@ -644,6 +690,7 @@ function normalize(s){
   s.widgets=Object.assign({},DEFAULTS.widgets,s.widgets||{});
   s.sync=Object.assign({},DEFAULTS.sync,s.sync||{});
   s.show=Object.assign({},DEFAULTS.show,s.show||{});
+  if(!s.hits||typeof s.hits!=='object') s.hits={};
   s.groups.forEach(g=>(g.tiles||[]).forEach(t=>{ if(t.icon && !t.iconType) t.iconType='url'; }));
   if(!Array.isArray(s.todos)) s.todos=[];
   if(!s.bg) s.bg='grad:aurora';
@@ -752,6 +799,9 @@ function renderWidgets(){
       .then(d=>{ const [ic,tx]=WX[d.current.weather_code]||['🌡','']; c.innerHTML=`<h4>Weather · ${esc(L.name)}</h4><div class="wx"><div class="big">${ic}</div><div><div class="t">${Math.round(d.current.temperature_2m)}°</div><div class="s">${tx} · ${Math.round(d.daily.temperature_2m_min[0])}° / ${Math.round(d.daily.temperature_2m_max[0])}° · 💧${d.current.relative_humidity_2m}%</div></div></div>`; })
       .catch(()=>{ c.querySelector('.w-muted').textContent='Weather unavailable (offline?)'; });
   }
+  document.body.classList.toggle('wx-mini',!!state.widgets.mini);
+  if(state.widgets.mini){ cachedFetch('nt.wx.'+state.loc,`https://api.open-meteo.com/v1/forecast?latitude=${L.lat}&longitude=${L.lon}&current=temperature_2m,weather_code,relative_humidity_2m&daily=temperature_2m_max,temperature_2m_min&timezone=auto`,30*60e3)
+    .then(d=>{ const [ic]=WX[d.current.weather_code]||['🌡']; $('miniWx').innerHTML=`<span class="big">${ic}</span><div><div class="t">${Math.round(d.current.temperature_2m)}°</div><div class="c">${esc(L.name)}</div></div>`; }).catch(()=>{}); }
   if(state.widgets.clocks){
     const c=document.createElement('div'); c.className='widget glass';
     c.innerHTML='<h4>World clocks</h4>'+parseClocks().map(k=>`<div class="clk-row"><span>${esc(k.n)}</span><b data-tz="${esc(k.z)}">--:--</b></div>`).join('');
@@ -830,8 +880,8 @@ $('searchForm').addEventListener('submit',e=>{ e.preventDefault(); const v=$('q'
    ========================================================= */
 function openDrawer(id){ closeDrawers(id); $(id).classList.add('open'); $('scrim').classList.add('show'); $('scrim').classList.toggle('clear',id==='groupsDrawer'&&state.groupNav==='menu'); if(id==='groupsDrawer') renderGroupList(); }
 function updateGroupsBtn(){
-  const b=$('groupsBtn'), menu=state.groupNav==='menu', g=state.groups[state.openGroup];
-  b.classList.toggle('menu-mode',menu); $('groupsDrawer').classList.toggle('as-menu',menu);
+  const b=$('groupsBtn'), menu=state.groupNav==='menu', g=state.openGroup===-2?{title:'Most used'}:state.groups[state.openGroup];
+  b.classList.toggle('menu-mode',menu); $('groupsDrawer').classList.toggle('as-menu',menu); $('groupsDrawer').classList.toggle('as-right',state.groupNav==='right'); $('edge').classList.toggle('right',state.groupNav==='right');
   b.innerHTML=menu?`📁 <span>${esc(g?g.title:'Workspaces')}</span> <span style="opacity:.7;font-size:12px">▾</span>`:'☰';
   $('drawerTitle').textContent=menu?'Workspaces':'☰ Groups'; $('gBadge').textContent=menu?state.groups.length:'';
 }
@@ -842,11 +892,15 @@ $('groupsBtn').onclick=()=>toggleDrawer('groupsDrawer');
 $('scrim').onclick=()=>closeDrawers();
 document.querySelectorAll('[data-closedrawer]').forEach(x=>x.onclick=()=>closeDrawers());
 $('edge').addEventListener('mouseenter',()=>{ if(state.hoverEdge && state.groupNav!=='menu') openDrawer('groupsDrawer'); });
+$('dGroups').onclick=()=>toggleDrawer('groupsDrawer'); $('dNotes').onclick=()=>toggleDrawer('notesDrawer'); $('dEdit').onclick=()=>toggleEdit(); $('dSet').onclick=()=>openSettings();
 $('edge').addEventListener('dragenter',()=>openDrawer('groupsDrawer'));
 
 function renderGroupList(){
   updateGroupsBtn();
   const list=$('glist'); list.innerHTML='';
+  if(state.mostUsed){ const m=document.createElement('div'); m.className='gitem'+(state.openGroup===-2?' active':''); const n=mostUsedTiles().length;
+    m.innerHTML=`<span class="gic">★</span><span style="flex:1">Most used</span><span class="n">${n}</span>`;
+    m.onclick=()=>{ state.openGroup=-2; save(); renderPanel(); renderGroupList(); closeDrawers(); }; list.append(m); }
   state.groups.forEach((g,gi)=>{
     const it=document.createElement('div'); it.className='gitem'+(gi===state.openGroup?' active':'');
     it.innerHTML=`<span class="grip">⋮⋮</span><span class="gic">${g.icon==='star'?'☆':'🗀'}</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0">${esc(g.title)}</span><span class="n">${g.tiles.length} ${state.groupNav==='menu'?'dials':''}</span>`;
@@ -871,14 +925,36 @@ $('newGroupBtn').onclick=()=>{ const n=prompt('Group name'); if(n){ state.groups
    Open-group panel & tiles (with drag & drop)
    ========================================================= */
 let drag=null;
+function mostUsedTiles(){
+  const seen=new Set(), out=[];
+  allTiles().map(x=>({t:x.t,n:state.hits[x.t.url]||0})).filter(x=>x.n>0).sort((a,b)=>b.n-a.n).forEach(x=>{ if(!seen.has(x.t.url)){ seen.add(x.t.url); out.push(x.t); } });
+  return out.slice(0,16);
+}
+let hitTimer;
+function countHit(url){ state.hits[url]=(state.hits[url]||0)+1; clearTimeout(hitTimer); hitTimer=setTimeout(()=>save({noPush:true}),50); }
+document.addEventListener('click',e=>{ const a=e.target.closest&&e.target.closest('a.tile'); if(a && !document.body.classList.contains('edit')) countHit(a.getAttribute('href')); },true);
+function buildThumb(a,t,base){
+  a.classList.add('lsp');
+  const head=document.createElement('div'); head.className='thumb-head';
+  const fav=document.createElement('span'); fav.className='fav'; loadIcon(t,fav);
+  const tt=document.createElement('span'); tt.className='t'; tt.textContent=t.name; head.append(fav,tt);
+  const body=document.createElement('div'); body.className='thumb-body';
+  body.style.setProperty('--c1',shade(base,.15)); body.style.setProperty('--c2',shade(base,-.2));
+  if((t.iconType==='upload'||t.iconType==='url') && t.icon){ body.classList.add('cover','light'); const im=new Image(); im.src=t.icon; im.onerror=()=>{ body.classList.remove('cover','light'); im.remove(); loadIcon({...t,iconType:'auto'},body); }; body.append(im); }
+  else loadIcon(t,body);
+  return [head,body];
+}
 function renderPanel(){
-  const gi=state.openGroup, g=state.groups[gi], editing=document.body.classList.contains('edit');
+  const most=state.openGroup===-2;
+  const gi=state.openGroup, g=most?{title:'★ Most used',tiles:mostUsedTiles()}:state.groups[gi], editing=document.body.classList.contains('edit')&&!most;
   $('panel').style.display=g?'':'none'; $('emptyHint').style.display=g?'none':'';
+  ['cleanBtn','delGroupBtn'].forEach(id=>$(id).style.visibility=most?'hidden':'');
   if(!g) return;
   const title=$('panelTitle'); title.textContent=g.title; title.contentEditable=editing?'true':'false';
   title.onblur=()=>{ if(!editing) return; g.title=title.textContent.trim()||'Group'; save(); renderGroupList(); };
   title.onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); title.blur(); } };
-  $('panelCount').textContent=g.tiles.length+' shortcuts';
+  $('panelCount').textContent=most&&!g.tiles.length?'Click your shortcuts and they will appear here':g.tiles.length+' shortcuts';
+  title.contentEditable=editing?'true':'false';
   const tiles=$('tiles'); tiles.innerHTML='';
   tiles.style.gridTemplateColumns=state.cols?`repeat(${state.cols},minmax(0,1fr))`:'';
   g.tiles.forEach((t,ti)=>{
@@ -886,14 +962,15 @@ function renderPanel(){
     const base=(t.color&&t.color.startsWith('#'))?t.color:hashColor(hostOf(t.url)||t.name);
     const ic=document.createElement('div'); ic.className='icon3d';
     ic.style.setProperty('--c1',shade(base,.25)); ic.style.setProperty('--c2',shade(base,-.15)); ic.style.setProperty('--c3',shade(base,-.45));
-    loadIcon(t,ic);
+    const thumb=state.iconStyle==='thumb';
+    if(!thumb) loadIcon(t,ic);
     a.addEventListener('mousemove',e=>{ const r=a.getBoundingClientRect(); a.style.setProperty('--ry',((e.clientX-r.left)/r.width-.5)*24+'deg'); });
     const lb=document.createElement('div'); lb.className='label'; lb.textContent=t.name;
     const ed=document.createElement('div'); ed.className='ctrl edit-t'; ed.textContent='✎';
     const dl=document.createElement('div'); dl.className='ctrl del-t'; dl.textContent='✕';
     ed.onclick=e=>{ e.preventDefault(); e.stopPropagation(); openTile(gi,ti); };
     dl.onclick=e=>{ e.preventDefault(); e.stopPropagation(); g.tiles.splice(ti,1); save(); renderPanel(); toast('Shortcut deleted'); };
-    a.addEventListener('click',e=>{ if(document.body.classList.contains('edit')){ e.preventDefault(); openTile(gi,ti);} });
+    a.addEventListener('click',e=>{ if(document.body.classList.contains('edit') && !most){ e.preventDefault(); openTile(gi,ti);} });
     if(editing){
       a.draggable=true;
       a.addEventListener('dragstart',e=>{ drag={gi,ti}; a.classList.add('dragging'); e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain',t.url); });
@@ -901,9 +978,12 @@ function renderPanel(){
       a.addEventListener('dragover',e=>{ if(!drag) return; e.preventDefault(); e.stopPropagation(); document.querySelectorAll('.drop-before').forEach(x=>x.classList.remove('drop-before')); a.classList.add('drop-before'); tiles.classList.remove('drop-end'); });
       a.addEventListener('drop',e=>{ if(!drag) return; e.preventDefault(); e.stopPropagation(); moveTile(drag,gi,ti); });
     } else a.draggable=false;
-    a.append(ed,dl,ic,lb); tiles.append(a);
+    if(most){ ed.remove(); dl.remove(); }
+    if(thumb) a.append(ed,dl,...buildThumb(a,t,base)); else a.append(ed,dl,ic,lb);
+    tiles.append(a);
   });
-  const add=document.createElement('div'); add.className='tile add-tile'; add.innerHTML='<div class="icon3d">+</div><div class="label">Add</div>'; add.onclick=()=>openTile(gi,null);
+  if(most) return;
+  const add=document.createElement('div'); add.className='tile add-tile'+(state.iconStyle==='thumb'?' thumb-add':''); add.innerHTML='<div class="icon3d">+</div><div class="label">Add</div>'; add.onclick=()=>openTile(gi,null);
   tiles.append(add);
   tiles.ondragover=e=>{ if(!drag) return; e.preventDefault(); document.querySelectorAll('.drop-before').forEach(x=>x.classList.remove('drop-before')); tiles.classList.add('drop-end'); };
   tiles.ondragleave=e=>{ if(e.target===tiles) tiles.classList.remove('drop-end'); };
@@ -1183,13 +1263,15 @@ function applyLook(){
   [...b].filter(c=>/^(ist-|ish-|hide-)/.test(c)).forEach(c=>b.remove(c));
   if(state.iconStyle!=='3d') b.add('ist-'+state.iconStyle); if(state.iconShape!=='rounded') b.add('ish-'+state.iconShape);
   b.remove('align-left','align-center'); if(state.align!=='fill') b.add('align-'+state.align);
-  b.toggle('no-titles',!state.titles); b.toggle('icon-full',!!state.iconFull);
+  b.toggle('no-titles',!state.titles); b.toggle('has-dock',!!state.dock); b.toggle('icon-full',!!state.iconFull);
   document.querySelector('main').style.maxWidth=state.width?`min(${state.width}vw,1700px)`:'';
   $('engineSel').value=state.engine;
   if(!state.show.clock) b.add('hide-clock'); if(!state.show.date) b.add('hide-date'); if(!state.show.greet) b.add('hide-greet');
 }
 ['sClockS','sWS'].forEach(id=>$(id).oninput=e=>{ $(id+'v').textContent=e.target.value+'%'; if(id==='sClockS') state.clockS=+e.target.value; else state.wS=+e.target.value; applyLook(); });
-['sFont','sCFont','sIStyle','sIShape'].forEach(id=>$(id).onchange=e=>{ const k={sFont:'font',sCFont:'cfont',sIStyle:'iconStyle',sIShape:'iconShape'}[id]; state[k]=e.target.value; applyLook(); });
+['sFont','sCFont','sIStyle','sIShape'].forEach(id=>$(id).onchange=e=>{ const k={sFont:'font',sCFont:'cfont',sIStyle:'iconStyle',sIShape:'iconShape'}[id]; state[k]=e.target.value; applyLook(); if(id==='sIStyle') renderPanel(); });
+$('sDock').onchange=e=>{ state.dock=e.target.checked; applyLook(); };
+$('sMost').onchange=e=>{ state.mostUsed=e.target.checked; if(!state.mostUsed&&state.openGroup===-2) state.openGroup=0; renderGroupList(); renderPanel(); };
 $('sAlign').onchange=e=>{ state.align=e.target.value; applyLook(); renderPanel(); };
 $('sGlass').onchange=e=>{ state.glass=e.target.value; document.body.classList.remove('glass-clear','glass-dark','glass-oled'); if(state.glass!=='frosted') document.body.classList.add('glass-'+state.glass); applyBg(); };
 $('sSize').onchange=e=>{ state.tileSize=e.target.value; document.body.classList.remove('size-s','size-l'); if(state.tileSize!=='m') document.body.classList.add('size-'+state.tileSize); };
@@ -1205,6 +1287,7 @@ function fillSettings(){
   $('sClockS').value=state.clockS; $('sClockSv').textContent=state.clockS+'%'; $('sWS').value=state.wS; $('sWSv').textContent=state.wS+'%';
   $('sShowClock').checked=state.show.clock; $('sShowDate').checked=state.show.date; $('sShowGreet').checked=state.show.greet;
   $('sIStyle').value=state.iconStyle; $('sIShape').value=state.iconShape;
+  $('sDock').checked=!!state.dock; $('sMost').checked=!!state.mostUsed; $('wMini').checked=!!state.widgets.mini;
   $('sAlign').value=state.align; $('sTitles').checked=state.titles; $('sFull').checked=!!state.iconFull; $('sNav').value=state.groupNav; $('sGreet').value=state.greetStyle;
   $('sCols').value=state.cols; $('sColsv').textContent=state.cols?state.cols:'Auto'; $('sWidth').value=state.width||80; $('sWidthv').textContent=state.width?state.width+'%':'Default';
   $('sName').value=state.name; $('s24').checked=state.h24; $('sNewTab').checked=state.newTab; $('sHover').checked=state.hoverEdge; $('sSize').value=state.tileSize; $('sGlass').value=state.glass;
@@ -1218,7 +1301,7 @@ function fillSettings(){
 $('setBtn').onclick=()=>openSettings();
 $('sSave').onclick=()=>{
   Object.assign(state,{font:$('sFont').value,cfont:$('sCFont').value,clockS:+$('sClockS').value,wS:+$('sWS').value,iconStyle:$('sIStyle').value,iconShape:$('sIShape').value,name:$('sName').value.trim(),h24:$('s24').checked,newTab:$('sNewTab').checked,hoverEdge:$('sHover').checked,tileSize:$('sSize').value,glass:$('sGlass').value,loc:$('sLoc').value,clocks:$('sClocks').value.trim()});
-  state.widgets={weather:$('wWeather').checked,clocks:$('wClocks').checked,prayer:$('wPrayer').checked,hijri:$('wHijri').checked};
+  state.widgets={weather:$('wWeather').checked,clocks:$('wClocks').checked,prayer:$('wPrayer').checked,hijri:$('wHijri').checked,mini:$('wMini').checked};
   saveSyncFields(); save(); fullRender(); $('setModal').classList.remove('open'); toast('Settings saved');
 };
 $('cleanAllBtn').onclick=()=>{ let n=0; state.groups.forEach(g=>g.tiles.forEach(t=>{ const c=cleanName(t.name); if(c!==t.name){ t.name=c; n++; } })); save(); renderPanel(); toast(n?`Shortened ${n} names`:'All names are already short'); };
