@@ -1200,8 +1200,12 @@ function openTile(gi,ti){
 $('tSave').onclick=()=>{
   let url=$('tUrl').value.trim(); if(!$('tName').value.trim()||!url) return alert('Name and URL are required');
   if(!/^https?:\/\//i.test(url)) url='https://'+url;
+  const old=editing.ti!=null?state.groups[editing.gi].tiles[editing.ti]:{};
   const t={name:$('tName').value.trim(),url,color:$('tColor').value}; const ng=+$('tGroup').value;
-  if(iconDraft.type==='emoji'||iconDraft.type==='text'){ if(iconDraft.text){ t.iconType=iconDraft.type; t.iconText=iconDraft.text; } }
+  if(old.favicon && hostOf(old.url)===hostOf(url)) t.favicon=old.favicon;   // keep the site's own icon
+  if(iconDraft.type==='emoji'||iconDraft.type==='text'){
+    let tx=iconDraft.text; if(!tx) tx=iconDraft.type==='text'?t.name.replace(/[^\p{L}\p{N} ]/gu,'').split(/\s+/).filter(Boolean).map(w=>w[0]).join('').slice(0,3).toUpperCase():'⭐';
+    t.iconType=iconDraft.type; t.iconText=tx; }
   else if((iconDraft.type==='url'||iconDraft.type==='upload') && iconDraft.icon){ t.iconType=iconDraft.type; t.icon=iconDraft.icon; }
   if(editing.ti!=null){ if(ng===editing.gi) state.groups[ng].tiles[editing.ti]=t; else { state.groups[editing.gi].tiles.splice(editing.ti,1); state.groups[ng].tiles.push(t); } }
   else state.groups[ng].tiles.push(t);
@@ -1389,6 +1393,7 @@ $('qNotes').onclick=()=>{ closeSet(); openDrawer('notesDrawer'); };
 $('qBg').onclick=()=>showTab('bg');
 $('qImport').onclick=()=>openBookmarks();
 $('wipeBtn').onclick=wipeAll;
+document.addEventListener('contextmenu',e=>{ const a=e.target.closest&&e.target.closest('#tiles a.tile'); if(!a || state.openGroup<0) return; e.preventDefault(); const i=[...$('tiles').querySelectorAll('a.tile')].indexOf(a); if(i>=0) openTile(state.openGroup,i); });
 /* ===== tap animation, then open the site ===== */
 document.addEventListener('click',e=>{
   const a=e.target.closest&&e.target.closest('a.tile'); if(!a) return;
