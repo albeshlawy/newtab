@@ -288,6 +288,21 @@
   body.wx-mini .mini-wx{display:flex}
   .mini-wx:empty{display:none!important}
   /* Samsung-style folder row */
+  /* ===== click animation ===== */
+  a.tile{-webkit-tap-highlight-color:transparent}
+  body:not(.edit) a.tile:active{transform:scale(.93)!important;transition:transform .08s}
+  .tile .ripple{position:absolute;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,255,255,.75) 0%,rgba(255,255,255,.25) 45%,transparent 70%);transform:translate(-50%,-50%) scale(0);animation:ripple .55s ease-out forwards;z-index:3}
+  @keyframes ripple{to{transform:translate(-50%,-50%) scale(1);opacity:0}}
+  a.tile.launch-pop{animation:tilePop .32s cubic-bezier(.3,1.6,.5,1)}
+  @keyframes tilePop{0%{transform:scale(.9)}55%{transform:scale(1.08)}100%{transform:scale(1)}}
+  a.tile.launch-pop .icon3d{animation:iconJump .32s ease-out}
+  @keyframes iconJump{40%{transform:translateY(-8px) scale(1.12)}100%{transform:none}}
+  a.tile.launch-zoom{animation:tileZoom .3s ease-in forwards;z-index:20}
+  @keyframes tileZoom{to{transform:scale(1.35);opacity:0;filter:blur(2px)}}
+  a.tile.launch-spin .icon3d{animation:iconSpin .38s ease-in-out}
+  @keyframes iconSpin{to{transform:rotateY(360deg)}}
+  a.tile.launch-spin .thumb-body img{animation:iconSpin .38s ease-in-out}
+
   /* ===== LSP extras: daily focus, meditation, passcode, analog clock, video wallpaper ===== */
   #bgVideo{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;display:none}
   .focus{margin-top:16px;display:flex;justify-content:center;width:100%}
@@ -578,6 +593,8 @@
     <div class="tabpane active" data-pane="quick">
       <label style="margin-top:0">Layout</label>
       <select id="sLayout"><option value="lsp">LSP — groups list on the right, big cards</option><option value="classic">Classic — clock in the middle, group bar</option></select>
+      <label>Tap animation</label>
+      <select id="sTapAnim"><option value="pop">Bounce + ripple</option><option value="spin">Spin (3D flip)</option><option value="zoom">Zoom out</option><option value="none">None</option></select>
       <label>Icon style</label>
       <select id="sIStyleQ"><option value="thumb">Thumbnails (LSP)</option><option value="3d">3D glossy</option><option value="glass">Glass</option><option value="card">Cards (NovaDial)</option><option value="flat">Flat</option><option value="neon">Neon</option><option value="float">Floating</option></select>
       <label>Shortcuts</label>
@@ -783,7 +800,7 @@ const DEFAULTS={
   name:'Ahmed',h24:false,bg:'grad:aurora',dim:0,
   openGroup:0,newTab:false,hoverEdge:true,tileSize:'m',glass:'frosted',
   font:'System',cfont:'System',align:'fill',showFolders:true,foldStyle:'tabs',layout:'lsp',lspHide:false,dock:false,mostUsed:true,hits:{},groupNav:'menu',engine:'google',greetStyle:'dynamic',titles:true,iconFull:false,cols:0,width:0,clockS:100,wS:100,blur:0,show:{clock:true,date:true,greet:true},iconStyle:'3d',iconShape:'rounded',
-  widgets:{weather:true,clocks:true,prayer:true,hijri:true,mini:false,focus:true},clockStyle:'digital',focus:null,pinHash:'',medSound:'none',medMin:5,
+  widgets:{weather:true,clocks:true,prayer:true,hijri:true,mini:false,focus:true},clockStyle:'digital',tapAnim:'pop',focus:null,pinHash:'',medSound:'none',medMin:5,
   loc:'khafji',clocks:'Khafji|Asia/Riyadh, Cairo|Africa/Cairo',
   todos:[],notes:'',updatedAt:0,sync:{gistId:'',auto:false},
   groups:[
@@ -1372,6 +1389,24 @@ $('qNotes').onclick=()=>{ closeSet(); openDrawer('notesDrawer'); };
 $('qBg').onclick=()=>showTab('bg');
 $('qImport').onclick=()=>openBookmarks();
 $('wipeBtn').onclick=wipeAll;
+/* ===== tap animation, then open the site ===== */
+document.addEventListener('click',e=>{
+  const a=e.target.closest&&e.target.closest('a.tile'); if(!a) return;
+  if(document.body.classList.contains('edit') || e.target.closest('.ctrl')) return;
+  const kind=state.tapAnim||'pop'; if(kind==='none') return;
+  if(e.button!==0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  e.preventDefault();
+  const r=a.getBoundingClientRect(), rp=document.createElement('span'); rp.className='ripple';
+  const sz=Math.max(r.width,r.height)*2.2; rp.style.width=rp.style.height=sz+'px';
+  rp.style.left=(e.clientX-r.left||r.width/2)+'px'; rp.style.top=(e.clientY-r.top||r.height/2)+'px';
+  if(getComputedStyle(a).position==='static') a.style.position='relative';
+  a.style.overflow='hidden'; a.append(rp); setTimeout(()=>rp.remove(),600);
+  a.classList.remove('launch-pop','launch-zoom','launch-spin'); void a.offsetWidth; a.classList.add('launch-'+kind);
+  const href=a.href, nt=a.target==='_blank';
+  setTimeout(()=>{ if(nt) window.open(href,'_blank','noopener'); else location.href=href; setTimeout(()=>a.classList.remove('launch-'+kind),400); }, kind==='zoom'?260:300);
+});
+$('sTapAnim').onchange=e=>{ state.tapAnim=e.target.value; save(); };
+
 $('qNova').onclick=()=>$('novaFile').click();
 $('qAdd').onclick=()=>{ closeSet(); if(!state.groups.length){ state.groups.push({title:'Favorites',tiles:[]}); state.openGroup=0; } openTile(Math.max(0,state.openGroup),null); };
 $('novaBtn').onclick=()=>$('novaFile').click();
@@ -1472,7 +1507,7 @@ function fillSettings(){
   const fo=Object.keys(FONTS).map(n=>`<option>${n}</option>`).join(''); $('sFont').innerHTML=fo; $('sCFont').innerHTML=fo; $('sFont').value=state.font; $('sCFont').value=state.cfont;
   $('sClockS').value=state.clockS; $('sClockSv').textContent=state.clockS+'%'; $('sWS').value=state.wS; $('sWSv').textContent=state.wS+'%';
   $('sShowClock').checked=state.show.clock; $('sShowDate').checked=state.show.date; $('sShowGreet').checked=state.show.greet;
-  $('sIStyle').value=state.iconStyle; $('sIShape').value=state.iconShape; $('sClockStyle').value=state.clockStyle||'digital'; $('wFocus').checked=state.widgets.focus!==false; fillPin(); $('sLayout').value=state.layout; $('sIStyleQ').value=state.iconStyle;
+  $('sIStyle').value=state.iconStyle; $('sIShape').value=state.iconShape; $('sClockStyle').value=state.clockStyle||'digital'; $('wFocus').checked=state.widgets.focus!==false; fillPin(); $('sLayout').value=state.layout; $('sTapAnim').value=state.tapAnim||'pop'; $('sIStyleQ').value=state.iconStyle;
   $('sFoldStyle').value=state.showFolders?state.foldStyle:'off'; fillFoldPick();
   $('sDock').checked=!!state.dock; $('sMost').checked=!!state.mostUsed; $('wMini').checked=!!state.widgets.mini;
   $('sAlign').value=state.align; $('sTitles').checked=state.titles; $('sFull').checked=!!state.iconFull; $('sNav').value=state.groupNav; $('sGreet').value=state.greetStyle;
