@@ -630,7 +630,7 @@
    Data & constants
    ========================================================= */
 const KEY='glassNewTab.v1', BGKEY='glassNewTab.bgImage', TOKENKEY='glassNewTab.ghToken',
-      SNAPKEY='glassNewTab.snaps', ICONKEY='glassNewTab.icons2';
+      SNAPKEY='glassNewTab.snaps', ICONKEY='glassNewTab.icons3';
 const $=id=>document.getElementById(id);
 
 const PHOTOS=[['Mountains','1506905925346-21bda4d32df4'],['Starry peaks','1519681393784-d120267933ba'],['Misty hills','1470071459604-3b5ec3a7fe05'],['Lake','1501785888041-af3ef285b470'],['Beach','1507525428034-b723cf961d3e'],['Desert dunes','1509316785289-025f5b846b35'],['Night sky','1419242902214-272b3f66ee7a'],['Earth','1446776811953-b23d57bd21aa'],['Forest','1441974231531-c6227db76b6e'],['Valley','1464822759023-fed622ff2c3b'],['Aurora','1483728642387-6c3bdd6c93e5'],['Coast','1505144808419-1957a94ca61e']];
@@ -770,12 +770,12 @@ function saveIconCache(){ ls(ICONKEY,JSON.stringify(iconCache)); }
 function iconCandidates(host){
   const parts=host.split('.'); const root=parts.length>2?parts.slice(-2).join('.'):host;
   const c=[
-    {u:`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${host}&size=256`,min:64},
+    {u:`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://${host}&size=256`,min:64},
     {u:`https://${host}/apple-touch-icon.png`,min:64},
     {u:`https://www.google.com/s2/favicons?domain=${host}&sz=256`,min:48},
     {u:`https://icons.duckduckgo.com/ip3/${host}.ico`,min:48},
   ];
-  if(root!==host) c.push({u:`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${root}&size=256`,min:64});
+  if(root!==host) c.push({u:`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&url=https://${root}&size=256`,min:64});
   return c;
 }
 function loadIcon(t,wrap){
