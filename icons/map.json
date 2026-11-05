@@ -1,0 +1,32 @@
+{
+ "version": 1,
+ "icons": {
+  "owa.moh.gov.sa": "icons/outlook.svg",
+  "mcchis.saudicloudcare.com": "icons/mcchis.svg",
+  "mcchis.saudicloudcare.com/mainmenuweb": "icons/mcchis.svg",
+  "mcchis.saudicloudcare.com/mtc": "icons/taam.svg",
+  "mcc.saudicloudcare.net": "icons/health-insights.svg",
+  "erp.moh.gov.sa": "icons/moh-erp.svg",
+  "my.moh.gov.sa": "icons/employee.svg",
+  "tconnect.ehc.med.sa": "icons/tconnect.svg",
+  "issh.org": "icons/issh.svg",
+  "nyssh.org": "icons/nyssh.svg",
+  "handsurgeryresource.net": "icons/hsr.svg",
+  "orcid.org": "icons/orcid.svg",
+  "webofscience.com": "icons/wos.svg",
+  "europepmc.org": "icons/europepmc.svg",
+  "cureus.com": "icons/cureus.svg",
+  "support.cureus.com": "icons/cureus.svg",
+  "casereports.bmj.com": "icons/bmj.svg",
+  "mc.manuscriptcentral.com/omcr": "icons/omcr.svg",
+  "mc.manuscriptcentral.com/fas": "icons/fas.svg",
+  "secure.authorservices.springernature.com": "icons/springer.svg",
+  "springernature.com": "icons/springer.svg",
+  "ota.org": "icons/ota.svg",
+  "education.ota.org": "icons/ota.svg",
+  "sicot.org": "icons/sicot.svg",
+  "sicot.onair.eventsair.com": "icons/sicot-live.svg",
+  "esska.org": "icons/esska.svg",
+  "soa.sa": "icons/soa.svg"
+ }
+}

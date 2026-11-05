@@ -581,7 +581,7 @@
 <!-- settings -->
 <div class="modal-bg" id="setModal">
   <div class="modal wide glass">
-    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.05-r15</span></h3>
+    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.05-r16</span></h3>
     <div class="tabs" id="setTabs">
       <div class="tab active" data-tab="quick">Quick</div>
       <div class="tab" data-tab="general">Appearance</div>
@@ -888,6 +888,15 @@ function openUrl(u){ if(state.newTab) window.open(u,'_blank','noopener'); else l
 /* ---------- smart icons with fallbacks ---------- */
 let iconCache={}; try{ iconCache=JSON.parse(ls(ICONKEY))||{}; }catch(e){}
 function saveIconCache(){ ls(ICONKEY,JSON.stringify(iconCache)); }
+/* ===== icon pack: images in the repo's icons/ folder, listed in icons/map.json (site → image) ===== */
+const PACKKEY='glassNewTab.iconPack';
+let iconPack={}; try{ iconPack=JSON.parse(ls(PACKKEY))||{}; }catch(e){}
+function packIcon(url){
+  try{ const u=new URL(url); const key=(u.hostname.replace(/^www\./,'')+u.pathname).toLowerCase(); let best='',file='';
+    for(const k in iconPack){ if((key===k || key.startsWith(k.endsWith('/')?k:k+'/') || key.startsWith(k)) && k.length>best.length){ best=k; file=iconPack[k]; } }
+    return file; }catch(e){ return ''; }
+}
+if(location.protocol==='https:') fetch('icons/map.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{ if(!j||!j.icons) return; const txt=JSON.stringify(j.icons); if(txt!==ls(PACKKEY)){ ls(PACKKEY,txt); iconPack=j.icons; try{ renderPanel(); }catch(e){} } }).catch(()=>{});
 // back online: retry icons that failed while the connection was down
 window.addEventListener('online',()=>{ let n=0; for(const k in iconCache) if(iconCache[k]==='letter'){ delete iconCache[k]; n++; } if(n){ saveIconCache(); try{ renderPanel(); }catch(e){} } });
 function iconCandidates(host,fav){
@@ -906,6 +915,7 @@ function loadIcon(t,wrap){
   if(t.iconType==='text' && t.iconText){ const s=document.createElement('span'); s.className='letter'+(t.iconText.length>1?' small':''); s.textContent=t.iconText.slice(0,3); wrap.append(s); return; }
   if((t.iconType==='url'||t.iconType==='upload') && t.icon){ const img=new Image(); img.src=t.icon; img.onerror=letter; wrap.append(img); return; }
   const host=hostOf(t.url); if(!host){ letter(); return; }
+  const pack=packIcon(t.url); if(pack){ const im=new Image(); im.src=pack; im.onerror=letter; wrap.append(im); return; }
   if(!t.favicon && iconCache[host]==='letter'){ letter(); return; }
   if(!t.favicon && iconCache[host]){ const img=new Image(); img.src=iconCache[host]; img.onerror=()=>{ if(navigator.onLine){ delete iconCache[host]; saveIconCache(); } letter(); }; wrap.append(img); return; }
   const ck=t.favicon?host+'|'+t.favicon:host;
@@ -1644,7 +1654,7 @@ function fullRender(){
 }
 fullRender(); setInterval(tick,1000); renderFocus(); showLock(); $('medSound').value=state.medSound||'none'; $('medMin').value=String(state.medMin??5);
 /* ===== always run the newest version: check GitHub, reload once if a newer file is there ===== */
-const APP_VER='2026.11.05-r15';
+const APP_VER='2026.11.05-r16';
 if(location.protocol==='https:' && navigator.onLine){
   fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{
     const m=t.match(/const APP_VER='([^']+)'/); if(!m || m[1]===APP_VER) return;
