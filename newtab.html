@@ -581,7 +581,7 @@
 <!-- settings -->
 <div class="modal-bg" id="setModal">
   <div class="modal wide glass">
-    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.05-r14</span></h3>
+    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.05-r15</span></h3>
     <div class="tabs" id="setTabs">
       <div class="tab active" data-tab="quick">Quick</div>
       <div class="tab" data-tab="general">Appearance</div>
@@ -888,6 +888,8 @@ function openUrl(u){ if(state.newTab) window.open(u,'_blank','noopener'); else l
 /* ---------- smart icons with fallbacks ---------- */
 let iconCache={}; try{ iconCache=JSON.parse(ls(ICONKEY))||{}; }catch(e){}
 function saveIconCache(){ ls(ICONKEY,JSON.stringify(iconCache)); }
+// back online: retry icons that failed while the connection was down
+window.addEventListener('online',()=>{ let n=0; for(const k in iconCache) if(iconCache[k]==='letter'){ delete iconCache[k]; n++; } if(n){ saveIconCache(); try{ renderPanel(); }catch(e){} } });
 function iconCandidates(host,fav){
   const c=[];
   if(fav) c.push({u:fav,min:1});            // the site's own icon (from NovaDial / the site itself)
@@ -905,12 +907,12 @@ function loadIcon(t,wrap){
   if((t.iconType==='url'||t.iconType==='upload') && t.icon){ const img=new Image(); img.src=t.icon; img.onerror=letter; wrap.append(img); return; }
   const host=hostOf(t.url); if(!host){ letter(); return; }
   if(!t.favicon && iconCache[host]==='letter'){ letter(); return; }
-  if(!t.favicon && iconCache[host]){ const img=new Image(); img.src=iconCache[host]; img.onerror=()=>{ delete iconCache[host]; saveIconCache(); letter(); }; wrap.append(img); return; }
+  if(!t.favicon && iconCache[host]){ const img=new Image(); img.src=iconCache[host]; img.onerror=()=>{ if(navigator.onLine){ delete iconCache[host]; saveIconCache(); } letter(); }; wrap.append(img); return; }
   const ck=t.favicon?host+'|'+t.favicon:host;
-  if(t.favicon && iconCache[ck]){ const im=new Image(); im.src=iconCache[ck]; im.onerror=()=>{ delete iconCache[ck]; saveIconCache(); letter(); }; wrap.append(im); return; }
+  if(t.favicon && iconCache[ck]){ const im=new Image(); im.src=iconCache[ck]; im.onerror=()=>{ if(navigator.onLine){ delete iconCache[ck]; saveIconCache(); } letter(); }; wrap.append(im); return; }
   const cands=iconCandidates(host,t.favicon); let i=0, best=null;
   const img=new Image(); img.alt='';
-  const next=()=>{ if(i>=cands.length){ if(best){ iconCache[ck]=best.u; saveIconCache(); img.onload=null; img.src=best.u; return; } iconCache[ck]='letter'; saveIconCache(); letter(); return; } img.dataset.min=cands[i].min; img.src=cands[i].u; i++; };
+  const next=()=>{ if(i>=cands.length){ if(best){ iconCache[ck]=best.u; saveIconCache(); img.onload=null; img.src=best.u; return; } if(navigator.onLine){ iconCache[ck]='letter'; saveIconCache(); } letter(); return; } img.dataset.min=cands[i].min; img.src=cands[i].u; i++; };
   img.onload=()=>{ const w=img.naturalWidth; if(w>=+img.dataset.min){ iconCache[ck]=img.src; saveIconCache(); } else { if(w>16 && (!best||w>best.w)) best={u:img.src,w}; next(); } };
   img.onerror=next;
   wrap.append(img); next();
@@ -1642,12 +1644,12 @@ function fullRender(){
 }
 fullRender(); setInterval(tick,1000); renderFocus(); showLock(); $('medSound').value=state.medSound||'none'; $('medMin').value=String(state.medMin??5);
 /* ===== always run the newest version: check GitHub, reload once if a newer file is there ===== */
-const APP_VER='2026.11.05-r14';
+const APP_VER='2026.11.05-r15';
 if(location.protocol==='https:' && navigator.onLine){
   fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{
     const m=t.match(/const APP_VER='([^']+)'/); if(!m || m[1]===APP_VER) return;
     const k='glassNewTab.lastUpdate'; if(sessionStorage.getItem(k)===m[1]) return; sessionStorage.setItem(k,m[1]);
-    if('caches' in window) caches.keys().then(ks=>Promise.all(ks.map(x=>caches.delete(x)))).finally(()=>location.replace(location.pathname+'?v='+m[1]));
+    if('caches' in window) caches.keys().then(ks=>Promise.all(ks.filter(x=>!/assets/.test(x)).map(x=>caches.delete(x)))).finally(()=>location.replace(location.pathname+'?v='+m[1]));
     else location.replace(location.pathname+'?v='+m[1]);
   }).catch(()=>{});
 }
