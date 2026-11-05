@@ -1253,6 +1253,7 @@ $('qAdd').onclick=()=>{ closeSet(); if(!state.groups.length){ state.groups.push(
 $('novaBtn').onclick=()=>$('novaFile').click();
 function shrinkDataUrl(data){ return new Promise(res=>{ const img=new Image(); img.onload=()=>{ const S=256,c=document.createElement('canvas'); c.width=c.height=S; const k=Math.max(S/img.width,S/img.height); const w=img.width*k,h=img.height*k; const cx=c.getContext('2d'); cx.imageSmoothingQuality='high'; cx.drawImage(img,(S-w)/2,(S-h)/2,w,h); let out=c.toDataURL('image/webp',.9); if(!out.startsWith('data:image/webp')) out=c.toDataURL('image/png'); res(out); }; img.onerror=()=>res(null); img.src=data; }); }
 const NOVA_WALL={'gradient-oceanic':'grad:ocean2','gradient-aurora':'grad:aurora','gradient-sunset':'grad:sunset','gradient-forest':'grad:forest','gradient-midnight':'grad:midnight','gradient-nebula':'grad:nebula','gradient-cosmic':'grad:cosmic'};
+function normUrl(u){ return String(u||'').trim().toLowerCase().replace(/^https?:\/\/(www\.)?/,'').replace(/[#?].*$/,'').replace(/\/+$/,''); }
 async function importNova(d){
   const replace=confirm(`NovaDial backup: ${d.groups.length} workspaces, ${d.dials.length} dials.\n\nOK = Replace my current groups\nCancel = Add them to my current groups`);
   const look=confirm('Also apply NovaDial’s look?\n(card-style icons, monospace font, workspace menu, your name and wallpaper settings)');
@@ -1269,8 +1270,11 @@ async function importNova(d){
     g.tiles.push(t);
   }
   groups.forEach(g=>delete g._id);
+  // give every existing tile the site's own icon from the backup (matched by exact link, then by site)
+  const favBy={}, favHost={}; groups.forEach(g=>g.tiles.forEach(t=>{ if(t.favicon){ favBy[normUrl(t.url)]=t.favicon; const h=hostOf(t.url); if(h && !favHost[h]) favHost[h]=t.favicon; } }));
+  state.groups.forEach(g=>g.tiles.forEach(o=>{ if(o.favicon) return; const f=favBy[normUrl(o.url)]||favHost[hostOf(o.url)]; if(f) o.favicon=f; }));
   if(replace) state.groups=groups;
-  else groups.forEach(ng=>{ const ex=state.groups.find(z=>z.title.toLowerCase()===ng.title.toLowerCase()); if(!ex) state.groups.push(ng); else ng.tiles.forEach(t=>{ const o=ex.tiles.find(o=>o.url===t.url); if(!o) ex.tiles.push(t); else if(t.favicon && !o.favicon) o.favicon=t.favicon; }); });
+  else groups.forEach(ng=>{ const ex=state.groups.find(z=>z.title.toLowerCase()===ng.title.toLowerCase()); if(!ex) state.groups.push(ng); else ng.tiles.forEach(t=>{ const o=ex.tiles.find(o=>normUrl(o.url)===normUrl(t.url)); if(!o) ex.tiles.push(t); else if(t.favicon && !o.favicon) o.favicon=t.favicon; }); });
   const st=d.settings||{}; const act=d.groups.findIndex(g=>g.id===st.activeGroupId);
   state.openGroup=act>=0&&replace?act:0;
   if(st.notesContent && !state.notes) state.notes=st.notesContent;
