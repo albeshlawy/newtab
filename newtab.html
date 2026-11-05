@@ -280,8 +280,44 @@
   .thumb-head span.t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .thumb-body{aspect-ratio:16/10;display:grid;place-items:center;background:linear-gradient(145deg,var(--c1),var(--c2));overflow:hidden}
   .thumb-body.light{background:#fff}
-  .thumb-body img{width:46%;height:56%;object-fit:contain;filter:drop-shadow(0 4px 8px rgba(0,0,0,.25))}
-  .thumb-body.cover img{width:100%;height:100%;object-fit:cover;filter:none}
+  /* ===== picture inside the card (r18) ===== */
+  .thumb-body{position:relative}
+  .thumb-body .bl{position:absolute;inset:-30px;background-size:cover;background-position:center;filter:blur(20px) saturate(1.7);opacity:.95;pointer-events:none}
+  .thumb-body .ib{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:1;display:grid;place-items:center;width:calc(58% * var(--k,1));height:calc(66% * var(--k,1));max-width:100%;max-height:100%;transition:width .12s,height .12s,transform .12s}
+  .thumb-body .ib img{position:absolute;inset:0;margin:auto;width:100%;height:100%;object-fit:contain;filter:none}
+  .thumb-body.shadow .ib img{filter:drop-shadow(0 5px 9px rgba(0,0,0,.28))}
+  .thumb-body .ib .letter{font-size:calc(var(--tile)*.7*var(--k,1))}
+  .thumb-body .ib .emoji{font-size:calc(var(--tile)*.8*var(--k,1))}
+  .thumb-body.fr-circle .ib,.thumb-body.fr-rounded .ib,.thumb-body.fr-square .ib{width:auto;height:calc(70% * var(--k,1));aspect-ratio:1;background:#fff;box-shadow:0 10px 22px -10px rgba(0,0,0,.55);overflow:hidden}
+  .thumb-body.fr-circle .ib{border-radius:50%}.thumb-body.fr-rounded .ib{border-radius:24%}.thumb-body.fr-square .ib{border-radius:7%}
+  .thumb-body.fr-circle .ib img{width:60%;height:60%}.thumb-body.fr-rounded .ib img,.thumb-body.fr-square .ib img{width:66%;height:66%}
+  .thumb-body.fr-circle .ib .letter,.thumb-body.fr-rounded .ib .letter,.thumb-body.fr-square .ib .letter{color:var(--c2);text-shadow:none;font-size:calc(var(--tile)*.5*var(--k,1))}
+  .thumb-body.fit-cover .ib{left:0;top:0;width:100%;height:100%;max-width:none;max-height:none;transform:scale(max(1,var(--k,1)))}
+  .thumb-body.fit-cover .ib img{object-fit:cover;filter:none}
+  .thumb-body.bg-white,body.layout-lsp .thumb-body.bg-white{background:linear-gradient(160deg,#ffffff,#eef0f3)!important}
+  .thumb-body.bg-color{background:linear-gradient(145deg,var(--c1),var(--c2))!important}
+  .thumb-body.bg-blur{background:var(--c2)!important}
+  .thumb-body.bg-dark{background:linear-gradient(160deg,#2b303d,#13151b)!important}
+  .thumb-body.bg-glass{background:rgba(255,255,255,.07)!important}
+  .tile.lsp:has(.bg-glass),body.layout-lsp .tile.lsp:has(.bg-glass){background:rgba(255,255,255,.10)!important;backdrop-filter:blur(16px) saturate(150%);-webkit-backdrop-filter:blur(16px) saturate(150%);border:1px solid rgba(255,255,255,.22)}
+  .tile.lsp:has(.bg-glass) .thumb-head,body.layout-lsp .tile.lsp:has(.bg-glass) .thumb-head{background:rgba(255,255,255,.14)!important;color:#fff}
+  .tile.lsp:has(.bg-dark) .thumb-head,body.layout-lsp .tile.lsp:has(.bg-dark) .thumb-head{background:#1d2028!important;color:#f4f4f5}
+  .tile.img-drop{outline:3px dashed #fde047;outline-offset:3px}
+  .tile .icon3d img{width:calc(56% * var(--k,1));height:calc(56% * var(--k,1))}
+  /* picture picker */
+  .ipick{display:grid;grid-template-columns:repeat(auto-fill,minmax(86px,1fr));gap:8px;margin-top:10px}
+  .ipick .ic{position:relative;border-radius:12px;background:#fff;aspect-ratio:1;display:grid;place-items:center;cursor:pointer;border:2px solid transparent;overflow:hidden;transition:.15s}
+  .ipick .ic:hover{transform:translateY(-2px)}
+  .ipick .ic.on{border-color:#fde047;box-shadow:0 0 0 3px rgba(253,224,71,.35)}
+  .ipick .ic img{width:64%;height:64%;object-fit:contain}
+  .ipick .ic.shot img{width:100%;height:100%;object-fit:cover}
+  .ipick .ic small{position:absolute;left:0;right:0;bottom:0;font-size:10px;font-weight:600;color:#fff;background:rgba(0,0,0,.55);padding:2px 4px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ipick .ic.loading{opacity:.35}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+  .tprev{width:230px;flex:none}
+  .tprev .tile.lsp,.iprev .tile.lsp{pointer-events:none;width:100%;display:flex;flex-direction:column}
+  .iprev{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:14px;margin:6px 0 4px}
+  #tileModal .modal{width:min(720px,94vw)}
   .thumb-body .letter{font-size:calc(var(--tile)*.7);font-weight:800;color:#fff;text-shadow:0 3px 8px rgba(0,0,0,.3)}
   .thumb-body .emoji{font-size:calc(var(--tile)*.8)}
   body.edit .tile.lsp{animation:wiggle .35s ease-in-out infinite alternate}
@@ -384,7 +420,6 @@
   body.layout-lsp .tile.lsp{border-radius:4px;background:#f1f1f1}
   body.layout-lsp .thumb-head{font-size:15px;padding:8px 12px;min-height:38px;background:#f1f1f1}
   body.layout-lsp .thumb-body{aspect-ratio:16/9.5}
-  body.layout-lsp .thumb-body img{width:58%;height:66%}
   @media (max-width:900px){ body.layout-lsp main{padding-right:24px} body.layout-lsp #groupsDrawer{transform:translateX(calc(100% + 30px))!important} body.layout-lsp.lsp-open #groupsDrawer{transform:none!important} body.layout-lsp .lsp-arrow{right:8px} }
 
   .folds{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;margin-top:26px;width:100%}
@@ -538,7 +573,7 @@
     <label>Name</label><input id="tName" placeholder="e.g. PubMed">
     <label>URL</label><input id="tUrl" placeholder="https://pubmed.ncbi.nlm.nih.gov">
     <label>Group</label><select id="tGroup"></select>
-    <label>Icon colour (3D tile)</label>
+    <label>Card colour</label>
     <div class="row"><input type="color" id="tColor" value="#6d5dfc"><span class="hint">Pick the tile colour</span></div>
     <label>Icon</label>
     <div class="row" style="align-items:flex-start">
@@ -549,6 +584,22 @@
         </div>
         <div id="tIconFields" style="margin-top:8px"></div>
       </div>
+    </div>
+    <h4>Picture in the card</h4>
+    <div class="row" style="align-items:flex-start;gap:16px;flex-wrap:wrap">
+      <div class="tprev" id="tThumbPrev"></div>
+      <div style="flex:1;min-width:240px">
+        <button class="btn" id="tFind">🔍 Find pictures for this site</button>
+        <div class="hint">Click a picture to use it. The best one is chosen automatically if you don’t pick.</div>
+        <div class="ipick" id="tPick"></div>
+      </div>
+    </div>
+    <div class="grid2">
+      <div><label>Fill</label><select id="tFit"><option value="">Default</option><option value="fit">Fit inside (logo)</option><option value="cover">Fill the whole card</option></select></div>
+      <div><label>Background</label><select id="tBg"><option value="">Default</option><option value="auto">Auto — white for sharp logos, colour for small ones</option><option value="white">White</option><option value="color">Card colour</option><option value="blur">Blurred picture (glassy)</option><option value="dark">Dark</option><option value="glass">Transparent glass</option></select></div>
+      <div><label>Frame</label><select id="tFrame"><option value="">Default</option><option value="none">None — the picture alone</option><option value="circle">Circle</option><option value="rounded">Rounded square</option><option value="square">Square</option></select></div>
+      <div><label>Picture size</label><div class="range-row"><input type="range" id="tSize" min="40" max="160" step="5"><b id="tSizeV"></b></div>
+        <label class="check" style="margin-top:4px"><input type="checkbox" id="tSizeDef"><span>Default size</span></label></div>
     </div>
     <input type="file" id="tIconFile" accept="image/*" hidden>
     <div class="actions">
@@ -593,10 +644,11 @@
 <!-- settings -->
 <div class="modal-bg" id="setModal">
   <div class="modal wide glass">
-    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.05-r17</span></h3>
+    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.05-r18</span></h3>
     <div class="tabs" id="setTabs">
       <div class="tab active" data-tab="quick">Quick</div>
       <div class="tab" data-tab="general">Appearance</div>
+      <div class="tab" data-tab="icons">Icons</div>
       <div class="tab" data-tab="bg">Background</div>
       <div class="tab" data-tab="widgets">Widgets</div>
       <div class="tab" data-tab="sync">Sync &amp; Backup</div>
@@ -662,6 +714,25 @@
       <select id="sSize"><option value="s">Small</option><option value="m">Medium</option><option value="l">Large</option></select>
       <label>Glass style</label>
       <select id="sGlass"><option value="frosted">Frosted glass</option><option value="clear">Clear glass</option><option value="dark">Dark tint</option><option value="oled">OLED pure black</option></select>
+    </div>
+
+    <div class="tabpane" data-pane="icons">
+      <div class="hint" style="margin-top:0">How the picture looks inside every card. Each card can still have its own setting (✎ → Picture in the card).</div>
+      <div class="iprev" id="iPrev"></div>
+      <label>Picture</label>
+      <select id="iSrc"><option value="logo">Site logo — the sharpest one found automatically</option><option value="shot">Page preview — a small screenshot of the site</option></select>
+      <div class="grid2">
+        <div><label>Fill</label><select id="iFit"><option value="fit">Fit inside (logo)</option><option value="cover">Fill the whole card</option></select></div>
+        <div><label>Background</label><select id="iBg"><option value="auto">Auto — white for sharp logos, colour for small ones</option><option value="white">White</option><option value="color">Card colour</option><option value="blur">Blurred picture (glassy)</option><option value="dark">Dark</option><option value="glass">Transparent glass</option></select></div>
+        <div><label>Frame</label><select id="iFrame"><option value="none">None — the picture alone</option><option value="circle">Circle</option><option value="rounded">Rounded square</option><option value="square">Square</option></select></div>
+        <div><label>Picture size</label><div class="range-row"><input type="range" id="iSize" min="40" max="160" step="5"><b id="iSizeV"></b></div></div>
+      </div>
+      <label class="check"><input type="checkbox" id="iShadow"><span>Soft shadow under the picture</span></label>
+      <div class="quick" style="margin-top:14px">
+        <div class="qbtn" id="iRefresh">↻ Find sharper logos again</div>
+        <div class="qbtn" id="iClear">⟲ Use these settings for all cards</div>
+      </div>
+      <div class="hint">Tips: hold <span class="kbd">⌥ Option</span> and scroll on a card to make its picture bigger or smaller. Drag a picture from your computer or from another web page and drop it on a card to use it. Page previews are made by WordPress mShots; a new site may show a grey “loading” picture the first time.</div>
     </div>
 
     <div class="tabpane" data-pane="bg">
@@ -735,7 +806,7 @@
       <h4>Search shortcuts — type the letter, a space, then your words</h4>
       <table class="help" id="bangTable"></table>
       <h4>Edit mode (✎)</h4>
-      <p class="hint" style="font-size:14px">Open it from ⚙︎ → Quick → Edit shortcuts (or press <span class="kbd">E</span>). Drag icons with the mouse to reorder them (works any time, no need for edit mode), or drop an icon on a group name in the ☰ panel to move it there. Drag group names in the ☰ panel to reorder groups. Click an icon to rename it or change its colour; click the group title to rename the group.</p>
+      <p class="hint" style="font-size:14px">Open it from ⚙︎ → Quick → Edit shortcuts (or press <span class="kbd">E</span>). Drag icons with the mouse to reorder them (works any time, no need for edit mode). Hold ⌥ Option and scroll on a card to resize its picture, or drop a picture on a card to use it. or drop an icon on a group name in the ☰ panel to move it there. Drag group names in the ☰ panel to reorder groups. Click an icon to rename it or change its colour; click the group title to rename the group.</p>
     </div>
 
     <div class="actions">
@@ -753,7 +824,7 @@
    Data & constants
    ========================================================= */
 const KEY='glassNewTab.v1', BGKEY='glassNewTab.bgImage', TOKENKEY='glassNewTab.ghToken',
-      SNAPKEY='glassNewTab.snaps', ICONKEY='glassNewTab.icons4';
+      SNAPKEY='glassNewTab.snaps', ICONKEY='glassNewTab.icons5';
 const $=id=>document.getElementById(id);
 
 const PHOTOS=[['Mountains','1506905925346-21bda4d32df4'],['Starry peaks','1519681393784-d120267933ba'],['Misty hills','1470071459604-3b5ec3a7fe05'],['Lake','1501785888041-af3ef285b470'],['Beach','1507525428034-b723cf961d3e'],['Desert dunes','1509316785289-025f5b846b35'],['Night sky','1419242902214-272b3f66ee7a'],['Earth','1446776811953-b23d57bd21aa'],['Forest','1441974231531-c6227db76b6e'],['Valley','1464822759023-fed622ff2c3b'],['Aurora','1483728642387-6c3bdd6c93e5'],['Coast','1505144808419-1957a94ca61e']];
@@ -834,7 +905,7 @@ const BANGS={
 const DEFAULTS={
   name:'Ahmed',h24:false,bg:'grad:aurora',dim:0,
   openGroup:0,newTab:false,hoverEdge:true,tileSize:'m',glass:'frosted',
-  font:'System',cfont:'System',align:'fill',showFolders:true,foldStyle:'tabs',layout:'lsp',lspHide:false,dock:false,mostUsed:true,hits:{},groupNav:'menu',engine:'google',greetStyle:'dynamic',titles:true,iconFull:false,cols:0,width:0,clockS:100,wS:100,textS:100,textW:'600',blur:0,show:{clock:true,date:true,greet:true},iconStyle:'3d',iconShape:'rounded',
+  font:'System',cfont:'System',align:'fill',showFolders:true,foldStyle:'tabs',layout:'lsp',lspHide:false,dock:false,mostUsed:true,hits:{},groupNav:'menu',engine:'google',greetStyle:'dynamic',titles:true,iconFull:false,cols:0,width:0,clockS:100,wS:100,textS:100,textW:'600',img:{src:'logo',fit:'fit',bg:'auto',frame:'none',size:100,shadow:true},blur:0,show:{clock:true,date:true,greet:true},iconStyle:'3d',iconShape:'rounded',
   widgets:{weather:true,clocks:true,prayer:true,hijri:true,mini:false,focus:true},clockStyle:'digital',tapAnim:'pop',focus:null,pinHash:'',medSound:'none',medMin:5,
   loc:'khafji',clocks:'Khafji|Asia/Riyadh, Cairo|Africa/Cairo',
   todos:[],notes:'',updatedAt:0,sync:{gistId:'',auto:false},
@@ -864,6 +935,7 @@ function normalize(s){
   if(!Array.isArray(s.folders)) s.folders=defaultFolders(s.groups);
   if(!s.foldStyle) s.foldStyle='tabs';
   if(!s._bgFix){ s._bgFix=1; if((s.dim||0)>30) s.dim=20; if((s.blur||0)>4) s.blur=0; }
+  s.img=Object.assign({src:'logo',fit:'fit',bg:'auto',frame:'none',size:100,shadow:true},s.img||{});
   if(!s._noDock){ s._noDock=1; s.dock=false; }
   if(!s._lspInit){ s._lspInit=1; s.layout='lsp'; s.iconStyle='thumb'; s.show={clock:false,date:false,greet:false}; }
   s.groups.forEach(g=>(g.tiles||[]).forEach(t=>{ if(t.icon && !t.iconType) t.iconType='url'; }));
@@ -921,6 +993,7 @@ function openUrl(u){ if(state.newTab) window.open(u,'_blank','noopener'); else l
 
 /* ---------- smart icons with fallbacks ---------- */
 let iconCache={}; try{ iconCache=JSON.parse(ls(ICONKEY))||{}; }catch(e){}
+try{ localStorage.removeItem('glassNewTab.icons4'); }catch(e){}
 function saveIconCache(){ ls(ICONKEY,JSON.stringify(iconCache)); }
 /* ===== icon pack: images in the repo's icons/ folder, listed in icons/map.json (site → image) ===== */
 const PACKKEY='glassNewTab.iconPack';
@@ -933,33 +1006,49 @@ function packIcon(url){
 if(location.protocol==='https:') fetch('icons/map.json?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.json():null).then(j=>{ if(!j||!j.icons) return; const txt=JSON.stringify(j.icons); if(txt!==ls(PACKKEY)){ ls(PACKKEY,txt); iconPack=j.icons; try{ renderPanel(); }catch(e){} } }).catch(()=>{});
 // back online: retry icons that failed while the connection was down
 window.addEventListener('online',()=>{ let n=0; for(const k in iconCache) if(iconCache[k]==='letter'){ delete iconCache[k]; n++; } if(n){ saveIconCache(); try{ renderPanel(); }catch(e){} } });
+function gIcon(host,sz){ return `https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${host}&size=${sz||256}`; }
+function shotUrl(u){ return 'https://s0.wp.com/mshots/v1/'+encodeURIComponent(u)+'?w=800&h=500'; }
 function iconCandidates(host,fav){
   const c=[];
-  if(fav) c.push({u:fav,min:1});            // the site's own icon (from NovaDial / the site itself)
+  if(fav) c.push({u:fav,min:1,pref:3});      // the site's own icon (from NovaDial / the site itself)
   c.push(
-    {u:`https://t1.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${host}&size=256`,min:17},
-    {u:`https://${host}/apple-touch-icon.png`,min:32},
-    {u:`https://icons.duckduckgo.com/ip3/${host}.ico`,min:16},
+    {u:gIcon(host,256),min:17,pref:1},
+    {u:`https://${host}/apple-touch-icon.png`,min:32,pref:1.05},
+    {u:`https://${host}/apple-touch-icon-precomposed.png`,min:32,pref:1},
+    {u:`https://icons.duckduckgo.com/ip3/${host}.ico`,min:16,pref:.9},
   );
   return c;
+}
+const iconPending={};
+function bestIcon(host,fav,ck){
+  if(iconPending[ck]) return iconPending[ck];
+  const cands=iconCandidates(host,fav);
+  return iconPending[ck]=new Promise(res=>{
+    let left=cands.length, best=null, done=false;
+    const finish=()=>{ if(done) return; done=true; clearTimeout(tm); delete iconPending[ck]; res(best); };
+    const tm=setTimeout(finish,7000);
+    cands.forEach(c=>{ const im=new Image();
+      im.onload=()=>{ let w=im.naturalWidth||(/\.svg(\?|$)/i.test(c.u)?256:0); if(w>=c.min){ const sc=Math.min(w,512)*c.pref; if(!best||sc>best.sc) best={u:c.u,w,sc}; } if(--left===0) finish(); };
+      im.onerror=()=>{ if(--left===0) finish(); };
+      im.src=c.u; });
+  });
 }
 function loadIcon(t,wrap){
   const letter=()=>{ wrap.innerHTML=''; const s=document.createElement('span'); s.className='letter'; s.textContent=(t.name||'?').trim()[0]?.toUpperCase()||'?'; wrap.append(s); };
   if(t.iconType==='emoji' && t.iconText){ const s=document.createElement('span'); s.className='emoji'; s.textContent=t.iconText; wrap.append(s); return; }
   if(t.iconType==='text' && t.iconText){ const s=document.createElement('span'); s.className='letter'+(t.iconText.length>1?' small':''); s.textContent=t.iconText.slice(0,3); wrap.append(s); return; }
-  if((t.iconType==='url'||t.iconType==='upload') && t.icon){ const img=new Image(); img.src=t.icon; img.onerror=letter; wrap.append(img); return; }
+  if((t.iconType==='url'||t.iconType==='upload') && t.icon){ const img=new Image(); img.alt=''; img.src=t.icon; img.onerror=()=>{ img.remove(); loadIcon({...t,iconType:'auto',icon:''},wrap); }; wrap.append(img); return; }
   const host=hostOf(t.url); if(!host){ letter(); return; }
   const pack=packIcon(t.url); if(pack){ const im=new Image(); im.src=pack; im.onerror=letter; wrap.append(im); return; }
   if(!t.favicon && iconCache[host]==='letter'){ letter(); return; }
   if(!t.favicon && iconCache[host]){ const img=new Image(); img.src=iconCache[host]; img.onerror=()=>{ if(navigator.onLine){ delete iconCache[host]; saveIconCache(); } letter(); }; wrap.append(img); return; }
   const ck=t.favicon?host+'|'+t.favicon:host;
   if(t.favicon && iconCache[ck]){ const im=new Image(); im.src=iconCache[ck]; im.onerror=()=>{ if(navigator.onLine){ delete iconCache[ck]; saveIconCache(); } letter(); }; wrap.append(im); return; }
-  const cands=iconCandidates(host,t.favicon); let i=0, best=null;
-  const img=new Image(); img.alt='';
-  const next=()=>{ if(i>=cands.length){ if(best){ iconCache[ck]=best.u; saveIconCache(); img.onload=null; img.src=best.u; return; } if(navigator.onLine){ iconCache[ck]='letter'; saveIconCache(); } letter(); return; } img.dataset.min=cands[i].min; img.src=cands[i].u; i++; };
-  img.onload=()=>{ const w=img.naturalWidth; if(w>=+img.dataset.min){ iconCache[ck]=img.src; saveIconCache(); } else { if(w>16 && (!best||w>best.w)) best={u:img.src,w}; next(); } };
-  img.onerror=next;
-  wrap.append(img); next();
+  const img=new Image(); img.alt=''; img.style.visibility='hidden'; wrap.append(img);
+  bestIcon(host,t.favicon,ck).then(b=>{
+    if(b){ iconCache[ck]=b.u; saveIconCache(); img.src=b.u; img.style.visibility=''; }
+    else { if(navigator.onLine){ iconCache[ck]='letter'; saveIconCache(); } if(img.isConnected) letter(); }
+  });
 }
 
 /* =========================================================
@@ -1123,7 +1212,15 @@ $('newGroupBtn').onclick=()=>{ const n=prompt('Group name'); if(n){ state.groups
 /* =========================================================
    Open-group panel & tiles (with drag & drop)
    ========================================================= */
-let drag=null;
+let drag=null, wheelSave=null;
+function fitImage(src,S){ return new Promise(res=>{ const img=new Image(); img.onload=()=>{ const c=document.createElement('canvas'); const k=Math.min(1,S/Math.max(img.width,img.height)); c.width=Math.round(img.width*k)||S; c.height=Math.round(img.height*k)||S; const cx=c.getContext('2d'); cx.imageSmoothingQuality='high'; cx.drawImage(img,0,0,c.width,c.height); let out=c.toDataURL('image/webp',.9); if(!out.startsWith('data:image/webp')) out=c.toDataURL('image/png'); res(out); }; img.onerror=()=>res(null); img.src=src; }); }
+function dropPicture(dt,t){
+  const f=[...(dt.files||[])].find(x=>x.type.startsWith('image/'));
+  if(f){ const r=new FileReader(); r.onload=async()=>{ const d=await fitImage(r.result,420); if(!d) return toast('Could not read this picture'); t.iconType='upload'; t.icon=d; t.picked=true; save(); renderPanel(); toast('Picture set for “'+t.name+'”'); }; r.readAsDataURL(f); return; }
+  const u=(dt.getData('text/uri-list')||dt.getData('text/plain')||'').split('\n').map(x=>x.trim()).find(x=>/^https?:/i.test(x));
+  if(!u) return;
+  const im=new Image(); im.onload=()=>{ t.iconType='url'; t.icon=u; t.picked=true; save(); renderPanel(); toast('Picture set for “'+t.name+'”'); }; im.onerror=()=>toast('That link is not a picture — drag the image itself'); im.src=u;
+}
 function mostUsedTiles(){
   const seen=new Set(), out=[];
   allTiles().map(x=>({t:x.t,n:state.hits[x.t.url]||0})).filter(x=>x.n>0).sort((a,b)=>b.n-a.n).forEach(x=>{ if(!seen.has(x.t.url)){ seen.add(x.t.url); out.push(x.t); } });
@@ -1137,11 +1234,35 @@ function buildThumb(a,t,base){
   const head=document.createElement('div'); head.className='thumb-head';
   const fav=document.createElement('span'); fav.className='fav'; loadIcon(t,fav);
   const tt=document.createElement('span'); tt.className='t'; tt.textContent=t.name; head.append(fav,tt);
-  const body=document.createElement('div'); body.className='thumb-body';
-  body.style.setProperty('--c1',shade(base,.15)); body.style.setProperty('--c2',shade(base,-.2));
-  if((t.iconType==='upload'||t.iconType==='url') && t.icon){ body.classList.add('cover','light'); const im=new Image(); im.src=t.icon; im.onerror=()=>{ body.classList.remove('cover','light'); im.remove(); loadIcon({...t,iconType:'auto'},body); }; body.append(im); }
-  else { loadIcon(t,body); const im=body.querySelector('img'); if(im){ const chk=()=>{ if(im.naturalWidth>=48) body.classList.add('light'); }; if(im.complete) chk(); im.addEventListener('load',chk); } }
+  const body=document.createElement('div');
+  paintThumbBody(body,t,base,imgOpt(t));
   return [head,body];
+}
+const IMG_DEF={src:'logo',fit:'fit',bg:'auto',frame:'none',size:100,shadow:true};
+function imgOpt(t){
+  const G=Object.assign({},IMG_DEF,state.img||{});
+  const legacy=(t.iconType==='upload'||t.iconType==='url') && t.icon && !t.picked && !t.imgFit;   // older uploaded photos filled the card
+  return {src:G.src, fit:t.imgFit||(legacy?'cover':G.fit), bg:t.imgBg||G.bg, frame:t.imgFrame||G.frame, size:t.imgSize||G.size, shadow:G.shadow!==false};
+}
+function paintThumbBody(body,t,base,o){
+  body.className='thumb-body'; body.innerHTML='';
+  body.style.setProperty('--c1',shade(base,.15)); body.style.setProperty('--c2',shade(base,-.2));
+  if(t.imgSize) body.style.setProperty('--k',t.imgSize/100); else body.style.removeProperty('--k');
+  const custom=t.iconType==='emoji'||t.iconType==='text'||((t.iconType==='url'||t.iconType==='upload')&&t.icon);
+  const shot=o.src==='shot' && !custom && /^https?:/i.test(t.url||'');
+  let fit=shot?'cover':o.fit; const frame=fit==='cover'?'none':o.frame;
+  body.classList.add('fit-'+fit,'fr-'+frame,'bg-'+(o.bg==='auto'?'color':o.bg)); if(o.shadow) body.classList.add('shadow');
+  const bl=document.createElement('div'); bl.className='bl';
+  const ib=document.createElement('div'); ib.className='ib';
+  body.append(bl,ib);
+  const hook=im=>{ if(!im) return; const go=()=>{ if(!im.naturalWidth || !im.getAttribute('src')) return; const src=im.currentSrc||im.src;
+      if(o.bg==='blur') bl.style.backgroundImage=`url("${src.replace(/"/g,'%22')}")`;
+      if(o.bg==='auto' && !body.classList.contains('fit-cover')){ const light=im.naturalWidth>=48; body.classList.toggle('bg-white',light); body.classList.toggle('bg-color',!light); } };
+    if(im.complete) go(); im.addEventListener('load',go); };
+  if(shot){ const im=new Image(); im.alt=''; im.src=shotUrl(t.url);
+    im.onerror=()=>{ im.remove(); body.classList.remove('fit-cover','fr-none'); body.classList.add('fit-fit','fr-'+o.frame); loadIcon(t,ib); hook(ib.querySelector('img')); };
+    ib.append(im); hook(im); }
+  else { loadIcon(t,ib); hook(ib.querySelector('img')); }
 }
 function renderPanel(){
   renderFolders();
@@ -1164,6 +1285,7 @@ function renderPanel(){
     ic.style.setProperty('--c1',shade(base,.25)); ic.style.setProperty('--c2',shade(base,-.15)); ic.style.setProperty('--c3',shade(base,-.45));
     const thumb=state.iconStyle==='thumb';
     if(!thumb) loadIcon(t,ic);
+    if(t.imgSize) ic.style.setProperty('--k',t.imgSize/100);
     a.addEventListener('mousemove',e=>{ const r=a.getBoundingClientRect(); a.style.setProperty('--ry',((e.clientX-r.left)/r.width-.5)*24+'deg'); });
     const lb=document.createElement('div'); lb.className='label'; lb.textContent=t.name;
     const ed=document.createElement('div'); ed.className='ctrl edit-t'; ed.textContent='✎';
@@ -1181,6 +1303,15 @@ function renderPanel(){
     if(most){ ed.remove(); dl.remove(); }
     if(thumb) a.append(ed,dl,...buildThumb(a,t,base)); else a.append(ed,dl,ic,lb);
     a.querySelectorAll('img').forEach(im=>im.draggable=false);
+    if(!most){
+      a.addEventListener('wheel',e=>{ if(!e.altKey) return; e.preventDefault();
+        const cur=t.imgSize||(state.img&&state.img.size)||100; t.imgSize=Math.max(40,Math.min(160,cur+(e.deltaY<0?5:-5)));
+        const tb=a.querySelector('.thumb-body')||a.querySelector('.icon3d'); if(tb) tb.style.setProperty('--k',t.imgSize/100);
+        toast('Picture size '+t.imgSize+'%'); clearTimeout(wheelSave); wheelSave=setTimeout(()=>save(),500); },{passive:false});
+      a.addEventListener('dragover',e=>{ if(drag) return; const ty=[...e.dataTransfer.types]; if(ty.includes('Files')||ty.includes('text/uri-list')){ e.preventDefault(); a.classList.add('img-drop'); } });
+      a.addEventListener('dragleave',()=>a.classList.remove('img-drop'));
+      a.addEventListener('drop',e=>{ if(drag) return; e.preventDefault(); e.stopPropagation(); a.classList.remove('img-drop'); dropPicture(e.dataTransfer,t); });
+    }
     tiles.append(a);
   });
   if(most) return;
@@ -1243,8 +1374,9 @@ function openTile(gi,ti){
   const t=ti!=null?state.groups[gi].tiles[ti]:{name:'',url:'',color:'',icon:''};
   $('tileTitle').textContent=ti!=null?'Edit shortcut':'Add shortcut'; $('tDelete').style.display=ti!=null?'':'none';
   $('tName').value=t.name; $('tUrl').value=t.url; $('tColor').value=(t.color&&t.color.startsWith('#'))?t.color:hashColor(hostOf(t.url)||t.name||'x');
-  iconDraft={type:t.iconType||'auto',icon:t.icon||'',text:t.iconText||''};
-  renderIconFields(); $('tileModal').classList.add('open'); setTimeout(()=>$('tName').focus(),50);
+  iconDraft={type:t.iconType||'auto',icon:t.icon||'',text:t.iconText||'',picked:!!t.picked,imgFit:t.imgFit||'',imgBg:t.imgBg||'',imgFrame:t.imgFrame||'',imgSize:t.imgSize||0};
+  $('tPick').innerHTML=''; fillImgFields();
+  renderIconFields(); if(ti!=null) findPictures(); $('tileModal').classList.add('open'); setTimeout(()=>$('tName').focus(),50);
 }
 $('tSave').onclick=()=>{
   let url=$('tUrl').value.trim(); if(!$('tName').value.trim()||!url) return alert('Name and URL are required');
@@ -1255,7 +1387,9 @@ $('tSave').onclick=()=>{
   if(iconDraft.type==='emoji'||iconDraft.type==='text'){
     let tx=iconDraft.text; if(!tx) tx=iconDraft.type==='text'?t.name.replace(/[^\p{L}\p{N} ]/gu,'').split(/\s+/).filter(Boolean).map(w=>w[0]).join('').slice(0,3).toUpperCase():'⭐';
     t.iconType=iconDraft.type; t.iconText=tx; }
-  else if((iconDraft.type==='url'||iconDraft.type==='upload') && iconDraft.icon){ t.iconType=iconDraft.type; t.icon=iconDraft.icon; }
+  else if((iconDraft.type==='url'||iconDraft.type==='upload') && iconDraft.icon){ t.iconType=iconDraft.type; t.icon=iconDraft.icon; if(iconDraft.picked) t.picked=true; }
+  ['imgFit','imgBg','imgFrame','imgSize'].forEach(k=>{ if(iconDraft[k]) t[k]=iconDraft[k]; });
+  if(old.hits) t.hits=old.hits;
   if(editing.ti!=null){ if(ng===editing.gi) state.groups[ng].tiles[editing.ti]=t; else { state.groups[editing.gi].tiles.splice(editing.ti,1); state.groups[ng].tiles.push(t); } }
   else state.groups[ng].tiles.push(t);
   save(); renderPanel(); renderGroupList(); $('tileModal').classList.remove('open');
@@ -1267,8 +1401,72 @@ function previewIcon(){
   const t={name:$('tName').value||'?',url:$('tUrl').value.startsWith('http')?$('tUrl').value:'https://'+$('tUrl').value};
   if(iconDraft.type==='emoji'||iconDraft.type==='text'){ t.iconType=iconDraft.type; t.iconText=iconDraft.text; }
   else if(iconDraft.type==='url'||iconDraft.type==='upload'){ t.iconType=iconDraft.type; t.icon=iconDraft.icon; }
-  loadIcon(t,p);
+  loadIcon(draftTile(),p);
+  previewThumb();
 }
+function draftTile(){
+  const t={name:$('tName').value||'?',url:$('tUrl').value.startsWith('http')?$('tUrl').value:'https://'+$('tUrl').value};
+  const old=editing&&editing.ti!=null?state.groups[editing.gi].tiles[editing.ti]:null; if(old&&old.favicon&&hostOf(old.url)===hostOf(t.url)) t.favicon=old.favicon;
+  if(iconDraft.type==='emoji'||iconDraft.type==='text'){ t.iconType=iconDraft.type; t.iconText=iconDraft.text||(iconDraft.type==='emoji'?'⭐':t.name.slice(0,2).toUpperCase()); }
+  else if((iconDraft.type==='url'||iconDraft.type==='upload')&&iconDraft.icon){ t.iconType=iconDraft.type; t.icon=iconDraft.icon; t.picked=iconDraft.picked; }
+  ['imgFit','imgBg','imgFrame','imgSize'].forEach(k=>{ if(iconDraft[k]) t[k]=iconDraft[k]; });
+  return t;
+}
+function previewThumb(){
+  const el=$('tThumbPrev'); if(!el) return; el.innerHTML='';
+  const t=draftTile(), a=document.createElement('div'); a.className='tile';
+  a.append(...buildThumb(a,t,$('tColor').value)); el.append(a);
+}
+function fillImgFields(){
+  const G=Object.assign({},IMG_DEF,state.img||{});
+  $('tFit').value=iconDraft.imgFit; $('tBg').value=iconDraft.imgBg; $('tFrame').value=iconDraft.imgFrame;
+  $('tSizeDef').checked=!iconDraft.imgSize; $('tSize').value=iconDraft.imgSize||G.size; $('tSizeV').textContent=(iconDraft.imgSize||G.size)+'%';
+}
+$('tFit').onchange=e=>{ iconDraft.imgFit=e.target.value; previewThumb(); };
+$('tBg').onchange=e=>{ iconDraft.imgBg=e.target.value; previewThumb(); };
+$('tFrame').onchange=e=>{ iconDraft.imgFrame=e.target.value; previewThumb(); };
+$('tSize').oninput=e=>{ iconDraft.imgSize=+e.target.value; $('tSizeDef').checked=false; $('tSizeV').textContent=iconDraft.imgSize+'%'; previewThumb(); };
+$('tSizeDef').onchange=e=>{ if(e.target.checked){ iconDraft.imgSize=0; fillImgFields(); } else { iconDraft.imgSize=+$('tSize').value; } previewThumb(); };
+$('tName').addEventListener('input',()=>previewThumb());
+function pictureChoices(url){
+  const host=hostOf(url); if(!host) return [];
+  const list=[], add=(u,label,shot)=>{ if(u && !list.some(x=>x.u===u)) list.push({u,label,shot}); };
+  const old=editing&&editing.ti!=null?state.groups[editing.gi].tiles[editing.ti]:null;
+  if(old&&old.favicon) add(old.favicon,'Saved');
+  const pk=packIcon(url); if(pk) add(pk,'My pack');
+  add(gIcon(host,256),'Google');
+  add(`https://${host}/apple-touch-icon.png`,'Apple icon');
+  add(`https://${host}/apple-touch-icon-precomposed.png`,'Apple icon 2');
+  add(`https://${host}/favicon.svg`,'SVG logo');
+  add(`https://${host}/favicon.png`,'PNG logo');
+  add(`https://${host}/favicon.ico`,'favicon');
+  add(`https://icons.duckduckgo.com/ip3/${host}.ico`,'DuckDuckGo');
+  add(`https://unavatar.io/${host}?fallback=false`,'Unavatar');
+  const parts=host.split('.'); if(parts.length>2){ const root=parts.slice(-2).join('.'); add(gIcon(root,256),'Main site'); add(`https://${root}/apple-touch-icon.png`,'Main site 2'); }
+  add(shotUrl(url),'Page preview',true);
+  return list;
+}
+function findPictures(){
+  const box=$('tPick'); box.innerHTML='';
+  const url=$('tUrl').value.trim(); if(!url){ box.innerHTML='<div class="hint">Type the URL first.</div>'; return; }
+  const full=/^https?:/i.test(url)?url:'https://'+url;
+  const seen=new Set();
+  pictureChoices(full).forEach(c=>{
+    const d=document.createElement('div'); d.className='ic loading'+(c.shot?' shot':'')+(iconDraft.icon===c.u?' on':''); d.title=c.label;
+    const im=new Image(); im.alt=''; const lb=document.createElement('small'); lb.textContent=c.label; d.append(im,lb);
+    im.onload=()=>{ const w=im.naturalWidth||(/\.svg(\?|$)/i.test(c.u)?256:0); if(!c.shot && w<16){ d.remove(); return; }
+      const key=w+'x'+im.naturalHeight+'|'+(c.shot?'s':''); if(!c.shot && w<=32 && seen.has(key)){ d.remove(); return; } seen.add(key);
+      d.classList.remove('loading'); lb.textContent=c.label+(c.shot?'':' · '+(w>=256?'HD':w+'px')); };
+    im.onerror=()=>d.remove();
+    im.src=c.u;
+    d.onclick=()=>{ iconDraft.type='url'; iconDraft.icon=c.u; iconDraft.picked=true; if(c.shot) iconDraft.imgFit='cover'; else if(iconDraft.imgFit==='cover' && !(editing&&editing.ti!=null&&state.groups[editing.gi].tiles[editing.ti].imgFit==='cover')) iconDraft.imgFit='';
+      box.querySelectorAll('.ic').forEach(x=>x.classList.toggle('on',x===d)); fillImgFields(); renderIconFields(); };
+    box.append(d);
+  });
+  const up=document.createElement('div'); up.className='ic'; up.style.background='rgba(255,255,255,.12)'; up.innerHTML='<span style="font-size:26px">⬆︎</span><small>Upload…</small>'; up.onclick=()=>$('tIconFile').click(); box.append(up);
+}
+$('tFind').onclick=findPictures;
+$('tUrl').addEventListener('change',()=>{ if($('tileModal').classList.contains('open')) findPictures(); });
 function renderIconFields(){
   document.querySelectorAll('#tIconType span').forEach(x=>x.classList.toggle('on',x.dataset.v===iconDraft.type));
   const f=$('tIconFields'); f.innerHTML='';
@@ -1287,7 +1485,7 @@ document.querySelectorAll('#tIconType span').forEach(x=>x.onclick=()=>{ if(iconD
 $('tColor').oninput=previewIcon; $('tUrl').onchange=previewIcon;
 $('tIconFile').onchange=e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(), img=new Image();
   r.onload=()=>img.src=r.result;
-  img.onload=()=>{ const c=document.createElement('canvas'); const S=256; c.width=c.height=S; const k=Math.min(S/img.width,S/img.height); const w=img.width*k,h=img.height*k; const cx=c.getContext('2d'); cx.imageSmoothingQuality='high'; cx.drawImage(img,(S-w)/2,(S-h)/2,w,h); iconDraft.icon=c.toDataURL('image/webp',.92); if(!iconDraft.icon.startsWith('data:image/webp')) iconDraft.icon=c.toDataURL('image/png'); iconDraft.type='upload'; renderIconFields(); };
+  img.onload=()=>{ const c=document.createElement('canvas'); const S=384; c.width=c.height=S; const k=Math.min(S/img.width,S/img.height); const w=img.width*k,h=img.height*k; const cx=c.getContext('2d'); cx.imageSmoothingQuality='high'; cx.drawImage(img,(S-w)/2,(S-h)/2,w,h); iconDraft.icon=c.toDataURL('image/webp',.92); if(!iconDraft.icon.startsWith('data:image/webp')) iconDraft.icon=c.toDataURL('image/png'); iconDraft.type='upload'; iconDraft.picked=true; $('tPick').querySelectorAll('.ic').forEach(x=>x.classList.remove('on')); renderIconFields(); };
   r.readAsDataURL(f); e.target.value=''; };
 $('tDelete').onclick=()=>{ if(editing.ti==null) return; state.groups[editing.gi].tiles.splice(editing.ti,1); save(); renderPanel(); renderGroupList(); $('tileModal').classList.remove('open'); };
 
@@ -1434,7 +1632,7 @@ function saveSyncFields(){ const tk=$('ghToken').value.trim(); if(tk) ls(TOKENKE
 /* =========================================================
    Settings
    ========================================================= */
-function showTab(name){ document.querySelectorAll('#setTabs .tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===name)); document.querySelectorAll('.tabpane').forEach(p=>p.classList.toggle('active',p.dataset.pane===name)); if(name==='bg') fillBgTab(); }
+function showTab(name){ document.querySelectorAll('#setTabs .tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===name)); document.querySelectorAll('.tabpane').forEach(p=>p.classList.toggle('active',p.dataset.pane===name)); if(name==='bg') fillBgTab(); if(name==='icons') fillIconsTab(); }
 document.querySelectorAll('#setTabs .tab').forEach(t=>t.onclick=()=>showTab(t.dataset.tab));
 function openSettings(tab){ fillSettings(); showTab(tab||'quick'); $('setModal').classList.add('open'); }
 const closeSet=()=>$('setModal').classList.remove('open');
@@ -1532,7 +1730,7 @@ function applyLook(){
   [...b].filter(c=>/^(ist-|ish-|hide-)/.test(c)).forEach(c=>b.remove(c));
   if(state.iconStyle!=='3d') b.add('ist-'+state.iconStyle); if(state.iconShape!=='rounded') b.add('ish-'+state.iconShape);
   b.remove('align-left','align-center'); if(state.align!=='fill') b.add('align-'+state.align);
-  b.toggle('no-titles',!state.titles); document.documentElement.style.setProperty('--textS',(state.textS||100)/100); document.documentElement.style.setProperty('--textW',state.textW||'600'); b.toggle('has-dock',!!state.dock); b.toggle('layout-lsp',state.layout==='lsp'); b.toggle('clock-analog',state.clockStyle==='analog'); b.toggle('clock-thin',state.clockStyle==='thin'); b.toggle('lsp-hide',state.layout==='lsp'&&!!state.lspHide); $('drawerTitle').textContent=state.layout==='lsp'?'Groups':'☰ Groups'; b.toggle('icon-full',!!state.iconFull);
+  b.toggle('no-titles',!state.titles); document.documentElement.style.setProperty('--textS',(state.textS||100)/100); document.documentElement.style.setProperty('--textW',state.textW||'600'); document.documentElement.style.setProperty('--k',((state.img&&state.img.size)||100)/100); b.toggle('has-dock',!!state.dock); b.toggle('layout-lsp',state.layout==='lsp'); b.toggle('clock-analog',state.clockStyle==='analog'); b.toggle('clock-thin',state.clockStyle==='thin'); b.toggle('lsp-hide',state.layout==='lsp'&&!!state.lspHide); $('drawerTitle').textContent=state.layout==='lsp'?'Groups':'☰ Groups'; b.toggle('icon-full',!!state.iconFull);
   document.querySelector('main').style.maxWidth=(state.width && state.layout!=='lsp')?`min(${state.width}vw,1700px)`:'';
   $('engineSel').value=state.engine;
   if(!state.show.clock) b.add('hide-clock'); if(!state.show.date) b.add('hide-date'); if(!state.show.greet) b.add('hide-greet');
@@ -1543,6 +1741,25 @@ function fillFoldPick(){ const c=$('sFoldList'); c.innerHTML=state.groups.map((g
   c.querySelectorAll('input').forEach(x=>x.onchange=()=>{ const sel=[...c.querySelectorAll('input:checked')].map(y=>y.dataset.t); if(sel.length>8){ x.checked=false; toast('Up to 8 folders'); return; } state.folders=sel; renderFolders(); }); }
 $('sFoldStyle').onchange=e=>{ const v=e.target.value; state.showFolders=v!=='off'; if(v!=='off') state.foldStyle=v; save(); renderPanel(); };
 $('sDock').onchange=e=>{ state.dock=e.target.checked; applyLook(); };
+function fillIconsTab(){
+  const G=state.img; $('iSrc').value=G.src; $('iFit').value=G.fit; $('iBg').value=G.bg; $('iFrame').value=G.frame; $('iSize').value=G.size; $('iSizeV').textContent=G.size+'%'; $('iShadow').checked=G.shadow!==false;
+  renderIconPrev();
+}
+function renderIconPrev(){
+  const box=$('iPrev'); box.innerHTML='';
+  const g=state.groups[state.openGroup]||state.groups[0]; let list=(g?g.tiles:[]).slice(0,4);
+  if(!list.length) list=[{name:'Google',url:'https://www.google.com'},{name:'PubMed',url:'https://pubmed.ncbi.nlm.nih.gov'},{name:'YouTube',url:'https://www.youtube.com'}];
+  list.forEach(t=>{ const a=document.createElement('div'); a.className='tile'; const base=(t.color&&t.color.startsWith('#'))?t.color:hashColor(hostOf(t.url)||t.name); a.append(...buildThumb(a,t,base)); box.append(a); });
+}
+function setImg(k,v){ state.img[k]=v; applyLook(); renderPanel(); renderIconPrev(); clearTimeout(wheelSave); wheelSave=setTimeout(()=>save(),300); }
+$('iSrc').onchange=e=>setImg('src',e.target.value);
+$('iFit').onchange=e=>setImg('fit',e.target.value);
+$('iBg').onchange=e=>setImg('bg',e.target.value);
+$('iFrame').onchange=e=>setImg('frame',e.target.value);
+$('iSize').oninput=e=>{ $('iSizeV').textContent=e.target.value+'%'; setImg('size',+e.target.value); };
+$('iShadow').onchange=e=>setImg('shadow',e.target.checked);
+$('iRefresh').onclick=()=>{ iconCache={}; saveIconCache(); renderPanel(); renderIconPrev(); toast('Looking for sharper logos…'); };
+$('iClear').onclick=()=>{ if(!confirm('Remove the size, frame, fill and background you set on single cards, so all cards follow these settings? (Pictures you picked or uploaded are kept.)')) return; let n=0; state.groups.forEach(g=>g.tiles.forEach(t=>{ ['imgFit','imgBg','imgFrame','imgSize'].forEach(k=>{ if(t[k]){ delete t[k]; n++; } }); })); save(); renderPanel(); renderIconPrev(); toast(n?'All cards now follow the Icons settings':'Nothing to reset'); };
 $('sTextS').oninput=e=>{ state.textS=+e.target.value; $('sTextSv').textContent=state.textS+'%'; applyLook(); }; $('sTextS').onchange=()=>save();
 $('sTextW').onchange=e=>{ state.textW=e.target.value; applyLook(); save(); };
 $('sLayout').onchange=e=>{ state.layout=e.target.value; if(state.layout==='lsp') document.querySelector('main').style.maxWidth=''; if(state.layout==='lsp' && state.openGroup===-1) state.openGroup=0; save(); applyLook(); renderPanel(); renderGroupList(); };
@@ -1695,7 +1912,7 @@ function fullRender(){
 }
 fullRender(); setInterval(tick,1000); renderFocus(); showLock(); $('medSound').value=state.medSound||'none'; $('medMin').value=String(state.medMin??5);
 /* ===== always run the newest version: check GitHub, reload once if a newer file is there ===== */
-const APP_VER='2026.11.05-r17';
+const APP_VER='2026.11.05-r18';
 if(location.protocol==='https:' && navigator.onLine){
   fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{
     const m=t.match(/const APP_VER='([^']+)'/); if(!m || m[1]===APP_VER) return;
