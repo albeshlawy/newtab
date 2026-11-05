@@ -378,6 +378,54 @@
   body.ist-list .tile .ctrl{top:-8px}
   body.ist-list.no-titles .tile .label{display:block}
 
+
+  /* ================= Cards family (r20) ================= */
+  body.ist-card .icon3d{width:calc(var(--tile)*.7*var(--k,1));height:calc(var(--tile)*.7*var(--k,1));z-index:1}
+  body.ist-card .tile .label{position:relative;z-index:1}
+  /* 3D tilt + shine (any card style) */
+  body.tilt3d.ist-card .tile{transition:transform .16s ease-out,background .2s,box-shadow .2s,border-color .2s;transform:perspective(800px)}
+  body.tilt3d.ist-card .tile:hover{transform:perspective(800px) rotateX(calc(var(--py,0) * -10deg)) rotateY(calc(var(--px,0) * 12deg)) translateY(-5px) scale(1.06);box-shadow:0 22px 34px -18px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.35);z-index:4}
+  body.tilt3d.ist-card .tile::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .2s;background:radial-gradient(circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.30),rgba(255,255,255,.06) 38%,rgba(255,255,255,0) 62%);z-index:2}
+  body.tilt3d.ist-card .tile:hover::after{opacity:1}
+  body.tilt3d.ist-card .icon3d{transition:transform .16s ease-out,filter .2s}
+  body.tilt3d.ist-card .tile:hover .icon3d{transform:translate(calc(var(--px,0) * 7px),calc(var(--py,0) * 6px)) scale(1.1);filter:drop-shadow(calc(var(--px,0) * -6px) calc(9px + var(--py,0) * -4px) 9px rgba(0,0,0,.5))}
+  body.ist-card-3d .tile{background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.05));border-color:rgba(255,255,255,.22)}
+  body.ist-card-3d .tile:hover{background:linear-gradient(160deg,rgba(255,255,255,.24),rgba(255,255,255,.08))}
+  /* colour glow */
+  body.ist-card-glow .tile{background:rgba(255,255,255,.05)}
+  body.ist-card-glow .tile::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(circle at 50% 36%,color-mix(in srgb,var(--bc,#888) 55%,transparent) 0,transparent 62%);opacity:.75;transition:opacity .2s}
+  body.ist-card-glow .tile:hover{border-color:color-mix(in srgb,var(--bc,#888) 70%,#fff);box-shadow:0 0 26px -6px var(--bc,#888),0 10px 26px -14px rgba(0,0,0,.6)}
+  body.ist-card-glow .tile:hover::before{opacity:1}
+  body.ist-card-glow .tile.drop-before::before{background:#fff;inset:4px auto 24px -10px;width:4px;opacity:1}
+  /* dark glass */
+  body.ist-card-dark .tile{background:rgba(8,10,20,.58);border-color:rgba(255,255,255,.08);box-shadow:0 12px 28px -14px rgba(0,0,0,.8),inset 0 1px 0 rgba(255,255,255,.06)}
+  body.ist-card-dark .tile:hover{background:rgba(8,10,20,.75);border-color:rgba(255,255,255,.25)}
+  /* frosted white */
+  body.ist-card-light .tile{background:rgba(255,255,255,.80);border-color:rgba(255,255,255,.95);box-shadow:0 12px 26px -14px rgba(0,0,0,.6)}
+  body.ist-card-light .tile:hover{background:rgba(255,255,255,.95)}
+  body.ist-card-light .tile .label{color:#1f2937;text-shadow:none}
+  /* big icons */
+  body.ist-card-big .tiles{grid-template-columns:repeat(auto-fill,minmax(calc(var(--tilew) + 30px),1fr))}
+  body.ist-card-big .tile{padding:12px 8px 10px;gap:7px}
+  body.ist-card-big .icon3d{width:calc(var(--tile)*1*var(--k,1));height:calc(var(--tile)*1*var(--k,1))}
+  /* frame only on hover */
+  body.ist-card-clean .tile{background:transparent;border-color:transparent;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}
+  body.ist-card-clean .tile:hover{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.22);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 10px 26px -14px rgba(0,0,0,.6)}
+  body.ist-card-clean .icon3d{filter:drop-shadow(0 6px 10px rgba(0,0,0,.35))}
+  /* white icon tiles */
+  body.ist-card-plate .icon3d{background:linear-gradient(180deg,#fff,#f0f2f5)!important;border-radius:calc(var(--tile)*.2);box-shadow:0 5px 12px -5px rgba(0,0,0,.5),inset 0 0 0 .5px rgba(0,0,0,.06)!important}
+  body.ist-card-plate .icon3d img{width:70%;height:70%;border-radius:10%}
+  body.ist-card-plate .icon3d .letter{background:none;color:var(--c2);font-size:calc(var(--tile)*.34)}
+  /* round icons */
+  body.ist-card-round .icon3d{background:#fff!important;border-radius:50%!important;box-shadow:0 5px 12px -5px rgba(0,0,0,.5)!important}
+  body.ist-card-round .icon3d img{width:62%;height:62%;border-radius:0}
+  body.ist-card-round .icon3d .letter{border-radius:50%}
+  /* wide */
+  body.ist-card-wide .tiles{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))!important}
+  body.ist-card-wide .tile{flex-direction:row;justify-content:flex-start;gap:12px;padding:11px 14px;border-radius:16px}
+  body.ist-card-wide .icon3d{width:calc(var(--tile)*.6*var(--k,1));height:calc(var(--tile)*.6*var(--k,1));flex:none}
+  body.ist-card-wide .tile .label{text-align:left;max-width:none;font-size:calc(14.5px*var(--textS))!important}
+  body.ist-card-wide.no-titles .tile .label{display:block}
   /* ===== thumbnails: card size + crisper picture ===== */
   :root{--thumbW:200px}
   body.ist-thumb .tiles,body.layout-lsp.ist-thumb .tiles{grid-template-columns:repeat(auto-fill,var(--thumbW))!important;gap:20px!important;justify-content:start}
@@ -731,7 +779,7 @@
 <!-- settings -->
 <div class="modal-bg" id="setModal">
   <div class="modal wide glass">
-    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.05-r19</span></h3>
+    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.05-r20</span></h3>
     <div class="tabs" id="setTabs">
       <div class="tab active" data-tab="quick">Quick</div>
       <div class="tab" data-tab="general">Appearance</div>
@@ -748,7 +796,7 @@
       <label>Tap animation</label>
       <select id="sTapAnim"><option value="pop">Bounce + ripple</option><option value="spin">Spin (3D flip)</option><option value="zoom">Zoom out</option><option value="none">None</option></select>
       <label>Icon style</label>
-      <select id="sIStyleQ"><option value="thumb">Thumbnails (LSP)</option><option value="3d">3D — extruded (new)</option><option value="glossy">3D — glossy (classic)</option><option value="ios">App icon — white (iPhone style)</option><option value="ioscolor">App icon — colour</option><option value="clay">Clay — soft 3D</option><option value="neu">Soft UI (neumorphic)</option><option value="bubble">Bubble — glossy sphere</option><option value="ring">Glow ring</option><option value="sticker">Stickers</option><option value="outline">Outline — minimal</option><option value="glass">Glass</option><option value="card">Cards (NovaDial)</option><option value="list">List — icon + name in a row</option><option value="flat">Flat</option><option value="neon">Neon</option><option value="float">Floating</option></select>
+      <select id="sIStyleQ"><optgroup label="Cards — NovaDial family"><option value="card">Cards — classic (NovaDial)</option><option value="card-3d">Cards — 3D tilt &amp; shine ★</option><option value="card-glow">Cards — colour glow</option><option value="card-dark">Cards — dark glass</option><option value="card-light">Cards — frosted white</option><option value="card-big">Cards — big icons</option><option value="card-clean">Cards — frame only on hover</option><option value="card-plate">Cards — white icon tiles</option><option value="card-round">Cards — round icons</option><option value="card-wide">Cards — wide (icon + name)</option></optgroup><optgroup label="Thumbnails"><option value="thumb">Thumbnails (LSP)</option></optgroup><optgroup label="Other styles"><option value="glossy">3D — glossy (classic)</option><option value="3d">3D — extruded</option><option value="ios">App icon — white</option><option value="ioscolor">App icon — colour</option><option value="clay">Clay</option><option value="neu">Soft UI</option><option value="bubble">Bubble</option><option value="ring">Glow ring</option><option value="sticker">Stickers</option><option value="outline">Outline</option><option value="glass">Glass</option><option value="list">List</option><option value="flat">Flat</option><option value="neon">Neon</option><option value="float">Floating</option></optgroup></select>
       <label>Shortcuts</label>
       <div class="quick">
         <div class="qbtn" id="qEdit">✎ Edit</div>
@@ -775,7 +823,7 @@
       <label class="check"><input type="checkbox" id="sShowDate"><span>Show date</span></label>
       <label class="check"><input type="checkbox" id="sShowGreet"><span>Show greeting</span></label>
       <label>Icon style</label>
-      <select id="sIStyle"><option value="thumb">Thumbnails (LSP)</option><option value="3d">3D — extruded (new)</option><option value="glossy">3D — glossy (classic)</option><option value="ios">App icon — white (iPhone style)</option><option value="ioscolor">App icon — colour</option><option value="clay">Clay — soft 3D</option><option value="neu">Soft UI (neumorphic)</option><option value="bubble">Bubble — glossy sphere</option><option value="ring">Glow ring</option><option value="sticker">Stickers</option><option value="outline">Outline — minimal</option><option value="glass">Glass</option><option value="card">Cards (NovaDial)</option><option value="list">List — icon + name in a row</option><option value="flat">Flat</option><option value="neon">Neon</option><option value="float">Floating</option></select>
+      <select id="sIStyle"><optgroup label="Cards — NovaDial family"><option value="card">Cards — classic (NovaDial)</option><option value="card-3d">Cards — 3D tilt &amp; shine ★</option><option value="card-glow">Cards — colour glow</option><option value="card-dark">Cards — dark glass</option><option value="card-light">Cards — frosted white</option><option value="card-big">Cards — big icons</option><option value="card-clean">Cards — frame only on hover</option><option value="card-plate">Cards — white icon tiles</option><option value="card-round">Cards — round icons</option><option value="card-wide">Cards — wide (icon + name)</option></optgroup><optgroup label="Thumbnails"><option value="thumb">Thumbnails (LSP)</option></optgroup><optgroup label="Other styles"><option value="glossy">3D — glossy (classic)</option><option value="3d">3D — extruded</option><option value="ios">App icon — white</option><option value="ioscolor">App icon — colour</option><option value="clay">Clay</option><option value="neu">Soft UI</option><option value="bubble">Bubble</option><option value="ring">Glow ring</option><option value="sticker">Stickers</option><option value="outline">Outline</option><option value="glass">Glass</option><option value="list">List</option><option value="flat">Flat</option><option value="neon">Neon</option><option value="float">Floating</option></optgroup></select>
       <label>Grid alignment</label>
       <select id="sAlign"><option value="fill">Fill width</option><option value="center">Center</option><option value="left">Left</option></select>
       <label class="check"><input type="checkbox" id="sTitles"><span>Show names under icons</span></label>
@@ -816,6 +864,7 @@
       </div>
       <label>Card size (Thumbnails style)</label><div class="range-row"><input type="range" id="iThumbW" min="130" max="320" step="10"><b id="iThumbWv"></b></div>
       <label class="check"><input type="checkbox" id="iShadow"><span>Soft shadow under the picture</span></label>
+      <label class="check"><input type="checkbox" id="iTilt"><span>3D tilt &amp; shine when the mouse is over a card (works with every “Cards” style)</span></label>
       <div class="quick" style="margin-top:14px">
         <div class="qbtn" id="iRefresh">↻ Find sharper logos again</div>
         <div class="qbtn" id="iClear">⟲ Use these settings for all cards</div>
@@ -1375,8 +1424,9 @@ function renderPanel(){
     const thumb=state.iconStyle==='thumb';
     if(!thumb) loadIcon(t,ic);
     if(t.imgSize) ic.style.setProperty('--k',t.imgSize/100);
-    a.addEventListener('mousemove',e=>{ const r=a.getBoundingClientRect(); a.style.setProperty('--ry',((e.clientX-r.left)/r.width-.5)*24+'deg'); a.style.setProperty('--rx',(.5-(e.clientY-r.top)/r.height)*20+'deg'); a.style.setProperty('--mx',((e.clientX-r.left)/r.width*100).toFixed(1)+'%'); a.style.setProperty('--my',((e.clientY-r.top)/r.height*100).toFixed(1)+'%'); });
-    a.addEventListener('mouseleave',()=>{ a.style.removeProperty('--rx'); a.style.removeProperty('--ry'); });
+    a.addEventListener('mousemove',e=>{ const r=a.getBoundingClientRect(); a.style.setProperty('--ry',((e.clientX-r.left)/r.width-.5)*24+'deg'); a.style.setProperty('--rx',(.5-(e.clientY-r.top)/r.height)*20+'deg'); a.style.setProperty('--mx',((e.clientX-r.left)/r.width*100).toFixed(1)+'%'); a.style.setProperty('--px',(((e.clientX-r.left)/r.width-.5)*2).toFixed(3)); a.style.setProperty('--py',(((e.clientY-r.top)/r.height-.5)*2).toFixed(3)); a.style.setProperty('--my',((e.clientY-r.top)/r.height*100).toFixed(1)+'%'); });
+    a.addEventListener('mouseleave',()=>{ ['--rx','--ry','--px','--py'].forEach(v=>a.style.removeProperty(v)); });
+    a.style.setProperty('--bc',base);
     const lb=document.createElement('div'); lb.className='label'; lb.textContent=t.name;
     const ed=document.createElement('div'); ed.className='ctrl edit-t'; ed.textContent='✎';
     const dl=document.createElement('div'); dl.className='ctrl del-t'; dl.textContent='✕';
@@ -1818,7 +1868,7 @@ function applyLook(){
   r.setProperty('--clockS',(state.clockS||100)/100); r.setProperty('--wS',(state.wS||100)/100);
   const b=document.body.classList;
   [...b].filter(c=>/^(ist-|ish-|hide-)/.test(c)).forEach(c=>b.remove(c));
-  b.add('ist-'+state.iconStyle); if(state.iconShape!=='rounded') b.add('ish-'+state.iconShape);
+  b.add('ist-'+state.iconStyle); if(/^card-/.test(state.iconStyle)) b.add('ist-card'); b.toggle('tilt3d',state.iconStyle==='card-3d'||(!!state.tilt&&/^card/.test(state.iconStyle))); if(state.iconShape!=='rounded') b.add('ish-'+state.iconShape);
   b.remove('align-left','align-center'); if(state.align!=='fill') b.add('align-'+state.align);
   b.toggle('no-titles',!state.titles); document.documentElement.style.setProperty('--textS',(state.textS||100)/100); document.documentElement.style.setProperty('--textW',state.textW||'600'); document.documentElement.style.setProperty('--k',((state.img&&state.img.size)||100)/100); document.documentElement.style.setProperty('--thumbW',((state.img&&state.img.thumbW)||200)+'px'); b.toggle('has-dock',!!state.dock); b.toggle('layout-lsp',state.layout==='lsp'); b.toggle('clock-analog',state.clockStyle==='analog'); b.toggle('clock-thin',state.clockStyle==='thin'); b.toggle('lsp-hide',state.layout==='lsp'&&!!state.lspHide); $('drawerTitle').textContent=state.layout==='lsp'?'Groups':'☰ Groups'; b.toggle('icon-full',!!state.iconFull);
   document.querySelector('main').style.maxWidth=(state.width && state.layout!=='lsp')?`min(${state.width}vw,1700px)`:'';
@@ -1832,7 +1882,7 @@ function fillFoldPick(){ const c=$('sFoldList'); c.innerHTML=state.groups.map((g
 $('sFoldStyle').onchange=e=>{ const v=e.target.value; state.showFolders=v!=='off'; if(v!=='off') state.foldStyle=v; save(); renderPanel(); };
 $('sDock').onchange=e=>{ state.dock=e.target.checked; applyLook(); };
 function fillIconsTab(){
-  const G=state.img; $('iSrc').value=G.src; $('iFit').value=G.fit; $('iBg').value=G.bg; $('iFrame').value=G.frame; $('iSize').value=G.size; $('iSizeV').textContent=G.size+'%'; $('iShadow').checked=G.shadow!==false; $('iThumbW').value=G.thumbW||200; $('iThumbWv').textContent=(G.thumbW||200)+'px';
+  const G=state.img; $('iSrc').value=G.src; $('iFit').value=G.fit; $('iBg').value=G.bg; $('iFrame').value=G.frame; $('iSize').value=G.size; $('iSizeV').textContent=G.size+'%'; $('iShadow').checked=G.shadow!==false; $('iTilt').checked=!!state.tilt; $('iThumbW').value=G.thumbW||200; $('iThumbWv').textContent=(G.thumbW||200)+'px';
   renderIconPrev();
 }
 function renderIconPrev(){
@@ -1848,6 +1898,7 @@ $('iBg').onchange=e=>setImg('bg',e.target.value);
 $('iFrame').onchange=e=>setImg('frame',e.target.value);
 $('iSize').oninput=e=>{ $('iSizeV').textContent=e.target.value+'%'; setImg('size',+e.target.value); };
 $('iShadow').onchange=e=>setImg('shadow',e.target.checked);
+$('iTilt').onchange=e=>{ state.tilt=e.target.checked; applyLook(); save(); };
 $('iThumbW').oninput=e=>{ $('iThumbWv').textContent=e.target.value+'px'; state.img.thumbW=+e.target.value; applyLook(); clearTimeout(wheelSave); wheelSave=setTimeout(()=>save(),300); };
 $('iRefresh').onclick=()=>{ iconCache={}; saveIconCache(); renderPanel(); renderIconPrev(); toast('Looking for sharper logos…'); };
 $('iClear').onclick=()=>{ if(!confirm('Remove the size, frame, fill and background you set on single cards, so all cards follow these settings? (Pictures you picked or uploaded are kept.)')) return; let n=0; state.groups.forEach(g=>g.tiles.forEach(t=>{ ['imgFit','imgBg','imgFrame','imgSize'].forEach(k=>{ if(t[k]){ delete t[k]; n++; } }); })); save(); renderPanel(); renderIconPrev(); toast(n?'All cards now follow the Icons settings':'Nothing to reset'); };
@@ -2003,7 +2054,7 @@ function fullRender(){
 }
 fullRender(); setInterval(tick,1000); renderFocus(); showLock(); $('medSound').value=state.medSound||'none'; $('medMin').value=String(state.medMin??5);
 /* ===== always run the newest version: check GitHub, reload once if a newer file is there ===== */
-const APP_VER='2026.11.05-r19';
+const APP_VER='2026.11.05-r20';
 if(location.protocol==='https:' && navigator.onLine){
   fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{
     const m=t.match(/const APP_VER='([^']+)'/); if(!m || m[1]===APP_VER) return;
