@@ -230,8 +230,8 @@
   .folder .path{color:var(--muted);font-size:12px}
   .edit-done{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:12;display:none;padding:12px 26px;border-radius:16px;font-weight:700;cursor:pointer}
   body.edit .edit-done{display:block}
-  .quick{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-top:8px}
-  .qbtn{padding:18px 14px;border-radius:16px;background:rgba(255,255,255,.1);border:1px solid var(--border);cursor:pointer;text-align:center;font-weight:600;font-size:14px}
+  .quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+  .qbtn{padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid var(--border);cursor:pointer;text-align:center;font-weight:600;font-size:14px}
   .qbtn:hover{background:rgba(255,255,255,.2)}
   .qbtn .e{display:block;font-size:26px;margin-bottom:6px}
   .icon-preview{width:72px;height:72px;margin:6px 0}
@@ -399,7 +399,7 @@
   .credit{position:fixed;left:22px;bottom:16px;font-size:12px;color:var(--muted);z-index:5;max-width:40vw;text-shadow:0 1px 4px rgba(0,0,0,.6)}
   .credit a{color:inherit}
   /* engine selector */
-  .engine{background:rgba(255,255,255,.14);border:1px solid var(--border);color:#fff;border-radius:12px;padding:7px 10px;font:inherit;font-size:13px;font-weight:600;outline:none;cursor:pointer;margin-left:10px}
+  .engine{background:rgba(255,255,255,.14);border:1px solid var(--border);color:#fff;border-radius:12px;padding:7px 10px;font:inherit;font-size:13px;font-weight:600;outline:none;cursor:pointer;margin-right:10px;margin-left:0}
   .engine option{color:#000}
   /* workspace menu mode */
   #groupsBtn.menu-mode{width:auto;padding:0 16px;gap:8px;display:flex;font-size:15px;font-weight:700}
@@ -466,10 +466,10 @@
 
   <div class="search-wrap">
     <form class="search glass" id="searchForm">
+      <select class="engine" id="engineSel" title="Default search engine"></select>
       <span class="ic">🔍</span>
       <input id="q" placeholder="Search shortcuts, Google, or try  p heart failure" autocomplete="off" autofocus>
       <span class="bang-chip" id="bangChip"></span>
-      <select class="engine" id="engineSel" title="Default search engine"></select>
     </form>
     <div class="results glass" id="results"></div>
   </div>
@@ -571,26 +571,24 @@
       <div class="tab" data-tab="general">Appearance</div>
       <div class="tab" data-tab="bg">Background</div>
       <div class="tab" data-tab="widgets">Widgets</div>
-      <div class="tab" data-tab="shortcuts">Shortcuts</div>
       <div class="tab" data-tab="sync">Sync &amp; Backup</div>
       <div class="tab" data-tab="help">Help</div>
     </div>
 
     <div class="tabpane active" data-pane="quick">
-      <label style="margin-top:0">Page layout</label>
+      <label style="margin-top:0">Layout</label>
       <select id="sLayout"><option value="lsp">LSP — groups list on the right, big cards</option><option value="classic">Classic — clock in the middle, group bar</option></select>
-      <label>Shortcut style</label>
+      <label>Icon style</label>
       <select id="sIStyleQ"><option value="thumb">Thumbnails (LSP)</option><option value="3d">3D glossy</option><option value="glass">Glass</option><option value="card">Cards (NovaDial)</option><option value="flat">Flat</option><option value="neon">Neon</option><option value="float">Floating</option></select>
-      <div style="height:14px"></div>
+      <label>Shortcuts</label>
       <div class="quick">
-        <div class="qbtn" id="qEdit"><span class="e">✎</span>Edit shortcuts</div>
-        <div class="qbtn" id="qGroups"><span class="e">☰</span>Groups</div>
-        <div class="qbtn" id="qNotes"><span class="e">📝</span>To-do &amp; notes</div>
-        <div class="qbtn" id="qBg"><span class="e">🖼</span>Background</div>
-        <div class="qbtn" id="qImport"><span class="e">⬇︎</span>Import bookmarks</div>
-        <div class="qbtn" id="qNova"><span class="e">✦</span>Import NovaDial</div>
-        <div class="qbtn" id="qAdd"><span class="e">＋</span>Add shortcut</div>
-        <div class="qbtn" id="qSync"><span class="e">☁︎</span>Sync &amp; backup</div>
+        <div class="qbtn" id="qEdit">✎ Edit</div>
+        <div class="qbtn" id="qAdd">＋ Add</div>
+        <div class="qbtn" id="qImport">⬇︎ Browser bookmarks</div>
+        <div class="qbtn" id="qNova">✦ NovaDial backup</div>
+        <div class="qbtn" id="cleanAllBtn">✂︎ Shorten names</div>
+        <div class="qbtn" id="refreshIconsBtn">↻ Refresh icons</div>
+        <span id="qGroups" hidden></span><span id="qNotes" hidden></span><span id="qBg" hidden></span><span id="qSync" hidden></span>
       </div>
     </div>
 
@@ -661,16 +659,7 @@
       <input id="sClocks" placeholder="Khafji|Asia/Riyadh, Cairo|Africa/Cairo, London|Europe/London">
     </div>
 
-    <div class="tabpane" data-pane="shortcuts">
-      <div class="row">
-        <button class="btn primary" id="novaBtn">⬇︎ Import NovaDial backup…</button>
-        <input type="file" id="novaFile" accept=".json" hidden>
-        <button class="btn" id="openBm">⬇︎ Import browser bookmarks…</button>
-        <button class="btn" id="cleanAllBtn">✂︎ Shorten all long names</button>
-        <button class="btn" id="refreshIconsBtn">↻ Refresh icons</button>
-      </div>
-      <p class="hint">“Shorten names” turns titles like <i>“Home - Europe PMC”</i> into <i>“Europe PMC”</i>. You can always rename a shortcut by clicking it in edit mode (✎).</p>
-    </div>
+    <div hidden><button id="novaBtn"></button><input type="file" id="novaFile" accept=".json" hidden><button id="openBm"></button></div>
 
     <div class="tabpane" data-pane="sync">
       <h4 style="margin-top:6px">🔒 Passcode — <span id="pinState"></span></h4>
@@ -1017,7 +1006,7 @@ function updateGroupsBtn(){
   const b=$('groupsBtn'), menu=state.groupNav==='menu', g=state.openGroup===-2?{title:'Most used'}:state.groups[state.openGroup];
   b.classList.toggle('menu-mode',menu); $('groupsDrawer').classList.toggle('as-menu',menu); $('groupsDrawer').classList.toggle('as-right',state.groupNav==='right'); $('edge').classList.toggle('right',state.groupNav==='right');
   b.innerHTML=menu?`📁 <span>${esc(g?g.title:'Workspaces')}</span> <span style="opacity:.7;font-size:12px">▾</span>`:'☰';
-  $('drawerTitle').textContent=menu?'Workspaces':'☰ Groups'; $('gBadge').textContent=menu?state.groups.length:'';
+  $('drawerTitle').textContent=state.layout==='lsp'?'Groups':menu?'Workspaces':'☰ Groups'; $('gBadge').textContent=menu?state.groups.length:'';
 }
 function closeDrawers(except){ ['groupsDrawer','notesDrawer'].forEach(d=>{ if(d!==except) $(d).classList.remove('open'); }); if(!except) $('scrim').classList.remove('show'); }
 function toggleDrawer(id){ $(id).classList.contains('open')?closeDrawers():openDrawer(id); }
