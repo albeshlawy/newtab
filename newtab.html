@@ -25,7 +25,8 @@
   body.size-l{--tile:78px;--tilew:120px}
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{height:100%}
-  body{font-family:var(--font);color:var(--text);background:#0b0f24;overflow-x:hidden;min-height:100vh}
+  html{background:#0b0f24}
+  body{font-family:var(--font);color:var(--text);background:transparent;overflow-x:hidden;min-height:100vh;isolation:auto}
   button{font:inherit}
   /* background */
   #bg{position:fixed;inset:0;z-index:-3;background-size:cover;background-position:center;transition:background .4s}
@@ -580,7 +581,7 @@
 <!-- settings -->
 <div class="modal-bg" id="setModal">
   <div class="modal wide glass">
-    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.05-r12</span></h3>
+    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.05-r13</span></h3>
     <div class="tabs" id="setTabs">
       <div class="tab active" data-tab="quick">Quick</div>
       <div class="tab" data-tab="general">Appearance</div>
@@ -1634,7 +1635,7 @@ function fullRender(){
 }
 fullRender(); setInterval(tick,1000); renderFocus(); showLock(); $('medSound').value=state.medSound||'none'; $('medMin').value=String(state.medMin??5);
 /* ===== always run the newest version: check GitHub, reload once if a newer file is there ===== */
-const APP_VER='2026.11.05-r12';
+const APP_VER='2026.11.05-r13';
 if(location.protocol==='https:' && navigator.onLine){
   fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{
     const m=t.match(/const APP_VER='([^']+)'/); if(!m || m[1]===APP_VER) return;
