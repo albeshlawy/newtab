@@ -255,8 +255,8 @@
   .range-row b{min-width:48px;text-align:right;font-size:13px}
   /* Nova-style card icons */
   body.ist-card .tiles{gap:14px;grid-template-columns:repeat(auto-fill,minmax(calc(var(--tilew) + 14px),1fr))}
-  body.ist-card .tile{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:16px 8px 12px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 10px 26px -14px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.15);transition:transform .2s,background .2s}
-  body.ist-card .tile:hover{background:rgba(255,255,255,.16);transform:translateY(-3px)}
+  body.ist-card .tile{background:linear-gradient(160deg,rgba(255,255,255,.15),rgba(255,255,255,.08));border:1px solid rgba(255,255,255,.26);border-radius:20px;padding:16px 8px 12px;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 10px 26px -14px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.15);transition:transform .2s,background .2s}
+  body.ist-card .tile:hover{background:linear-gradient(160deg,rgba(255,255,255,.24),rgba(255,255,255,.12));transform:translateY(-3px)}
   body.ist-card .icon3d{background:none!important;box-shadow:none!important;border:0!important;width:calc(var(--tile)*.7);height:calc(var(--tile)*.7);border-radius:calc(var(--tile)*.18)}
   body.ist-card .icon3d::before{display:none}
   body.ist-card .tile:hover .icon3d{transform:none;box-shadow:none}
@@ -342,7 +342,7 @@
   body.ist-card-3d .tile{background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.05));border-color:rgba(255,255,255,.22)}
   body.ist-card-3d .tile:hover{background:linear-gradient(160deg,rgba(255,255,255,.24),rgba(255,255,255,.08))}
   /* colour glow */
-  body.ist-card-glow .tile{background:rgba(255,255,255,.05)}
+  body.ist-card-glow .tile{background:rgba(255,255,255,.10)}
   body.ist-card-glow .tile::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(circle at 50% 36%,color-mix(in srgb,var(--bc,#888) 55%,transparent) 0,transparent 62%);opacity:.75;transition:opacity .2s}
   body.ist-card-glow .tile:hover{border-color:color-mix(in srgb,var(--bc,#888) 70%,#fff);box-shadow:0 0 26px -6px var(--bc,#888),0 10px 26px -14px rgba(0,0,0,.6)}
   body.ist-card-glow .tile:hover::before{opacity:1}
@@ -729,7 +729,7 @@
 <!-- settings -->
 <div class="modal-bg" id="setModal">
   <div class="modal wide glass">
-    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.06-r25</span></h3>
+    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.06-r26</span></h3>
     <div class="tabs" id="setTabs">
       <div class="tab active" data-tab="quick">Quick</div>
       <div class="tab" data-tab="general">Appearance</div>
@@ -2072,7 +2072,7 @@ function fullRender(){
 }
 fullRender(); setInterval(tick,1000); renderFocus(); showLock(); $('medSound').value=state.medSound||'none'; $('medMin').value=String(state.medMin??5);
 /* ===== always run the newest version: check GitHub, reload once if a newer file is there ===== */
-const APP_VER='2026.11.06-r25';
+const APP_VER='2026.11.06-r26';
 if(location.protocol==='https:' && navigator.onLine){
   fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{
     const m=t.match(/const APP_VER='([^']+)'/); if(!m || m[1]===APP_VER) return;
