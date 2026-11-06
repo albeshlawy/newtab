@@ -710,7 +710,7 @@
 <!-- settings -->
 <div class="modal-bg" id="setModal">
   <div class="modal wide glass">
-    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.06-r21</span></h3>
+    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.06-r22</span></h3>
     <div class="tabs" id="setTabs">
       <div class="tab active" data-tab="quick">Quick</div>
       <div class="tab" data-tab="general">Appearance</div>
@@ -1628,10 +1628,10 @@ const CALM={
 const CALM_TINT={'wave-midnight':'#0b1430','wave-graphite':'#1a1c20','wave-teal':'#06343b','wave-sage':'#3a5244','wave-lavender':'#3a2f63','wave-sand':'#8a6a4a','blend-dusk':'#1d2440','blend-ocean':'#0a2f3b','blend-forest':'#17281f','blend-mist':'#c9d3dc','blend-peach':'#eed3c0','hills-night':'#0a1020','hills-dawn':'#4a4a7a','hills-sage':'#8fa38d','hills-desert':'#d0a070','glass-navy':'#111833','glass-graphite':'#1c1d20','glass-teal':'#082328','glass-pearl':'#ddd8d0'};
 let calmCat=Object.keys(CALM)[0];
 function calmUrl(k,thumb){ return 'bg/'+k+(thumb?'-t':'')+'.webp'; }
-function buildCalm(){
+function buildCalm(keepCat){
   const tabs=$('calmTabs'), g=$('calmGallery'); if(!tabs) return;
-  const cur=state.bg.startsWith('calm:')?state.bg.slice(5):''; if(cur){ for(const [c,l] of Object.entries(CALM)) if(l.some(x=>x[0]===cur)) calmCat=c; }
-  tabs.innerHTML=''; Object.keys(CALM).forEach(c=>{ const b=document.createElement('span'); b.className='ctab'+(c===calmCat?' on':''); b.textContent=c; b.onclick=()=>{ calmCat=c; buildCalm(); }; tabs.append(b); });
+  const cur=state.bg.startsWith('calm:')?state.bg.slice(5):''; if(cur && !keepCat){ for(const [c,l] of Object.entries(CALM)) if(l.some(x=>x[0]===cur)) calmCat=c; }
+  tabs.innerHTML=''; Object.keys(CALM).forEach(c=>{ const b=document.createElement('span'); b.className='ctab'+(c===calmCat?' on':''); b.textContent=c; b.onclick=e=>{ e.stopPropagation(); calmCat=c; buildCalm(true); }; tabs.append(b); });
   g.innerHTML='';
   CALM[calmCat].forEach(([k,name])=>{ const t=document.createElement('div'); t.className='thumb'; t.dataset.v='calm:'+k; t.style.background=CALM_TINT[k]||'#222';
     const img=new Image(); img.loading='lazy'; img.src=calmUrl(k,true); img.onerror=()=>{ img.remove(); t.title='Upload the bg folder to GitHub to use this background'; };
@@ -2010,7 +2010,7 @@ function fullRender(){
 }
 fullRender(); setInterval(tick,1000); renderFocus(); showLock(); $('medSound').value=state.medSound||'none'; $('medMin').value=String(state.medMin??5);
 /* ===== always run the newest version: check GitHub, reload once if a newer file is there ===== */
-const APP_VER='2026.11.06-r21';
+const APP_VER='2026.11.06-r22';
 if(location.protocol==='https:' && navigator.onLine){
   fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{
     const m=t.match(/const APP_VER='([^']+)'/); if(!m || m[1]===APP_VER) return;
