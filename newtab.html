@@ -303,82 +303,13 @@
   .tile.lsp:has(.bg-glass) .thumb-head,body.layout-lsp .tile.lsp:has(.bg-glass) .thumb-head{background:rgba(255,255,255,.14)!important;color:#fff}
   .tile.lsp:has(.bg-dark) .thumb-head,body.layout-lsp .tile.lsp:has(.bg-dark) .thumb-head{background:#1d2028!important;color:#f4f4f5}
   .tile.img-drop{outline:3px dashed #fde047;outline-offset:3px}
+  .gone{display:none!important}
+  .calm-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px}
+  .calm-tabs .ctab{padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);font-size:13px;cursor:pointer;transition:.15s}
+  .calm-tabs .ctab:hover{background:rgba(255,255,255,.16)}
+  .calm-tabs .ctab.on{background:rgba(255,255,255,.9);color:#111;border-color:#fff}
 
-  /* ================= icon styles (r19) ================= */
-  @property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
   .icon3d img,.icon3d .letter,.icon3d .emoji{position:relative;z-index:2}
-  /* 3D extruded */
-  body.ist-3d .icon3d{border-radius:calc(var(--tile)*.27);background:linear-gradient(165deg,var(--c1) 0%,var(--c2) 75%);transform:translateY(-4px);
-    box-shadow:0 1px 0 var(--c3),0 2px 0 var(--c3),0 3px 0 var(--c3),0 4px 0 var(--c3),0 5px 0 var(--c3),0 6px 0 var(--c3),0 7px 2px rgba(0,0,0,.3),0 18px 24px -8px rgba(0,0,0,.6),inset 0 1.5px 0 rgba(255,255,255,.6),inset 0 -3px 6px rgba(0,0,0,.18)}
-  body.ist-3d .icon3d::before{inset:0;height:auto;border-radius:inherit;background:radial-gradient(130% 75% at var(--mx,30%) 0%,rgba(255,255,255,.55),rgba(255,255,255,0) 58%)}
-  body.ist-3d .icon3d::after{content:"";position:absolute;inset:15%;border-radius:calc(var(--tile)*.17);background:linear-gradient(180deg,#fff,#eef1f5);box-shadow:0 2px 4px rgba(0,0,0,.28),inset 0 -2px 3px rgba(0,0,0,.08);z-index:1}
-  body.ist-3d .icon3d:has(.letter)::after,body.ist-3d .icon3d:has(.emoji)::after{display:none}
-  body.ist-3d .icon3d img{width:calc(52% * var(--k,1));height:calc(52% * var(--k,1));filter:none;transform:none;border-radius:4px}
-  body.ist-3d .tile:hover .icon3d{transform:translateY(-9px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
-    box-shadow:0 1px 0 var(--c3),0 2px 0 var(--c3),0 3px 0 var(--c3),0 4px 0 var(--c3),0 5px 0 var(--c3),0 6px 0 var(--c3),0 7px 0 var(--c3),0 8px 0 var(--c3),0 9px 2px rgba(0,0,0,.3),0 28px 30px -10px rgba(0,0,0,.6),inset 0 1.5px 0 rgba(255,255,255,.6),inset 0 -3px 6px rgba(0,0,0,.18)}
-  body.ist-3d .tile:active .icon3d{transform:translateY(1px);box-shadow:0 1px 0 var(--c3),0 2px 0 var(--c3),0 3px 1px rgba(0,0,0,.3),0 8px 12px -6px rgba(0,0,0,.5),inset 0 1.5px 0 rgba(255,255,255,.5)}
-  /* App icon (white / colour) */
-  body.ist-ios .icon3d,body.ist-ioscolor .icon3d{border-radius:22.5%;background:linear-gradient(180deg,#ffffff,#f1f3f6);box-shadow:0 1px 1.5px rgba(0,0,0,.3),0 12px 22px -10px rgba(0,0,0,.6),inset 0 0 0 .5px rgba(0,0,0,.08);transform:none}
-  body.ist-ioscolor .icon3d{background:linear-gradient(160deg,var(--c1),var(--c2))}
-  body.ist-ios .icon3d::before,body.ist-ioscolor .icon3d::before{display:none}
-  body.ist-ios .icon3d img,body.ist-ioscolor .icon3d img{width:calc(66% * var(--k,1));height:calc(66% * var(--k,1));filter:none;transform:none;border-radius:12%}
-  body.ist-ioscolor .icon3d img{filter:drop-shadow(0 2px 3px rgba(0,0,0,.25))}
-  body.ist-ios .icon3d .letter{color:var(--c2);text-shadow:none;transform:none}
-  body.ist-ios .tile:hover .icon3d,body.ist-ioscolor .tile:hover .icon3d{transform:translateY(-4px) scale(1.05);box-shadow:0 1px 1.5px rgba(0,0,0,.3),0 20px 28px -12px rgba(0,0,0,.65)}
-  /* Clay */
-  body.ist-clay .icon3d{border-radius:32%;background:linear-gradient(150deg,color-mix(in srgb,var(--c1) 55%,#fff),color-mix(in srgb,var(--c1) 85%,#fff));
-    box-shadow:0 14px 22px -8px color-mix(in srgb,var(--c3) 75%,transparent),inset -6px -7px 12px color-mix(in srgb,var(--c2) 55%,transparent),inset 6px 7px 12px rgba(255,255,255,.7)}
-  body.ist-clay .icon3d::before{display:none}
-  body.ist-clay .icon3d img{width:calc(56% * var(--k,1));height:calc(56% * var(--k,1));filter:drop-shadow(0 3px 3px rgba(0,0,0,.22));transform:none}
-  body.ist-clay .icon3d .letter{color:var(--c3);text-shadow:0 2px 0 rgba(255,255,255,.6);transform:none}
-  body.ist-clay .tile:hover .icon3d{transform:translateY(-5px) scale(1.04)}
-  /* Soft UI */
-  body.ist-neu .icon3d{border-radius:30%;background:linear-gradient(145deg,#f3f5f9,#dfe3ea);box-shadow:9px 9px 18px rgba(0,0,0,.42),-5px -5px 12px rgba(255,255,255,.14),inset 1px 1px 0 #fff;transform:none}
-  body.ist-neu .icon3d::before{display:none}
-  body.ist-neu .icon3d img{width:calc(56% * var(--k,1));height:calc(56% * var(--k,1));filter:none;transform:none}
-  body.ist-neu .icon3d .letter{color:var(--c2);text-shadow:none;transform:none}
-  body.ist-neu .tile:hover .icon3d{transform:none;box-shadow:inset 5px 5px 10px rgba(0,0,0,.18),inset -5px -5px 10px rgba(255,255,255,.9),2px 2px 6px rgba(0,0,0,.3)}
-  /* Bubble */
-  body.ist-bubble .icon3d{border-radius:50%;background:radial-gradient(circle at 32% 26%,#fff 0 6%,color-mix(in srgb,var(--c1) 70%,#fff) 22%,var(--c1) 48%,var(--c2) 78%,var(--c3) 100%);box-shadow:0 16px 22px -8px rgba(0,0,0,.6),inset 0 -8px 16px rgba(0,0,0,.25),inset 0 4px 10px rgba(255,255,255,.35)}
-  body.ist-bubble .icon3d::before{inset:6% 22% auto 22%;height:30%;border-radius:50%;background:linear-gradient(180deg,rgba(255,255,255,.75),rgba(255,255,255,0))}
-  body.ist-bubble .icon3d::after{content:"";position:absolute;inset:22%;border-radius:50%;background:rgba(255,255,255,.93);box-shadow:0 3px 6px rgba(0,0,0,.25);z-index:1}
-  body.ist-bubble .icon3d:has(.letter)::after,body.ist-bubble .icon3d:has(.emoji)::after{display:none}
-  body.ist-bubble .icon3d img{width:calc(40% * var(--k,1));height:calc(40% * var(--k,1));filter:none;transform:none}
-  body.ist-bubble .tile:hover .icon3d{transform:translateY(-6px) scale(1.06)}
-  /* Glow ring */
-  body.ist-ring .icon3d{border-radius:28%;border:3px solid transparent;background:linear-gradient(rgba(14,16,28,.88),rgba(14,16,28,.88)) padding-box,conic-gradient(from var(--ang),var(--c1),#fff,var(--c2),var(--c1)) border-box;box-shadow:0 0 18px -4px var(--c1),0 12px 20px -10px rgba(0,0,0,.7);transform:none}
-  body.ist-ring .icon3d::before{display:none}
-  body.ist-ring .icon3d img{width:calc(56% * var(--k,1));height:calc(56% * var(--k,1));filter:none;transform:none}
-  body.ist-ring .tile:hover .icon3d{animation:ringSpin 1.6s linear infinite;box-shadow:0 0 26px -2px var(--c1),0 14px 24px -10px rgba(0,0,0,.7);transform:translateY(-3px)}
-  @keyframes ringSpin{to{--ang:360deg}}
-  /* Stickers */
-  body.ist-sticker .icon3d{border-radius:26%;background:#fff;box-shadow:0 0 0 4px #fff,0 0 0 5px rgba(0,0,0,.08),0 12px 18px -6px rgba(0,0,0,.6);transform:rotate(-4deg)}
-  body.ist-sticker .tile:nth-child(3n+1) .icon3d{transform:rotate(3deg)}
-  body.ist-sticker .tile:nth-child(3n+2) .icon3d{transform:rotate(-1.5deg)}
-  body.ist-sticker .icon3d::before{display:none}
-  body.ist-sticker .icon3d img{width:calc(66% * var(--k,1));height:calc(66% * var(--k,1));filter:none;transform:none}
-  body.ist-sticker .icon3d .letter{color:var(--c2);text-shadow:none;transform:none}
-  body.ist-sticker .tile:hover .icon3d{transform:rotate(0) scale(1.08)}
-  /* Outline */
-  body.ist-outline .icon3d{border-radius:26%;background:rgba(255,255,255,.03);border:1.5px solid rgba(255,255,255,.55);box-shadow:none;transform:none}
-  body.ist-outline .icon3d::before{display:none}
-  body.ist-outline .icon3d img{width:calc(54% * var(--k,1));height:calc(54% * var(--k,1));filter:none;transform:none}
-  body.ist-outline .icon3d .letter{text-shadow:none;transform:none}
-  body.ist-outline .tile:hover .icon3d{background:rgba(255,255,255,.14);border-color:#fff;transform:translateY(-3px);box-shadow:0 0 16px -4px rgba(255,255,255,.6)}
-  /* List */
-  body.ist-list .tiles{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))!important;gap:10px!important}
-  body.ist-list .tile{flex-direction:row;justify-content:flex-start;gap:12px;padding:9px 14px 9px 10px;border-radius:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:background .15s,transform .15s}
-  body.ist-list .tile:hover{background:rgba(255,255,255,.18);transform:translateY(-2px)}
-  body.ist-list .icon3d{width:38px;height:38px;flex:none;border-radius:10px;background:#fff;box-shadow:0 3px 8px -3px rgba(0,0,0,.5);transform:none!important}
-  body.ist-list .icon3d::before{display:none}
-  body.ist-list .icon3d img{width:calc(70% * var(--k,1));height:calc(70% * var(--k,1));filter:none;transform:none}
-  body.ist-list .icon3d .letter{font-size:17px;color:var(--c2);text-shadow:none;transform:none}
-  body.ist-list .icon3d .emoji{font-size:20px;transform:none}
-  body.ist-list .tile .label{max-width:none;text-align:left;font-size:calc(14.5px*var(--textS))!important;text-shadow:none}
-  body.ist-list .tile .ctrl{top:-8px}
-  body.ist-list.no-titles .tile .label{display:block}
-
-
   /* ================= Cards family (r20) ================= */
   body.ist-card .icon3d{width:calc(var(--tile)*.7*var(--k,1));height:calc(var(--tile)*.7*var(--k,1));z-index:1}
   body.ist-card .tile .label{position:relative;z-index:1}
@@ -619,7 +550,7 @@
 <div class="edge" id="edge"></div>
 <div class="mini-wx glass" id="miniWx"></div>
 <div class="lsp-arrow" id="lspArrow" title="Show / hide groups">❯</div>
-<div class="dock glass" id="dock">
+<div class="dock glass gone" id="dock">
   <div class="icon-btn" id="dGroups" title="Groups">▦</div>
   <div class="icon-btn" id="dNotes" title="To-do &amp; notes">☑︎</div>
   <div class="icon-btn" id="dEdit" title="Edit">✎</div>
@@ -637,7 +568,7 @@
 
 <!-- groups drawer -->
 <aside class="drawer left glass" id="groupsDrawer">
-  <h3><span id="drawerTitle">☰ Groups</span><span class="gtab-gear" id="drawerAdd" title="New group">＋</span><span class="gtab-gear" id="drawerEdit" title="Edit shortcuts (E)">✎</span><span class="gtab-gear" id="drawerNotes" title="To-do &amp; notes">☑︎</span><span class="gtab-gear" id="drawerMed" title="Meditation mode">🧘</span><span class="gtab-gear" id="drawerGear" title="Settings">⚙︎</span> <span class="badge" id="gBadge"></span><span class="x" data-closedrawer>✕</span></h3>
+  <h3><span id="drawerTitle">☰ Groups</span><span class="gtab-gear" id="drawerAdd" title="New group">＋</span><span class="gtab-gear" id="drawerEdit" title="Edit shortcuts (E)">✎</span><span class="gtab-gear gone" id="drawerNotes" title="To-do &amp; notes">☑︎</span><span class="gtab-gear gone" id="drawerMed" title="Meditation mode">🧘</span><span class="gtab-gear" id="drawerGear" title="Settings">⚙︎</span> <span class="badge" id="gBadge"></span><span class="x" data-closedrawer>✕</span></h3>
   <div class="glist" id="glist"></div>
   <div class="gfoot">
     <button class="btn full" id="newGroupBtn" style="justify-content:center">+ New group</button>
@@ -647,7 +578,7 @@
 </aside>
 
 <!-- notes drawer -->
-<aside class="drawer right glass" id="notesDrawer">
+<aside class="drawer right glass gone" id="notesDrawer">
   <h3>📝 To-do &amp; Notes <span class="x" data-closedrawer>✕</span></h3>
   <div class="sec-label" style="margin-top:0">To-do</div>
   <form class="todo-add" id="todoForm"><input id="todoInput" placeholder="Add a task…" autocomplete="off"><button class="btn">+</button></form>
@@ -690,7 +621,7 @@
   </section>
   <div class="empty-hint" id="emptyHint" style="display:none">Open a group from <b>☰</b> (top-left), press <span class="kbd">[</span>, or just start typing to search all your shortcuts.</div>
 </main>
-<div class="med" id="med">
+<div class="med gone" id="med">
   <div class="circle" id="medCircle">Breathe in</div>
   <div class="left" id="medLeft"></div>
   <div class="ctl">
@@ -779,7 +710,7 @@
 <!-- settings -->
 <div class="modal-bg" id="setModal">
   <div class="modal wide glass">
-    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.05-r20</span></h3>
+    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.06-r21</span></h3>
     <div class="tabs" id="setTabs">
       <div class="tab active" data-tab="quick">Quick</div>
       <div class="tab" data-tab="general">Appearance</div>
@@ -791,12 +722,12 @@
     </div>
 
     <div class="tabpane active" data-pane="quick">
-      <label style="margin-top:0">Layout</label>
-      <select id="sLayout"><option value="lsp">LSP — groups list on the right, big cards</option><option value="classic">Classic — clock in the middle, group bar</option></select>
-      <label>Tap animation</label>
+      <label class="gone">Layout</label>
+      <select id="sLayout" class="gone"><option value="lsp">LSP — groups list on the right, big cards</option><option value="classic">Classic — clock in the middle, group bar</option></select>
+      <label style="margin-top:0">Tap animation</label>
       <select id="sTapAnim"><option value="pop">Bounce + ripple</option><option value="spin">Spin (3D flip)</option><option value="zoom">Zoom out</option><option value="none">None</option></select>
       <label>Icon style</label>
-      <select id="sIStyleQ"><optgroup label="Cards — NovaDial family"><option value="card">Cards — classic (NovaDial)</option><option value="card-3d">Cards — 3D tilt &amp; shine ★</option><option value="card-glow">Cards — colour glow</option><option value="card-dark">Cards — dark glass</option><option value="card-light">Cards — frosted white</option><option value="card-big">Cards — big icons</option><option value="card-clean">Cards — frame only on hover</option><option value="card-plate">Cards — white icon tiles</option><option value="card-round">Cards — round icons</option><option value="card-wide">Cards — wide (icon + name)</option></optgroup><optgroup label="Thumbnails"><option value="thumb">Thumbnails (LSP)</option></optgroup><optgroup label="Other styles"><option value="glossy">3D — glossy (classic)</option><option value="3d">3D — extruded</option><option value="ios">App icon — white</option><option value="ioscolor">App icon — colour</option><option value="clay">Clay</option><option value="neu">Soft UI</option><option value="bubble">Bubble</option><option value="ring">Glow ring</option><option value="sticker">Stickers</option><option value="outline">Outline</option><option value="glass">Glass</option><option value="list">List</option><option value="flat">Flat</option><option value="neon">Neon</option><option value="float">Floating</option></optgroup></select>
+      <select id="sIStyleQ"><optgroup label="Cards — NovaDial family"><option value="card">Cards — classic (NovaDial)</option><option value="card-3d">Cards — 3D tilt &amp; shine ★</option><option value="card-glow">Cards — colour glow</option><option value="card-dark">Cards — dark glass</option><option value="card-light">Cards — frosted white</option><option value="card-big">Cards — big icons</option><option value="card-clean">Cards — frame only on hover</option><option value="card-plate">Cards — white icon tiles</option><option value="card-round">Cards — round icons</option><option value="card-wide">Cards — wide (icon + name)</option></optgroup><optgroup label="Thumbnails"><option value="thumb">Thumbnails (LSP)</option></optgroup></select>
       <label>Shortcuts</label>
       <div class="quick">
         <div class="qbtn" id="qEdit">✎ Edit</div>
@@ -823,7 +754,7 @@
       <label class="check"><input type="checkbox" id="sShowDate"><span>Show date</span></label>
       <label class="check"><input type="checkbox" id="sShowGreet"><span>Show greeting</span></label>
       <label>Icon style</label>
-      <select id="sIStyle"><optgroup label="Cards — NovaDial family"><option value="card">Cards — classic (NovaDial)</option><option value="card-3d">Cards — 3D tilt &amp; shine ★</option><option value="card-glow">Cards — colour glow</option><option value="card-dark">Cards — dark glass</option><option value="card-light">Cards — frosted white</option><option value="card-big">Cards — big icons</option><option value="card-clean">Cards — frame only on hover</option><option value="card-plate">Cards — white icon tiles</option><option value="card-round">Cards — round icons</option><option value="card-wide">Cards — wide (icon + name)</option></optgroup><optgroup label="Thumbnails"><option value="thumb">Thumbnails (LSP)</option></optgroup><optgroup label="Other styles"><option value="glossy">3D — glossy (classic)</option><option value="3d">3D — extruded</option><option value="ios">App icon — white</option><option value="ioscolor">App icon — colour</option><option value="clay">Clay</option><option value="neu">Soft UI</option><option value="bubble">Bubble</option><option value="ring">Glow ring</option><option value="sticker">Stickers</option><option value="outline">Outline</option><option value="glass">Glass</option><option value="list">List</option><option value="flat">Flat</option><option value="neon">Neon</option><option value="float">Floating</option></optgroup></select>
+      <select id="sIStyle"><optgroup label="Cards — NovaDial family"><option value="card">Cards — classic (NovaDial)</option><option value="card-3d">Cards — 3D tilt &amp; shine ★</option><option value="card-glow">Cards — colour glow</option><option value="card-dark">Cards — dark glass</option><option value="card-light">Cards — frosted white</option><option value="card-big">Cards — big icons</option><option value="card-clean">Cards — frame only on hover</option><option value="card-plate">Cards — white icon tiles</option><option value="card-round">Cards — round icons</option><option value="card-wide">Cards — wide (icon + name)</option></optgroup><optgroup label="Thumbnails"><option value="thumb">Thumbnails (LSP)</option></optgroup></select>
       <label>Grid alignment</label>
       <select id="sAlign"><option value="fill">Fill width</option><option value="center">Center</option><option value="left">Left</option></select>
       <label class="check"><input type="checkbox" id="sTitles"><span>Show names under icons</span></label>
@@ -834,7 +765,7 @@
       <select id="sFoldStyle"><option value="tabs">Simple name bar (like LSP)</option><option value="folders">Folders (Samsung style)</option><option value="off">Hidden — use the menu only</option></select>
       <div class="fold-pick" id="sFoldList"></div>
       <div class="hint">Tick up to 8 groups to show on the main screen (name bar or folders). The rest stay under ⋯ / the menu.</div>
-      <label class="check"><input type="checkbox" id="sDock"><span>Bottom toolbar (⚙︎ ▦ ☑︎ ✎ 🧘) — off by default; the same buttons are in the Groups header</span></label>
+      <label class="check gone"><input type="checkbox" id="sDock"><span>Bottom toolbar (⚙︎ ▦ ☑︎ ✎ 🧘) — off by default; the same buttons are in the Groups header</span></label>
       <label class="check"><input type="checkbox" id="sMost"><span>Show “Most used” group (learns from your clicks)</span></label>
       <label>Greeting</label>
       <select id="sGreet"><option value="dynamic">Dynamic (with a short message)</option><option value="simple">Simple</option></select>
@@ -873,7 +804,9 @@
     </div>
 
     <div class="tabpane" data-pane="bg">
-      <h4 style="margin-top:6px">Automatic</h4><div class="gallery" id="autoGallery"></div>
+      <h4 style="margin-top:6px">Calm 4K ✦ <span class="hint" style="font-weight:400">sharp on any screen, work offline</span></h4>
+      <div class="calm-tabs" id="calmTabs"></div><div class="gallery" id="calmGallery"></div>
+      <h4>Automatic</h4><div class="gallery" id="autoGallery"></div>
       <h4>Photos</h4><div class="gallery" id="photoGallery"></div>
       <h4>Gradients</h4><div class="gallery" id="gradGallery"></div>
       <h4>Your own image</h4>
@@ -890,15 +823,15 @@
 
     <div class="tabpane" data-pane="widgets">
       <label class="check"><input type="checkbox" id="wWeather"><span>Weather</span></label>
-      <label class="check"><input type="checkbox" id="wFocus"><span>Daily focus under the search bar (like LSP)</span></label>
+      <label class="check gone"><input type="checkbox" id="wFocus"><span>Daily focus under the search bar (like LSP)</span></label>
       <label class="check"><input type="checkbox" id="wMini"><span>Small weather badge in the corner (like LSP)</span></label>
-      <label class="check"><input type="checkbox" id="wClocks"><span>World clocks</span></label>
-      <label class="check"><input type="checkbox" id="wPrayer"><span>Prayer times</span></label>
-      <label class="check"><input type="checkbox" id="wHijri"><span>Hijri date under the clock</span></label>
-      <label>Location (weather &amp; prayer times)</label>
+      <label class="check gone"><input type="checkbox" id="wClocks"><span>World clocks</span></label>
+      <label class="check gone"><input type="checkbox" id="wPrayer"><span>Prayer times</span></label>
+      <label class="check gone"><input type="checkbox" id="wHijri"><span>Hijri date under the clock</span></label>
+      <label>Location (weather)</label>
       <select id="sLoc"></select>
-      <label>World clocks <span class="hint">(Name|Time-zone, separated by commas)</span></label>
-      <input id="sClocks" placeholder="Khafji|Asia/Riyadh, Cairo|Africa/Cairo, London|Europe/London">
+      <label class="gone">World clocks</label>
+      <input class="gone" id="sClocks" placeholder="Khafji|Asia/Riyadh, Cairo|Africa/Cairo, London|Europe/London">
     </div>
 
     <div hidden><button id="novaBtn"></button><input type="file" id="novaFile" accept=".json" hidden><button id="openBm"></button></div>
@@ -908,7 +841,7 @@
       <p class="hint">Asks for a 4–8 digit code whenever the page opens, so people using your computer can't see your shortcuts. It is a privacy screen, not encryption.</p>
       <div class="row"><input id="pinNew" type="password" inputmode="numeric" placeholder="New passcode" style="flex:1;min-width:140px"><button class="btn" id="pinSet">Set</button><button class="btn" id="pinOff">Remove</button></div>
       <h4 style="margin-top:6px">☁︎ Cloud sync (private GitHub Gist)</h4>
-      <p class="hint">Keeps your groups, shortcuts, to-do and notes identical in Firefox, Brave and on any computer. Create a token at <b>github.com → Settings → Developer settings → Personal access tokens → Fine-grained</b> with <b>Gists: Read and write</b> permission only, then paste it below. The token is stored only in this browser and is never uploaded.</p>
+      <p class="hint">Keeps your groups and shortcuts identical in Firefox, Brave and on any computer. Create a token at <b>github.com → Settings → Developer settings → Personal access tokens → Fine-grained</b> with <b>Gists: Read and write</b> permission only, then paste it below. The token is stored only in this browser and is never uploaded.</p>
       <label>GitHub token</label><input id="ghToken" type="password" placeholder="github_pat_…">
       <label>Gist ID <span class="hint">(created automatically on first upload — copy it to your other browsers)</span></label><input id="gistId" placeholder="leave empty the first time">
       <label class="check"><input type="checkbox" id="autoSync"><span>Sync automatically</span></label>
@@ -934,7 +867,7 @@
       <table class="help">
         <tr><td><span class="kbd">/</span></td><td>Focus search</td></tr>
         <tr><td><span class="kbd">[</span></td><td>Open / close groups</td></tr>
-        <tr><td><span class="kbd">]</span></td><td>Open / close to-do &amp; notes</td></tr>
+        
         <tr><td><span class="kbd">E</span></td><td>Toggle edit mode</td></tr>
         <tr><td><span class="kbd">,</span></td><td>Open settings</td></tr>
         <tr><td><span class="kbd">↑</span> <span class="kbd">↓</span> <span class="kbd">Enter</span></td><td>Choose a search result</td></tr>
@@ -1073,12 +1006,14 @@ function normalize(s){
   if(!s.foldStyle) s.foldStyle='tabs';
   if(!s._bgFix){ s._bgFix=1; if((s.dim||0)>30) s.dim=20; if((s.blur||0)>4) s.blur=0; }
   s.img=Object.assign({src:'logo',fit:'fit',bg:'auto',frame:'none',size:100,shadow:true,thumbW:200},s.img||{});
+  s.layout='lsp'; s.dock=false; s.widgets=Object.assign({},s.widgets||{},{clocks:false,prayer:false,hijri:false,focus:false});
+  if(!/^(card|thumb)/.test(s.iconStyle||'')) s.iconStyle='card';
   if(!s._noDock){ s._noDock=1; s.dock=false; }
   if(!s._lspInit){ s._lspInit=1; s.layout='lsp'; s.iconStyle='thumb'; s.show={clock:false,date:false,greet:false}; }
   s.groups.forEach(g=>(g.tiles||[]).forEach(t=>{ if(t.icon && !t.iconType) t.iconType='url'; }));
   if(!Array.isArray(s.todos)) s.todos=[];
-  if(!s.bg) s.bg='grad:aurora';
-  else if(!/^(grad:|photo:|url:|upload|auto:)/.test(s.bg)) s.bg='url:'+s.bg;
+  if(!s.bg) s.bg='calm:wave-midnight';
+  else if(!/^(grad:|photo:|url:|upload|auto:|calm:)/.test(s.bg)) s.bg='url:'+s.bg;
   s.groups.forEach(g=>{ delete g.collapsed; g.tiles=g.tiles||[]; });
   if(s.openGroup>=s.groups.length) s.openGroup=s.groups.length?0:-1;
   return s;
@@ -1303,7 +1238,7 @@ $('searchForm').addEventListener('submit',e=>{ e.preventDefault(); const v=$('q'
 /* =========================================================
    Drawers
    ========================================================= */
-function openDrawer(id){ closeDrawers(id); $(id).classList.add('open'); $('scrim').classList.add('show'); $('scrim').classList.toggle('clear',id==='groupsDrawer'&&state.groupNav==='menu'); if(id==='groupsDrawer') renderGroupList(); }
+function openDrawer(id){ if(id==='notesDrawer') return; closeDrawers(id); $(id).classList.add('open'); $('scrim').classList.add('show'); $('scrim').classList.toggle('clear',id==='groupsDrawer'&&state.groupNav==='menu'); if(id==='groupsDrawer') renderGroupList(); }
 function updateGroupsBtn(){
   const b=$('groupsBtn'), menu=state.groupNav==='menu', g=state.openGroup===-2?{title:'Most used'}:state.groups[state.openGroup];
   b.classList.toggle('menu-mode',menu); $('groupsDrawer').classList.toggle('as-menu',menu); $('groupsDrawer').classList.toggle('as-right',state.groupNav==='right'); $('edge').classList.toggle('right',state.groupNav==='right');
@@ -1311,7 +1246,7 @@ function updateGroupsBtn(){
   $('drawerTitle').textContent=state.layout==='lsp'?'Groups':menu?'Workspaces':'☰ Groups'; $('gBadge').textContent=menu?state.groups.length:'';
 }
 function closeDrawers(except){ ['groupsDrawer','notesDrawer'].forEach(d=>{ if(d!==except) $(d).classList.remove('open'); }); if(!except) $('scrim').classList.remove('show'); }
-function toggleDrawer(id){ $(id).classList.contains('open')?closeDrawers():openDrawer(id); }
+function toggleDrawer(id){ if(id==='notesDrawer') return; $(id).classList.contains('open')?closeDrawers():openDrawer(id); }
 $('groupsBtn').onclick=()=>toggleDrawer('groupsDrawer');
 
 $('scrim').onclick=()=>closeDrawers();
@@ -1656,6 +1591,7 @@ function applyBg(){
     else if(k==='particles'){ bg.style.background='radial-gradient(1000px 700px at 50% 30%,#1e1b4b 0%,#05060f 70%)'; }
     else if(k==='nasa'){ bg.style.background='#000'; loadNasa(); }
     else bg.style.background=`#111 url("${a.u()}") center/cover no-repeat`; }
+  else if(state.bg.startsWith('calm:')){ const k=state.bg.slice(5); bg.style.background=`${CALM_TINT[k]||'#111'} url("${calmUrl(k)}") center/cover no-repeat`; }
   else if(state.bg.startsWith('photo:')) bg.style.background=`#111 url("${photoUrl(state.bg.slice(6),2400)}") center/cover no-repeat`;
   else if(state.bg.startsWith('url:') && /\.(mp4|webm|mov)(\?|#|$)/i.test(state.bg)) bg.style.background='#000';
   else if(state.bg.startsWith('url:')) bg.style.background=`#111 url("${state.bg.slice(4)}") center/cover no-repeat`;
@@ -1683,7 +1619,27 @@ function startParticles(){ if(partRun) return; partRun=true; const c=$('particle
   step(); }
 function setBg(v){ state.bg=v; save(); applyBg(); markSel(); if($('bgDiag')) $('bgDiag').textContent=bgDiag(); }
 function markSel(){ document.querySelectorAll('.thumb').forEach(t=>t.classList.toggle('sel',t.dataset.v===state.bg)); }
+const CALM={
+  'Soft 3D waves':[['wave-midnight','Midnight'],['wave-graphite','Graphite'],['wave-teal','Teal'],['wave-sage','Sage'],['wave-lavender','Lavender'],['wave-sand','Sand']],
+  'Smooth blends':[['blend-dusk','Dusk'],['blend-ocean','Ocean'],['blend-forest','Forest'],['blend-mist','Mist'],['blend-peach','Peach']],
+  '3D hills':[['hills-night','Night'],['hills-dawn','Dawn'],['hills-sage','Sage'],['hills-desert','Desert']],
+  'Glass shapes':[['glass-navy','Navy'],['glass-graphite','Graphite'],['glass-teal','Teal'],['glass-pearl','Pearl']]
+};
+const CALM_TINT={'wave-midnight':'#0b1430','wave-graphite':'#1a1c20','wave-teal':'#06343b','wave-sage':'#3a5244','wave-lavender':'#3a2f63','wave-sand':'#8a6a4a','blend-dusk':'#1d2440','blend-ocean':'#0a2f3b','blend-forest':'#17281f','blend-mist':'#c9d3dc','blend-peach':'#eed3c0','hills-night':'#0a1020','hills-dawn':'#4a4a7a','hills-sage':'#8fa38d','hills-desert':'#d0a070','glass-navy':'#111833','glass-graphite':'#1c1d20','glass-teal':'#082328','glass-pearl':'#ddd8d0'};
+let calmCat=Object.keys(CALM)[0];
+function calmUrl(k,thumb){ return 'bg/'+k+(thumb?'-t':'')+'.webp'; }
+function buildCalm(){
+  const tabs=$('calmTabs'), g=$('calmGallery'); if(!tabs) return;
+  const cur=state.bg.startsWith('calm:')?state.bg.slice(5):''; if(cur){ for(const [c,l] of Object.entries(CALM)) if(l.some(x=>x[0]===cur)) calmCat=c; }
+  tabs.innerHTML=''; Object.keys(CALM).forEach(c=>{ const b=document.createElement('span'); b.className='ctab'+(c===calmCat?' on':''); b.textContent=c; b.onclick=()=>{ calmCat=c; buildCalm(); }; tabs.append(b); });
+  g.innerHTML='';
+  CALM[calmCat].forEach(([k,name])=>{ const t=document.createElement('div'); t.className='thumb'; t.dataset.v='calm:'+k; t.style.background=CALM_TINT[k]||'#222';
+    const img=new Image(); img.loading='lazy'; img.src=calmUrl(k,true); img.onerror=()=>{ img.remove(); t.title='Upload the bg folder to GitHub to use this background'; };
+    const s=document.createElement('span'); s.textContent=name; t.append(img,s); t.onclick=()=>setBg(t.dataset.v); g.append(t); });
+  markSel();
+}
 function buildGallery(){
+  buildCalm();
   const ag=$('autoGallery'); ag.innerHTML='';
   Object.entries(AUTO_BG).forEach(([k,a])=>{ const t=document.createElement('div'); t.className='thumb'; t.dataset.v='auto:'+k; t.style.background='linear-gradient(135deg,#334155,#0f172a)'; t.innerHTML=`<span style="top:50%;bottom:auto;left:0;right:0;text-align:center;transform:translateY(-50%);font-size:13px">${{daily:'📅',random:'🎲',bing:'🅱️',nasa:'🔭',particles:'✨',solid:'⬛'}[k]||''} ${a.name}</span>`; t.onclick=()=>setBg(t.dataset.v); ag.append(t); });
   const pg=$('photoGallery'); pg.innerHTML='';
@@ -1996,7 +1952,7 @@ function playSound(kind){
   const src=actx.createBufferSource(); src.buffer=buf; src.loop=true;
   const g=actx.createGain(); g.gain.value=.5; src.connect(g).connect(actx.destination); src.start(); anode=src;
 }
-function openMed(){
+function openMed(){ return;
   $('med').classList.add('open'); document.body.classList.add('meditating'); closeDrawers();
   const c=$('medCircle'); let inhale=true;
   const step=()=>{ c.classList.toggle('in',inhale); c.textContent=inhale?'Breathe in':'Breathe out'; inhale=!inhale; };
@@ -2054,7 +2010,7 @@ function fullRender(){
 }
 fullRender(); setInterval(tick,1000); renderFocus(); showLock(); $('medSound').value=state.medSound||'none'; $('medMin').value=String(state.medMin??5);
 /* ===== always run the newest version: check GitHub, reload once if a newer file is there ===== */
-const APP_VER='2026.11.05-r20';
+const APP_VER='2026.11.06-r21';
 if(location.protocol==='https:' && navigator.onLine){
   fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{
     const m=t.match(/const APP_VER='([^']+)'/); if(!m || m[1]===APP_VER) return;
