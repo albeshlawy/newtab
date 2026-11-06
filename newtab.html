@@ -304,6 +304,17 @@
   .tile.lsp:has(.bg-dark) .thumb-head,body.layout-lsp .tile.lsp:has(.bg-dark) .thumb-head{background:#1d2028!important;color:#f4f4f5}
   .tile.img-drop{outline:3px dashed #fde047;outline-offset:3px}
   .gone{display:none!important}
+  /* group emoji (r25) */
+  #groupsDrawer .gitem .gic.emo,body.layout-lsp #groupsDrawer .gitem .gic.emo{background:none!important;color:inherit!important;width:28px;height:28px;font-size:21px;line-height:1;border-radius:8px;cursor:pointer;transition:transform .15s,background .15s;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+  #groupsDrawer .gitem .gic.emo:hover{background:rgba(255,255,255,.14)!important;transform:scale(1.15)}
+  .emo-pick{position:fixed;z-index:60;width:300px;padding:12px;border-radius:16px;background:rgba(16,18,30,.94);border:1px solid rgba(255,255,255,.18);box-shadow:0 18px 40px -12px rgba(0,0,0,.7);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+  .emo-pick .eg{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;max-height:220px;overflow:auto}
+  .emo-pick .eg span{font-size:22px;text-align:center;padding:4px 0;border-radius:8px;cursor:pointer;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+  .emo-pick .eg span:hover{background:rgba(255,255,255,.15)}
+  .emo-pick .eb{display:flex;gap:6px;margin-top:10px}
+  .emo-pick .eb button{flex:1;padding:7px 6px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);color:#fff;font-size:12.5px;cursor:pointer}
+  .emo-pick .eb button:hover{background:rgba(255,255,255,.18)}
+  .emo-pick .et{font-size:12px;opacity:.7;margin-bottom:8px}
   /* groups panel on the left (r24) */
   body.layout-lsp.lsp-left #groupsDrawer{left:18px!important;right:auto!important}
   body.layout-lsp.lsp-left.lsp-hide #groupsDrawer{transform:translateX(calc(-100% - 30px))!important}
@@ -718,7 +729,7 @@
 <!-- settings -->
 <div class="modal-bg" id="setModal">
   <div class="modal wide glass">
-    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.06-r24</span></h3>
+    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.06-r25</span></h3>
     <div class="tabs" id="setTabs">
       <div class="tab active" data-tab="quick">Quick</div>
       <div class="tab" data-tab="general">Appearance</div>
@@ -732,6 +743,8 @@
     <div class="tabpane active" data-pane="quick">
       <label style="margin-top:0">Groups panel</label>
       <select id="sPanel"><option value="right">Right side</option><option value="left">Left side</option><option value="hidden">Hidden — open it with the ❯ arrow</option></select>
+      <label>Group icons</label>
+      <select id="sGIcons"><option value="emoji">Emoji that fits each group (click an icon to change it)</option><option value="books">Books — open for the current group, closed for the others</option></select>
       <label class="gone">Layout</label>
       <select id="sLayout" class="gone"><option value="lsp">LSP — groups list on the right, big cards</option><option value="classic">Classic — clock in the middle, group bar</option></select>
       <label>Tap animation</label>
@@ -985,7 +998,7 @@ const BANGS={
 const DEFAULTS={
   name:'Ahmed',h24:false,bg:'grad:aurora',dim:0,
   openGroup:0,newTab:false,hoverEdge:true,tileSize:'m',glass:'frosted',
-  font:'System',cfont:'System',align:'fill',showFolders:true,foldStyle:'tabs',layout:'lsp',lspHide:false,panelSide:'right',dock:false,mostUsed:true,hits:{},groupNav:'menu',engine:'google',greetStyle:'dynamic',titles:true,iconFull:false,cols:0,width:0,clockS:100,wS:100,textS:100,textW:'600',img:{src:'logo',fit:'fit',bg:'auto',frame:'none',size:100,shadow:true,thumbW:200},blur:0,show:{clock:true,date:true,greet:true},iconStyle:'3d',iconShape:'rounded',
+  font:'System',cfont:'System',align:'fill',showFolders:true,foldStyle:'tabs',layout:'lsp',lspHide:false,panelSide:'right',groupIcons:'emoji',dock:false,mostUsed:true,hits:{},groupNav:'menu',engine:'google',greetStyle:'dynamic',titles:true,iconFull:false,cols:0,width:0,clockS:100,wS:100,textS:100,textW:'600',img:{src:'logo',fit:'fit',bg:'auto',frame:'none',size:100,shadow:true,thumbW:200},blur:0,show:{clock:true,date:true,greet:true},iconStyle:'3d',iconShape:'rounded',
   widgets:{weather:true,clocks:true,prayer:true,hijri:true,mini:false,focus:true},clockStyle:'digital',tapAnim:'pop',focus:null,pinHash:'',medSound:'none',medMin:5,
   loc:'khafji',clocks:'Khafji|Asia/Riyadh, Cairo|Africa/Cairo',
   todos:[],notes:'',updatedAt:0,sync:{gistId:'',auto:false},
@@ -1265,16 +1278,51 @@ $('edge').addEventListener('mouseenter',()=>{ if(state.hoverEdge && state.groupN
 $('dGroups').onclick=()=>{ if(state.layout==='lsp'){ $('lspArrow').click(); return; } toggleDrawer('groupsDrawer'); }; $('dNotes').onclick=()=>toggleDrawer('notesDrawer'); $('dEdit').onclick=()=>toggleEdit(); $('dSet').onclick=()=>openSettings();
 $('edge').addEventListener('dragenter',()=>openDrawer('groupsDrawer'));
 
+const GROUP_EMOJI=[
+ [/hand|يد/i,'✋'],[/ortho|bone|عظام|فقرات|spine/i,'🦴'],[/video|youtube|فيديو|tube/i,'🎬'],[/surg|operat|جراح|عمليات/i,'🩺'],
+ [/journal|paper|article|مجلات|مقالات/i,'📰'],[/research|scholar|science|بحث|أبحاث/i,'🔬'],[/societ|association|member|جمعي/i,'🤝'],
+ [/licen|cme|certif|course|exam|ترخيص|شهاد/i,'🎓'],[/learn|study|educat|lecture|تعلم|تعليم|دراس/i,'📚'],[/\bai\b|gpt|claude|gemini|ذكاء/i,'🤖'],
+ [/mail|email|inbox|بريد/i,'✉️'],[/social|chat|whats|تواصل/i,'💬'],[/gov|absher|ministry|حكوم|وزار/i,'🏛️'],[/moh|hospital|clinic|health|medic|مستشفى|صح/i,'🏥'],
+ [/work|office|job|عمل|شغل/i,'💼'],[/kid|child|school|أطفال|مدرس/i,'🎒'],[/financ|bank|money|invest|مال|بنك/i,'💰'],[/shop|store|buy|amazon|noon|تسوق/i,'🛒'],
+ [/wellbeing|wellness|relax|calm|عافي|راح/i,'🌿'],[/read|book|kindle|قراء|كتب/i,'📚'],[/tool|account|setting|util|أدوات|حساب/i,'🧰'],
+ [/news|أخبار/i,'🗞️'],[/music|song|podcast|موسيق|بودكاست/i,'🎧'],[/travel|flight|hotel|trip|سفر|رحل/i,'✈️'],[/food|recipe|cook|أكل|طبخ/i,'🍽️'],
+ [/sport|football|gym|fitness|رياض/i,'⚽'],[/game|play|ألعاب/i,'🎮'],[/code|dev|git|program|برمج/i,'💻'],[/design|art|photo|صور|تصميم/i,'🎨'],
+ [/cloud|drive|storage|سحاب/i,'☁️'],[/home|house|بيت|منزل/i,'🏠'],[/car|auto|سيار/i,'🚗'],[/quran|islam|pray|قرآن|إسلام|صلا|دين/i,'🕌'],
+ [/map|place|location|خرائط/i,'🗺️'],[/pdf|doc|file|ملفات|مستند/i,'📄'],[/calendar|schedule|تقويم|جدول/i,'📅'],[/search|بحث/i,'🔍'],[/fav|star|مفضل/i,'⭐']
+];
+const EMOJI_CHOICES='✋ 🦴 🩺 🏥 💉 🧬 🔬 📚 📖 📰 🎓 🤝 🏛️ 💼 🤖 ✉️ 💬 🎬 🎧 🗞️ 💰 🛒 🎒 🌿 🧰 ⭐ 🏠 ✈️ 🍽️ ⚽ 🎮 💻 🎨 ☁️ 🚗 🕌 🗺️ 📄 📅 🔍 📁 🧠 🫀 🦷 👁️ 🧪 💊 📷 🎵 🌍 🇸🇦 🇪🇬 ❤️ 🔥 💡 📌'.split(' ');
+function autoEmoji(t){ for(const [re,e] of GROUP_EMOJI) if(re.test(t||'')) return e; return ''; }
+function groupEmoji(g,active){
+  if(state.groupIcons==='books') return active?'📖':'📕';
+  return g.emoji||autoEmoji(g.title)||(active?'📖':'📕');
+}
+let emoPick=null;
+function closeEmoPick(){ if(emoPick){ emoPick.remove(); emoPick=null; } }
+function openEmoPick(g,anchor){
+  closeEmoPick(); const d=document.createElement('div'); d.className='emo-pick'; emoPick=d;
+  d.innerHTML=`<div class="et">Icon for “${esc(g.title)}”</div><div class="eg"></div><div class="eb"><button data-a="auto">✨ Automatic</button><button data-a="book">📖 Book</button></div>`;
+  const eg=d.querySelector('.eg'); EMOJI_CHOICES.forEach(e=>{ const sp=document.createElement('span'); sp.textContent=e; sp.onclick=ev=>{ ev.stopPropagation(); g.emoji=e; save(); renderGroupList(); closeEmoPick(); }; eg.append(sp); });
+  d.querySelector('[data-a=auto]').onclick=ev=>{ ev.stopPropagation(); delete g.emoji; save(); renderGroupList(); closeEmoPick(); };
+  d.querySelector('[data-a=book]').onclick=ev=>{ ev.stopPropagation(); g.emoji='📖'; save(); renderGroupList(); closeEmoPick(); };
+  d.addEventListener('click',ev=>ev.stopPropagation());
+  document.body.append(d);
+  const r=anchor.getBoundingClientRect(); let x=r.left, y=r.bottom+8;
+  if(x+310>innerWidth) x=innerWidth-310; if(x<8) x=8; if(y+300>innerHeight) y=Math.max(8,r.top-300);
+  d.style.left=x+'px'; d.style.top=y+'px';
+}
+document.addEventListener('click',()=>closeEmoPick());
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeEmoPick(); });
 function renderGroupList(){
   updateGroupsBtn();
   const list=$('glist'); list.innerHTML='';
   if(state.mostUsed){ const m=document.createElement('div'); m.className='gitem'+(state.openGroup===-2?' active':''); const n=mostUsedTiles().length;
-    m.innerHTML=`<span class="gic">★</span><span style="flex:1">Most used</span><span class="n">${n}</span>`;
+    m.innerHTML=`<span class="gic emo" style="cursor:default">⭐</span><span style="flex:1">Most used</span><span class="n">${n}</span>`;
     m.onclick=()=>{ state.openGroup=-2; save(); renderPanel(); renderGroupList(); closeDrawers(); }; list.append(m); }
   state.groups.forEach((g,gi)=>{
     const it=document.createElement('div'); it.className='gitem'+(gi===state.openGroup?' active':'');
-    it.innerHTML=`<span class="grip">⋮⋮</span><span class="gic">${g.icon==='star'?'☆':'🗀'}</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0">${esc(g.title)}</span><span class="n">${g.tiles.length}${state.groupNav==='menu'&&state.layout!=='lsp'?' dials':''}</span>`;
+    it.innerHTML=`<span class="grip">⋮⋮</span><span class="gic emo" title="Click to change the icon">${groupEmoji(g,gi===state.openGroup)}</span><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;min-width:0">${esc(g.title)}</span><span class="n">${g.tiles.length}${state.groupNav==='menu'&&state.layout!=='lsp'?' dials':''}</span>`;
     it.onclick=()=>{ state.openGroup=gi; save(); renderPanel(); renderGroupList(); closeDrawers(); };
+    it.querySelector('.gic').addEventListener('click',e=>{ e.stopPropagation(); openEmoPick(g,e.currentTarget); });
     // drop tile onto group / reorder groups
     it.draggable=true;
     it.addEventListener('dragstart',e=>{ e.dataTransfer.setData('text/group',gi); e.dataTransfer.effectAllowed='move'; });
@@ -1847,6 +1895,7 @@ function fillFoldPick(){ const c=$('sFoldList'); c.innerHTML=state.groups.map((g
   c.querySelectorAll('input').forEach(x=>x.onchange=()=>{ const sel=[...c.querySelectorAll('input:checked')].map(y=>y.dataset.t); if(sel.length>8){ x.checked=false; toast('Up to 8 folders'); return; } state.folders=sel; renderFolders(); }); }
 $('sFoldStyle').onchange=e=>{ const v=e.target.value; state.showFolders=v!=='off'; if(v!=='off') state.foldStyle=v; save(); renderPanel(); };
 $('sDock').onchange=e=>{ state.dock=e.target.checked; applyLook(); };
+$('sGIcons').onchange=e=>{ state.groupIcons=e.target.value; save(); renderGroupList(); };
 $('sPanel').onchange=e=>{ const v=e.target.value; if(v==='hidden') state.lspHide=true; else { state.panelSide=v; state.lspHide=false; } save(); applyLook(); };
 function fillIconsTab(){
   const G=state.img; $('iSrc').value=G.src; $('iFit').value=G.fit; $('iBg').value=G.bg; $('iFrame').value=G.frame; $('iSize').value=G.size; $('iSizeV').textContent=G.size+'%'; $('iShadow').checked=G.shadow!==false; $('iTilt').checked=!!state.tilt; $('iThumbW').value=G.thumbW||200; $('iThumbWv').textContent=(G.thumbW||200)+'px';
@@ -1898,7 +1947,7 @@ function fillSettings(){
   $('sIStyle').value=state.iconStyle; $('sIShape').value=state.iconShape; $('sClockStyle').value=state.clockStyle||'digital'; $('wFocus').checked=state.widgets.focus!==false; fillPin(); $('sLayout').value=state.layout; $('sTapAnim').value=state.tapAnim||'pop'; $('sIStyleQ').value=state.iconStyle;
   $('sFoldStyle').value=state.showFolders?state.foldStyle:'off'; fillFoldPick();
   $('sTextS').value=state.textS||100; $('sTextSv').textContent=(state.textS||100)+'%'; $('sTextW').value=state.textW||'600';
-  $('sPanel').value=state.lspHide?'hidden':(state.panelSide||'right');
+  $('sPanel').value=state.lspHide?'hidden':(state.panelSide||'right'); $('sGIcons').value=state.groupIcons||'emoji';
   $('sDock').checked=!!state.dock; $('sMost').checked=!!state.mostUsed; $('wMini').checked=!!state.widgets.mini;
   $('sAlign').value=state.align; $('sTitles').checked=state.titles; $('sFull').checked=!!state.iconFull; $('sNav').value=state.groupNav; $('sGreet').value=state.greetStyle;
   $('sCols').value=state.cols; $('sColsv').textContent=state.cols?state.cols:'Auto'; $('sWidth').value=state.width||80; $('sWidthv').textContent=state.width?state.width+'%':'Default';
@@ -2023,7 +2072,7 @@ function fullRender(){
 }
 fullRender(); setInterval(tick,1000); renderFocus(); showLock(); $('medSound').value=state.medSound||'none'; $('medMin').value=String(state.medMin??5);
 /* ===== always run the newest version: check GitHub, reload once if a newer file is there ===== */
-const APP_VER='2026.11.06-r24';
+const APP_VER='2026.11.06-r25';
 if(location.protocol==='https:' && navigator.onLine){
   fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{
     const m=t.match(/const APP_VER='([^']+)'/); if(!m || m[1]===APP_VER) return;
