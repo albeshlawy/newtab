@@ -304,6 +304,14 @@
   .tile.lsp:has(.bg-dark) .thumb-head,body.layout-lsp .tile.lsp:has(.bg-dark) .thumb-head{background:#1d2028!important;color:#f4f4f5}
   .tile.img-drop{outline:3px dashed #fde047;outline-offset:3px}
   .gone{display:none!important}
+  /* groups panel on the left (r24) */
+  body.layout-lsp.lsp-left #groupsDrawer{left:18px!important;right:auto!important}
+  body.layout-lsp.lsp-left.lsp-hide #groupsDrawer{transform:translateX(calc(-100% - 30px))!important}
+  body.layout-lsp.lsp-left main{padding:7vh 40px 120px 340px}
+  body.layout-lsp.lsp-left.lsp-hide main{padding-left:40px}
+  body.layout-lsp.lsp-left .lsp-arrow{right:auto;left:306px;transform:translateY(-50%) scaleX(-1);transition:left .28s}
+  body.layout-lsp.lsp-left.lsp-hide .lsp-arrow{left:8px;transform:translateY(-50%)}
+  @media (max-width:900px){ body.layout-lsp.lsp-left main{padding-left:24px} body.layout-lsp.lsp-left #groupsDrawer{transform:translateX(calc(-100% - 30px))!important} body.layout-lsp.lsp-left.lsp-open #groupsDrawer{transform:none!important} body.layout-lsp.lsp-left .lsp-arrow{left:8px} }
   .calm-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 10px}
   .calm-tabs .ctab{padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);font-size:13px;cursor:pointer;transition:.15s}
   .calm-tabs .ctab:hover{background:rgba(255,255,255,.16)}
@@ -568,7 +576,7 @@
 
 <!-- groups drawer -->
 <aside class="drawer left glass" id="groupsDrawer">
-  <h3><span id="drawerTitle">☰ Groups</span><span class="gtab-gear" id="drawerAdd" title="New group">＋</span><span class="gtab-gear" id="drawerEdit" title="Edit shortcuts (E)">✎</span><span class="gtab-gear gone" id="drawerNotes" title="To-do &amp; notes">☑︎</span><span class="gtab-gear gone" id="drawerMed" title="Meditation mode">🧘</span><span class="gtab-gear" id="drawerGear" title="Settings">⚙︎</span> <span class="badge" id="gBadge"></span><span class="x" data-closedrawer>✕</span></h3>
+  <h3><span id="drawerTitle">☰ Groups</span><span class="gtab-gear" id="drawerAdd" title="New group">＋</span><span class="gtab-gear" id="drawerSide" title="Move this panel to the other side">⇆</span><span class="gtab-gear" id="drawerEdit" title="Edit shortcuts (E)">✎</span><span class="gtab-gear gone" id="drawerNotes" title="To-do &amp; notes">☑︎</span><span class="gtab-gear gone" id="drawerMed" title="Meditation mode">🧘</span><span class="gtab-gear" id="drawerGear" title="Settings">⚙︎</span> <span class="badge" id="gBadge"></span><span class="x" data-closedrawer>✕</span></h3>
   <div class="glist" id="glist"></div>
   <div class="gfoot">
     <button class="btn full" id="newGroupBtn" style="justify-content:center">+ New group</button>
@@ -710,7 +718,7 @@
 <!-- settings -->
 <div class="modal-bg" id="setModal">
   <div class="modal wide glass">
-    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.06-r22</span></h3>
+    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.06-r24</span></h3>
     <div class="tabs" id="setTabs">
       <div class="tab active" data-tab="quick">Quick</div>
       <div class="tab" data-tab="general">Appearance</div>
@@ -722,9 +730,11 @@
     </div>
 
     <div class="tabpane active" data-pane="quick">
+      <label style="margin-top:0">Groups panel</label>
+      <select id="sPanel"><option value="right">Right side</option><option value="left">Left side</option><option value="hidden">Hidden — open it with the ❯ arrow</option></select>
       <label class="gone">Layout</label>
       <select id="sLayout" class="gone"><option value="lsp">LSP — groups list on the right, big cards</option><option value="classic">Classic — clock in the middle, group bar</option></select>
-      <label style="margin-top:0">Tap animation</label>
+      <label>Tap animation</label>
       <select id="sTapAnim"><option value="pop">Bounce + ripple</option><option value="spin">Spin (3D flip)</option><option value="zoom">Zoom out</option><option value="none">None</option></select>
       <label>Icon style</label>
       <select id="sIStyleQ"><optgroup label="Cards — NovaDial family"><option value="card">Cards — classic (NovaDial)</option><option value="card-3d">Cards — 3D tilt &amp; shine ★</option><option value="card-glow">Cards — colour glow</option><option value="card-dark">Cards — dark glass</option><option value="card-light">Cards — frosted white</option><option value="card-big">Cards — big icons</option><option value="card-clean">Cards — frame only on hover</option><option value="card-plate">Cards — white icon tiles</option><option value="card-round">Cards — round icons</option><option value="card-wide">Cards — wide (icon + name)</option></optgroup><optgroup label="Thumbnails"><option value="thumb">Thumbnails (LSP)</option></optgroup></select>
@@ -759,12 +769,12 @@
       <select id="sAlign"><option value="fill">Fill width</option><option value="center">Center</option><option value="left">Left</option></select>
       <label class="check"><input type="checkbox" id="sTitles"><span>Show names under icons</span></label>
       <label class="check"><input type="checkbox" id="sFull"><span>Let the image fill the whole icon (for photo icons)</span></label>
-      <label>Groups menu</label>
-      <select id="sNav"><option value="menu">Workspace menu (top-left, like NovaDial)</option><option value="drawer">Side panel — left</option><option value="right">Side panel — right (like LSP)</option></select>
-      <label>Groups on the main screen</label>
-      <select id="sFoldStyle"><option value="tabs">Simple name bar (like LSP)</option><option value="folders">Folders (Samsung style)</option><option value="off">Hidden — use the menu only</option></select>
-      <div class="fold-pick" id="sFoldList"></div>
-      <div class="hint">Tick up to 8 groups to show on the main screen (name bar or folders). The rest stay under ⋯ / the menu.</div>
+      <label class="gone">Groups menu</label>
+      <select class="gone" id="sNav"><option value="menu">Workspace menu (top-left, like NovaDial)</option><option value="drawer">Side panel — left</option><option value="right">Side panel — right (like LSP)</option></select>
+      <label class="gone">Groups on the main screen</label>
+      <select class="gone" id="sFoldStyle"><option value="tabs">Simple name bar (like LSP)</option><option value="folders">Folders (Samsung style)</option><option value="off">Hidden — use the menu only</option></select>
+      <div class="fold-pick gone" id="sFoldList"></div>
+      <div class="hint gone">Tick up to 8 groups to show on the main screen (name bar or folders). The rest stay under ⋯ / the menu.</div>
       <label class="check gone"><input type="checkbox" id="sDock"><span>Bottom toolbar (⚙︎ ▦ ☑︎ ✎ 🧘) — off by default; the same buttons are in the Groups header</span></label>
       <label class="check"><input type="checkbox" id="sMost"><span>Show “Most used” group (learns from your clicks)</span></label>
       <label>Greeting</label>
@@ -775,7 +785,7 @@
       <select id="sIShape"><option value="rounded">Rounded</option><option value="circle">Circle</option><option value="square">Square</option></select>
       <label class="check"><input type="checkbox" id="s24"><span>24-hour clock</span></label>
       <label class="check"><input type="checkbox" id="sNewTab"><span>Open shortcuts in a new browser tab</span></label>
-      <label class="check"><input type="checkbox" id="sHover"><span>Open the groups panel when the mouse touches the left edge</span></label>
+      <label class="check gone"><input type="checkbox" id="sHover"><span>Open the groups panel when the mouse touches the left edge</span></label>
       <label>Icon size</label>
       <select id="sSize"><option value="s">Small</option><option value="m">Medium</option><option value="l">Large</option></select>
       <label>Glass style</label>
@@ -975,7 +985,7 @@ const BANGS={
 const DEFAULTS={
   name:'Ahmed',h24:false,bg:'grad:aurora',dim:0,
   openGroup:0,newTab:false,hoverEdge:true,tileSize:'m',glass:'frosted',
-  font:'System',cfont:'System',align:'fill',showFolders:true,foldStyle:'tabs',layout:'lsp',lspHide:false,dock:false,mostUsed:true,hits:{},groupNav:'menu',engine:'google',greetStyle:'dynamic',titles:true,iconFull:false,cols:0,width:0,clockS:100,wS:100,textS:100,textW:'600',img:{src:'logo',fit:'fit',bg:'auto',frame:'none',size:100,shadow:true,thumbW:200},blur:0,show:{clock:true,date:true,greet:true},iconStyle:'3d',iconShape:'rounded',
+  font:'System',cfont:'System',align:'fill',showFolders:true,foldStyle:'tabs',layout:'lsp',lspHide:false,panelSide:'right',dock:false,mostUsed:true,hits:{},groupNav:'menu',engine:'google',greetStyle:'dynamic',titles:true,iconFull:false,cols:0,width:0,clockS:100,wS:100,textS:100,textW:'600',img:{src:'logo',fit:'fit',bg:'auto',frame:'none',size:100,shadow:true,thumbW:200},blur:0,show:{clock:true,date:true,greet:true},iconStyle:'3d',iconShape:'rounded',
   widgets:{weather:true,clocks:true,prayer:true,hijri:true,mini:false,focus:true},clockStyle:'digital',tapAnim:'pop',focus:null,pinHash:'',medSound:'none',medMin:5,
   loc:'khafji',clocks:'Khafji|Asia/Riyadh, Cairo|Africa/Cairo',
   todos:[],notes:'',updatedAt:0,sync:{gistId:'',auto:false},
@@ -1006,7 +1016,7 @@ function normalize(s){
   if(!s.foldStyle) s.foldStyle='tabs';
   if(!s._bgFix){ s._bgFix=1; if((s.dim||0)>30) s.dim=20; if((s.blur||0)>4) s.blur=0; }
   s.img=Object.assign({src:'logo',fit:'fit',bg:'auto',frame:'none',size:100,shadow:true,thumbW:200},s.img||{});
-  s.layout='lsp'; s.dock=false; s.widgets=Object.assign({},s.widgets||{},{clocks:false,prayer:false,hijri:false,focus:false});
+  s.layout='lsp'; s.dock=false; s.groupNav='right'; s.hoverEdge=false; s.widgets=Object.assign({},s.widgets||{},{clocks:false,prayer:false,hijri:false,focus:false});
   if(!/^(card|thumb)/.test(s.iconStyle||'')) s.iconStyle='card';
   if(!s._noDock){ s._noDock=1; s.dock=false; }
   if(!s._lspInit){ s._lspInit=1; s.layout='lsp'; s.iconStyle='thumb'; s.show={clock:false,date:false,greet:false}; }
@@ -1826,7 +1836,7 @@ function applyLook(){
   [...b].filter(c=>/^(ist-|ish-|hide-)/.test(c)).forEach(c=>b.remove(c));
   b.add('ist-'+state.iconStyle); if(/^card-/.test(state.iconStyle)) b.add('ist-card'); b.toggle('tilt3d',state.iconStyle==='card-3d'||(!!state.tilt&&/^card/.test(state.iconStyle))); if(state.iconShape!=='rounded') b.add('ish-'+state.iconShape);
   b.remove('align-left','align-center'); if(state.align!=='fill') b.add('align-'+state.align);
-  b.toggle('no-titles',!state.titles); document.documentElement.style.setProperty('--textS',(state.textS||100)/100); document.documentElement.style.setProperty('--textW',state.textW||'600'); document.documentElement.style.setProperty('--k',((state.img&&state.img.size)||100)/100); document.documentElement.style.setProperty('--thumbW',((state.img&&state.img.thumbW)||200)+'px'); b.toggle('has-dock',!!state.dock); b.toggle('layout-lsp',state.layout==='lsp'); b.toggle('clock-analog',state.clockStyle==='analog'); b.toggle('clock-thin',state.clockStyle==='thin'); b.toggle('lsp-hide',state.layout==='lsp'&&!!state.lspHide); $('drawerTitle').textContent=state.layout==='lsp'?'Groups':'☰ Groups'; b.toggle('icon-full',!!state.iconFull);
+  b.toggle('no-titles',!state.titles); document.documentElement.style.setProperty('--textS',(state.textS||100)/100); document.documentElement.style.setProperty('--textW',state.textW||'600'); document.documentElement.style.setProperty('--k',((state.img&&state.img.size)||100)/100); document.documentElement.style.setProperty('--thumbW',((state.img&&state.img.thumbW)||200)+'px'); b.toggle('lsp-left',state.panelSide==='left'); b.toggle('has-dock',!!state.dock); b.toggle('layout-lsp',state.layout==='lsp'); b.toggle('clock-analog',state.clockStyle==='analog'); b.toggle('clock-thin',state.clockStyle==='thin'); b.toggle('lsp-hide',state.layout==='lsp'&&!!state.lspHide); $('drawerTitle').textContent=state.layout==='lsp'?'Groups':'☰ Groups'; b.toggle('icon-full',!!state.iconFull);
   document.querySelector('main').style.maxWidth=(state.width && state.layout!=='lsp')?`min(${state.width}vw,1700px)`:'';
   $('engineSel').value=state.engine;
   if(!state.show.clock) b.add('hide-clock'); if(!state.show.date) b.add('hide-date'); if(!state.show.greet) b.add('hide-greet');
@@ -1837,6 +1847,7 @@ function fillFoldPick(){ const c=$('sFoldList'); c.innerHTML=state.groups.map((g
   c.querySelectorAll('input').forEach(x=>x.onchange=()=>{ const sel=[...c.querySelectorAll('input:checked')].map(y=>y.dataset.t); if(sel.length>8){ x.checked=false; toast('Up to 8 folders'); return; } state.folders=sel; renderFolders(); }); }
 $('sFoldStyle').onchange=e=>{ const v=e.target.value; state.showFolders=v!=='off'; if(v!=='off') state.foldStyle=v; save(); renderPanel(); };
 $('sDock').onchange=e=>{ state.dock=e.target.checked; applyLook(); };
+$('sPanel').onchange=e=>{ const v=e.target.value; if(v==='hidden') state.lspHide=true; else { state.panelSide=v; state.lspHide=false; } save(); applyLook(); };
 function fillIconsTab(){
   const G=state.img; $('iSrc').value=G.src; $('iFit').value=G.fit; $('iBg').value=G.bg; $('iFrame').value=G.frame; $('iSize').value=G.size; $('iSizeV').textContent=G.size+'%'; $('iShadow').checked=G.shadow!==false; $('iTilt').checked=!!state.tilt; $('iThumbW').value=G.thumbW||200; $('iThumbWv').textContent=(G.thumbW||200)+'px';
   renderIconPrev();
@@ -1862,9 +1873,10 @@ $('sTextS').oninput=e=>{ state.textS=+e.target.value; $('sTextSv').textContent=s
 $('sTextW').onchange=e=>{ state.textW=e.target.value; applyLook(); save(); };
 $('sLayout').onchange=e=>{ state.layout=e.target.value; if(state.layout==='lsp') document.querySelector('main').style.maxWidth=''; if(state.layout==='lsp' && state.openGroup===-1) state.openGroup=0; save(); applyLook(); renderPanel(); renderGroupList(); };
 $('sIStyleQ').onchange=e=>{ state.iconStyle=e.target.value; $('sIStyle').value=state.iconStyle; save(); applyLook(); renderPanel(); };
-$('lspArrow').onclick=()=>{ if(innerWidth<=900){ document.body.classList.toggle('lsp-open'); return; } state.lspHide=!state.lspHide; save(); applyLook(); };
+$('lspArrow').onclick=()=>{ if(innerWidth<=900){ document.body.classList.toggle('lsp-open'); return; } state.lspHide=!state.lspHide; save(); applyLook(); if($('sPanel')) $('sPanel').value=state.lspHide?'hidden':state.panelSide; };
 $('drawerGear').onclick=e=>{ e.stopPropagation(); openSettings(); };
 $('drawerAdd').onclick=e=>{ e.stopPropagation(); $('newGroupBtn').click(); };
+$('drawerSide').onclick=e=>{ e.stopPropagation(); state.panelSide=state.panelSide==='left'?'right':'left'; save(); applyLook(); if($('sPanel')) $('sPanel').value=state.lspHide?'hidden':state.panelSide; };
 $('drawerEdit').onclick=e=>{ e.stopPropagation(); toggleEdit(); };
 $('drawerNotes').onclick=e=>{ e.stopPropagation(); toggleDrawer('notesDrawer'); };
 $('drawerMed').onclick=e=>{ e.stopPropagation(); $('dMed').click(); };
@@ -1886,6 +1898,7 @@ function fillSettings(){
   $('sIStyle').value=state.iconStyle; $('sIShape').value=state.iconShape; $('sClockStyle').value=state.clockStyle||'digital'; $('wFocus').checked=state.widgets.focus!==false; fillPin(); $('sLayout').value=state.layout; $('sTapAnim').value=state.tapAnim||'pop'; $('sIStyleQ').value=state.iconStyle;
   $('sFoldStyle').value=state.showFolders?state.foldStyle:'off'; fillFoldPick();
   $('sTextS').value=state.textS||100; $('sTextSv').textContent=(state.textS||100)+'%'; $('sTextW').value=state.textW||'600';
+  $('sPanel').value=state.lspHide?'hidden':(state.panelSide||'right');
   $('sDock').checked=!!state.dock; $('sMost').checked=!!state.mostUsed; $('wMini').checked=!!state.widgets.mini;
   $('sAlign').value=state.align; $('sTitles').checked=state.titles; $('sFull').checked=!!state.iconFull; $('sNav').value=state.groupNav; $('sGreet').value=state.greetStyle;
   $('sCols').value=state.cols; $('sColsv').textContent=state.cols?state.cols:'Auto'; $('sWidth').value=state.width||80; $('sWidthv').textContent=state.width?state.width+'%':'Default';
@@ -2010,7 +2023,7 @@ function fullRender(){
 }
 fullRender(); setInterval(tick,1000); renderFocus(); showLock(); $('medSound').value=state.medSound||'none'; $('medMin').value=String(state.medMin??5);
 /* ===== always run the newest version: check GitHub, reload once if a newer file is there ===== */
-const APP_VER='2026.11.06-r22';
+const APP_VER='2026.11.06-r24';
 if(location.protocol==='https:' && navigator.onLine){
   fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{
     const m=t.match(/const APP_VER='([^']+)'/); if(!m || m[1]===APP_VER) return;
