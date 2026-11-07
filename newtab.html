@@ -304,6 +304,21 @@
   .tile.lsp:has(.bg-dark) .thumb-head,body.layout-lsp .tile.lsp:has(.bg-dark) .thumb-head{background:#1d2028!important;color:#f4f4f5}
   .tile.img-drop{outline:3px dashed #fde047;outline-offset:3px}
   .gone{display:none!important}
+  /* YouTube frame (r29) */
+  .ytbox{position:fixed;z-index:40;left:40px;bottom:40px;width:480px;height:330px;min-width:280px;min-height:210px;display:none;flex-direction:column;border-radius:18px;overflow:hidden;resize:both;background:rgba(12,14,24,.82);border:1.5px solid rgba(255,255,255,.35);box-shadow:0 24px 60px -18px rgba(0,0,0,.85);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+  .ytbox.show{display:flex}
+  .ytbar{display:flex;align-items:center;gap:6px;padding:7px 8px 7px 12px;cursor:move;user-select:none;background:rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.12)}
+  .ytbar b{font-size:13px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ytbar input{flex:2;min-width:80px;padding:5px 9px;border-radius:9px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#fff;font-size:12.5px;outline:none}
+  .ytbar span.yb{width:26px;height:26px;display:grid;place-items:center;border-radius:8px;cursor:pointer;font-size:14px;opacity:.85}
+  .ytbar span.yb:hover{background:rgba(255,255,255,.16);opacity:1}
+  .ytbox iframe{flex:1;width:100%;border:0;background:#000}
+  .ytbox .ytempty{flex:1;display:grid;place-items:center;text-align:center;padding:16px;font-size:13px;color:var(--muted);line-height:1.7}
+  .ytchips{display:flex;gap:5px;flex-wrap:wrap;padding:6px 8px;border-top:1px solid rgba(255,255,255,.1)}
+  .ytchips span{font-size:11.5px;padding:3px 9px;border-radius:999px;background:rgba(255,255,255,.1);cursor:pointer;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ytchips span:hover{background:rgba(255,255,255,.22)}
+  .ytbox.mini{height:44px!important;min-height:0;resize:none}
+  .ytbox.mini iframe,.ytbox.mini .ytempty,.ytbox.mini .ytchips,.ytbox.mini input{display:none}
   /* card frame strength (r28) */
   :root{--cb:.45}
   body.ist-card:not(.ist-card-clean) .tile{border:1.5px solid rgba(255,255,255,var(--cb))!important;box-shadow:0 10px 24px -12px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,calc(var(--cb) * .7))!important}
@@ -572,6 +587,12 @@
 <div id="bg"></div><video id="bgVideo" autoplay muted loop playsinline></video><canvas id="particles"></canvas><div id="dim"></div><div class="credit" id="credit"></div>
 <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
 <div class="edge" id="edge"></div>
+<div class="ytbox" id="ytBox">
+  <div class="ytbar" id="ytBar"><b id="ytTitle">▶︎ YouTube</b><input id="ytUrl" placeholder="Paste a YouTube link…"><span class="yb" id="ytMin" title="Minimise">–</span><span class="yb" id="ytClose" title="Close">✕</span></div>
+  <div class="ytempty" id="ytEmpty">Paste a YouTube video, playlist or live link above and press Enter.<br>Drag the top bar to move · drag the corner to resize.</div>
+  <iframe id="ytFrame" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin" style="display:none"></iframe>
+  <div class="ytchips" id="ytChips"></div>
+</div>
 <div class="mini-wx glass" id="miniWx"></div>
 <div class="lsp-arrow" id="lspArrow" title="Show / hide groups">❯</div>
 <div class="dock glass gone" id="dock">
@@ -592,7 +613,7 @@
 
 <!-- groups drawer -->
 <aside class="drawer left glass" id="groupsDrawer">
-  <h3><span id="drawerTitle">☰ Groups</span><span class="gtab-gear" id="drawerAdd" title="New group">＋</span><span class="gtab-gear" id="drawerSide" title="Move this panel to the other side">⇆</span><span class="gtab-gear" id="drawerEdit" title="Edit shortcuts (E)">✎</span><span class="gtab-gear gone" id="drawerNotes" title="To-do &amp; notes">☑︎</span><span class="gtab-gear gone" id="drawerMed" title="Meditation mode">🧘</span><span class="gtab-gear" id="drawerGear" title="Settings">⚙︎</span> <span class="badge" id="gBadge"></span><span class="x" data-closedrawer>✕</span></h3>
+  <h3><span id="drawerTitle">☰ Groups</span><span class="gtab-gear" id="drawerAdd" title="New group">＋</span><span class="gtab-gear" id="drawerYT" title="YouTube frame (Y)">▶︎</span><span class="gtab-gear" id="drawerSide" title="Move this panel to the other side">⇆</span><span class="gtab-gear" id="drawerEdit" title="Edit shortcuts (E)">✎</span><span class="gtab-gear gone" id="drawerNotes" title="To-do &amp; notes">☑︎</span><span class="gtab-gear gone" id="drawerMed" title="Meditation mode">🧘</span><span class="gtab-gear" id="drawerGear" title="Settings">⚙︎</span> <span class="badge" id="gBadge"></span><span class="x" data-closedrawer>✕</span></h3>
   <div class="glist" id="glist"></div>
   <div class="gfoot">
     <button class="btn full" id="newGroupBtn" style="justify-content:center">+ New group</button>
@@ -734,7 +755,7 @@
 <!-- settings -->
 <div class="modal-bg" id="setModal">
   <div class="modal wide glass">
-    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.07-r28</span></h3>
+    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.07-r29</span></h3>
     <div class="tabs" id="setTabs">
       <div class="tab active" data-tab="quick">Quick</div>
       <div class="tab" data-tab="general">Appearance</div>
@@ -2079,7 +2100,7 @@ function fullRender(){
 }
 fullRender(); setInterval(tick,1000); renderFocus(); showLock(); $('medSound').value=state.medSound||'none'; $('medMin').value=String(state.medMin??5);
 /* ===== always run the newest version: check GitHub, reload once if a newer file is there ===== */
-const APP_VER='2026.11.07-r28';
+const APP_VER='2026.11.07-r29';
 if(location.protocol==='https:' && navigator.onLine){
   fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{
     const m=t.match(/const APP_VER='([^']+)'/); if(!m || m[1]===APP_VER) return;
@@ -2092,6 +2113,48 @@ if('serviceWorker' in navigator && location.protocol==='https:'){ navigator.serv
 addEventListener('offline',()=>toast('Offline — showing saved shortcuts'));
 addEventListener('online',()=>{ toast('Back online'); renderWidgets(); });
 if(state.sync.auto && ls(TOKENKEY) && state.sync.gistId) cloudPull(true);
+
+/* ===== YouTube frame (r29) ===== */
+function ytEmbed(u){
+  try{ u=u.trim(); if(!/^https?:/i.test(u)) u='https://'+u; const x=new URL(u), h=x.hostname.replace(/^www\.|^m\./,'');
+    let id='', list=x.searchParams.get('list')||'', t=x.searchParams.get('t')||x.searchParams.get('start')||'';
+    if(h==='youtu.be') id=x.pathname.slice(1).split('/')[0];
+    else if(/youtube(-nocookie)?\.com$/.test(h)){
+      const m=x.pathname.match(/^\/(?:embed|shorts|live|v)\/([\w-]{6,})/); if(m) id=m[1]; else id=x.searchParams.get('v')||'';
+      const ch=x.pathname.match(/^\/channel\/(UC[\w-]+)/); if(!id&&!list&&ch) return {src:`https://www.youtube.com/embed/live_stream?channel=${ch[1]}&autoplay=1`,label:'Live channel'};
+    } else return null;
+    if(!id&&!list) return null;
+    const q=new URLSearchParams({autoplay:'1',rel:'0',modestbranding:'1'}); if(list) q.set('list',list); if(t) q.set('start',String(parseInt(t)||0));
+    return {src:`https://www.youtube-nocookie.com/embed/${id||'videoseries'}?${q}`,label:list&&!id?'Playlist':'Video'};
+  }catch(e){ return null; }
+}
+function ytState(){ if(!state.yt) state.yt={url:'',hist:[],x:40,y:null,w:480,h:330,open:false,mini:false}; return state.yt; }
+function ytPlay(u,silent){
+  const e=ytEmbed(u); if(!e){ if(!silent) toast('That is not a YouTube video, playlist or live link'); return; }
+  const Y=ytState(); Y.url=u; Y.hist=[u,...(Y.hist||[]).filter(x=>x!==u)].slice(0,6);
+  $('ytFrame').src=e.src; $('ytFrame').style.display=''; $('ytEmpty').style.display='none'; $('ytUrl').value=u; $('ytTitle').textContent='▶︎ '+e.label;
+  ytChips(); save();
+}
+function ytChips(){ const c=$('ytChips'), Y=ytState(); c.innerHTML=''; (Y.hist||[]).forEach((u,i)=>{ const s=document.createElement('span'); s.textContent=(i+1)+' · '+u.replace(/^https?:\/\/(www\.)?/,''); s.title=u; s.onclick=()=>ytPlay(u); c.append(s); }); c.style.display=(Y.hist||[]).length?'':'none'; }
+function ytPlace(){ const b=$('ytBox'), Y=ytState(); b.style.width=Math.min(Y.w||480,innerWidth-20)+'px'; b.style.height=Math.min(Y.h||330,innerHeight-20)+'px';
+  b.style.left=Math.max(0,Math.min(Y.x??40,innerWidth-120))+'px'; if(Y.y==null){ b.style.top=''; b.style.bottom='40px'; } else { b.style.bottom='auto'; b.style.top=Math.max(0,Math.min(Y.y,innerHeight-44))+'px'; } b.classList.toggle('mini',!!Y.mini); }
+function ytOpen(on){ const Y=ytState(); Y.open=on===undefined?!Y.open:on; $('ytBox').classList.toggle('show',Y.open);
+  if(Y.open){ ytPlace(); ytChips(); if(Y.url && !$('ytFrame').src) ytPlay(Y.url,true); if(!Y.url) setTimeout(()=>$('ytUrl').focus(),50); }
+  else { $('ytFrame').removeAttribute('src'); $('ytFrame').style.display='none'; $('ytEmpty').style.display=''; }
+  save(); }
+$('drawerYT').onclick=e=>{ e.stopPropagation(); ytOpen(); };
+$('ytClose').onclick=()=>ytOpen(false);
+$('ytMin').onclick=()=>{ const Y=ytState(); Y.mini=!Y.mini; ytPlace(); save(); };
+$('ytUrl').addEventListener('keydown',e=>{ e.stopPropagation(); if(e.key==='Enter') ytPlay($('ytUrl').value); });
+$('ytUrl').addEventListener('paste',()=>setTimeout(()=>ytPlay($('ytUrl').value,true),30));
+(()=>{ const bar=$('ytBar'), box=$('ytBox'); let d=null;
+  bar.addEventListener('mousedown',e=>{ if(e.target.closest('input,.yb')) return; const r=box.getBoundingClientRect(); d={dx:e.clientX-r.left,dy:e.clientY-r.top}; $('ytFrame').style.pointerEvents='none'; e.preventDefault(); });
+  addEventListener('mousemove',e=>{ if(!d) return; box.style.bottom='auto'; box.style.left=Math.max(0,Math.min(e.clientX-d.dx,innerWidth-120))+'px'; box.style.top=Math.max(0,Math.min(e.clientY-d.dy,innerHeight-44))+'px'; });
+  addEventListener('mouseup',()=>{ if(!d) return; d=null; $('ytFrame').style.pointerEvents=''; const r=box.getBoundingClientRect(), Y=ytState(); Y.x=r.left; Y.y=r.top; save(); });
+  new ResizeObserver(()=>{ if(box.classList.contains('mini')||!box.classList.contains('show')) return; const Y=ytState(); const w=box.offsetWidth,h=box.offsetHeight; if(Math.abs((Y.w||0)-w)>2||Math.abs((Y.h||0)-h)>2){ Y.w=w; Y.h=h; clearTimeout(ytState._t); ytState._t=setTimeout(()=>save({noPush:true}),400); } }).observe(box);
+  document.addEventListener('keydown',e=>{ if(e.key.toLowerCase()==='y' && !e.metaKey && !e.ctrlKey && !/input|textarea|select/i.test(document.activeElement.tagName) && !document.activeElement.isContentEditable){ e.preventDefault(); ytOpen(); } });
+})();
+if(ytState().open) setTimeout(()=>ytOpen(true),300);
 </script>
 </body>
 </html>
