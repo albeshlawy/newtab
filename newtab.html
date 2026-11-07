@@ -347,6 +347,7 @@
   .calm-tabs .ctab{padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);font-size:13px;cursor:pointer;transition:.15s}
   .calm-tabs .ctab:hover{background:rgba(255,255,255,.16)}
   .calm-tabs .ctab.on{background:rgba(255,255,255,.9);color:#111;border-color:#fff}
+  .calm-tabs .ctab i{font-style:normal;opacity:.55;font-size:11px;margin-left:3px}
 
   .icon3d img,.icon3d .letter,.icon3d .emoji{position:relative;z-index:2}
   /* ================= Cards family (r20) ================= */
@@ -755,7 +756,7 @@
 <!-- settings -->
 <div class="modal-bg" id="setModal">
   <div class="modal wide glass">
-    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.07-r29</span></h3>
+    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.07-r30</span></h3>
     <div class="tabs" id="setTabs">
       <div class="tab active" data-tab="quick">Quick</div>
       <div class="tab" data-tab="general">Appearance</div>
@@ -854,11 +855,9 @@
     </div>
 
     <div class="tabpane" data-pane="bg">
-      <h4 style="margin-top:6px">Calm 4K ✦ <span class="hint" style="font-weight:400">sharp on any screen, work offline</span></h4>
+      <h4 style="margin-top:6px">Backgrounds <span class="hint" style="font-weight:400">✦ = 4K, sharp on any screen and works offline</span></h4>
       <div class="calm-tabs" id="calmTabs"></div><div class="gallery" id="calmGallery"></div>
-      <h4>Automatic</h4><div class="gallery" id="autoGallery"></div>
-      <h4>Photos</h4><div class="gallery" id="photoGallery"></div>
-      <h4>Gradients</h4><div class="gallery" id="gradGallery"></div>
+      <div class="gone"><div class="gallery" id="autoGallery"></div><div class="gallery" id="photoGallery"></div><div class="gallery" id="gradGallery"></div></div>
       <h4>Your own image</h4>
       <div class="row">
         <button class="btn" id="uploadBgBtn">⬆︎ Upload from computer</button>
@@ -1705,22 +1704,44 @@ function startParticles(){ if(partRun) return; partRun=true; const c=$('particle
 function setBg(v){ state.bg=v; save(); applyBg(); markSel(); if($('bgDiag')) $('bgDiag').textContent=bgDiag(); }
 function markSel(){ document.querySelectorAll('.thumb').forEach(t=>t.classList.toggle('sel',t.dataset.v===state.bg)); }
 const CALM={
-  'Soft 3D waves':[['wave-midnight','Midnight'],['wave-graphite','Graphite'],['wave-teal','Teal'],['wave-sage','Sage'],['wave-lavender','Lavender'],['wave-sand','Sand']],
-  'Smooth blends':[['blend-dusk','Dusk'],['blend-ocean','Ocean'],['blend-forest','Forest'],['blend-mist','Mist'],['blend-peach','Peach']],
-  '3D hills':[['hills-night','Night'],['hills-dawn','Dawn'],['hills-sage','Sage'],['hills-desert','Desert']],
-  'Glass shapes':[['glass-navy','Navy'],['glass-graphite','Graphite'],['glass-teal','Teal'],['glass-pearl','Pearl']]
+  'Silk waves ✦':[['wave-midnight','Midnight'],['wave-graphite','Graphite'],['wave-teal','Teal'],['wave-ocean','Ocean'],['wave-sage','Sage'],['wave-lavender','Lavender'],['wave-rose','Rose'],['wave-sand','Sand'],['wave-ember','Ember']],
+  'Soft blends ✦':[['blend-dusk','Dusk'],['blend-ocean','Ocean'],['blend-forest','Forest'],['blend-mist','Mist'],['blend-peach','Peach']],
+  'Mountains ✦':[['mount-blue','Blue ridge'],['mount-dusk','Dusk peaks'],['mount-forest','Green ridge'],['mount-mono','Mist'],['hills-night','Night hills'],['hills-dawn','Dawn hills'],['hills-sage','Sage hills']],
+  'Desert ✦':[['dune-gold','Golden dunes'],['dune-dusk','Dusk dunes'],['dune-night','Night dunes'],['hills-desert','Desert hills']],
+  'Sea & sky ✦':[['ocean-calm','Calm sea'],['ocean-dawn','Dawn sea'],['ocean-night','Moonlit sea'],['aurora-green','Aurora green'],['aurora-teal','Aurora teal'],['aurora-violet','Aurora violet']],
+  'Glass & light ✦':[['glass-navy','Glass navy'],['glass-graphite','Glass graphite'],['glass-teal','Glass teal'],['glass-pearl','Glass pearl'],['bokeh-navy','Bokeh navy'],['bokeh-rose','Bokeh rose'],['bokeh-gold','Bokeh gold']]
 };
-const CALM_TINT={'wave-midnight':'#0b1430','wave-graphite':'#1a1c20','wave-teal':'#06343b','wave-sage':'#3a5244','wave-lavender':'#3a2f63','wave-sand':'#8a6a4a','blend-dusk':'#1d2440','blend-ocean':'#0a2f3b','blend-forest':'#17281f','blend-mist':'#c9d3dc','blend-peach':'#eed3c0','hills-night':'#0a1020','hills-dawn':'#4a4a7a','hills-sage':'#8fa38d','hills-desert':'#d0a070','glass-navy':'#111833','glass-graphite':'#1c1d20','glass-teal':'#082328','glass-pearl':'#ddd8d0'};
+const CALM_TINT={'wave-midnight':'#0b1430','wave-graphite':'#1a1c20','wave-teal':'#06343b','wave-sage':'#3a5244','wave-lavender':'#3a2f63','wave-sand':'#8a6a4a','wave-rose':'#5a2a40','wave-ocean':'#0f3d5c','wave-ember':'#5a2410','blend-dusk':'#1d2440','blend-ocean':'#0a2f3b','blend-forest':'#17281f','blend-mist':'#c9d3dc','blend-peach':'#eed3c0','hills-night':'#0a1020','hills-dawn':'#4a4a7a','hills-sage':'#8fa38d','hills-desert':'#d0a070','glass-navy':'#111833','glass-graphite':'#1c1d20','glass-teal':'#082328','glass-pearl':'#ddd8d0','mount-blue':'#3a4f6e','mount-dusk':'#563a57','mount-forest':'#315340','mount-mono':'#b8bec7','dune-gold':'#d9a868','dune-dusk':'#7a4a48','dune-night':'#141b2e','ocean-calm':'#6f9ab9','ocean-dawn':'#4a4a6b','ocean-night':'#0b1426','aurora-green':'#06172b','aurora-teal':'#06242a','aurora-violet':'#140a2b','bokeh-navy':'#14204a','bokeh-rose':'#4a1d33','bokeh-gold':'#3a2a12'};
+const PHOTO_CATS={'Photos · Mountains':['Mountains','Starry peaks','Valley','Yosemite','Snow peak','Alpine','Dolomites','Lake & peaks','Iceland','Mountain lake'],
+  'Photos · Water':['Lake','Beach','Coast','Ocean wave','Waterfall','Calm lake','Sunset lake','Sea sunset','Tropical beach','Sea cliffs','Lighthouse'],
+  'Photos · Forest & fields':['Misty hills','Forest','Pine forest','Green hills','Flowers','Autumn forest','Nature','Foggy forest','Lavender','Snowy forest','Cherry blossom','Golden field','Valley road'],
+  'Photos · Desert':['Desert dunes','Desert peaks','Canyon','Rolling dunes'],
+  'Photos · Sky & space':['Night sky','Earth','Aurora','Galaxy','Aurora sky','Milky Way','Northern lights']};
+function bgCats(){
+  const cats=[];
+  Object.entries(CALM).forEach(([c,l])=>cats.push({name:c,items:l.map(([k,n])=>({v:'calm:'+k,name:n,img:calmUrl(k,true),tint:CALM_TINT[k]}))}));
+  const used=new Set();
+  Object.entries(PHOTO_CATS).forEach(([c,names])=>{ const items=[]; names.forEach(n=>{ const ph=PHOTOS.find(x=>x[0]===n); if(ph&&!used.has(ph[1])){ used.add(ph[1]); items.push({v:'photo:'+ph[1],name:n,img:photoUrl(ph[1],400)}); } }); if(items.length) cats.push({name:c,items}); });
+  const rest=PHOTOS.filter(x=>!used.has(x[1])); if(rest.length) cats.push({name:'Photos · More',items:rest.map(([n,id])=>({v:'photo:'+id,name:n,img:photoUrl(id,400)}))});
+  const G=Object.entries(GRADIENTS);
+  cats.push({name:'Animated',items:G.filter(([k,g])=>g.blobs).map(([k,g])=>({v:'grad:'+k,name:g.name.replace(' (animated)',''),css:g.css})).concat([{v:'auto:particles',name:'Live particles',css:'radial-gradient(800px 500px at 50% 30%,#1e1b4b,#05060f 70%)'}])});
+  cats.push({name:'Gradients',items:G.filter(([k,g])=>!g.blobs).map(([k,g])=>({v:'grad:'+k,name:g.name,css:g.css}))});
+  cats.push({name:'Automatic',items:Object.entries(AUTO_BG).filter(([k])=>k!=='particles').map(([k,a])=>({v:'auto:'+k,name:a.name,css:'linear-gradient(135deg,#334155,#0f172a)'}))});
+  return cats;
+}
 let calmCat=Object.keys(CALM)[0];
 function calmUrl(k,thumb){ return 'bg/'+k+(thumb?'-t':'')+'.webp'; }
 function buildCalm(keepCat){
   const tabs=$('calmTabs'), g=$('calmGallery'); if(!tabs) return;
-  const cur=state.bg.startsWith('calm:')?state.bg.slice(5):''; if(cur && !keepCat){ for(const [c,l] of Object.entries(CALM)) if(l.some(x=>x[0]===cur)) calmCat=c; }
-  tabs.innerHTML=''; Object.keys(CALM).forEach(c=>{ const b=document.createElement('span'); b.className='ctab'+(c===calmCat?' on':''); b.textContent=c; b.onclick=e=>{ e.stopPropagation(); calmCat=c; buildCalm(true); }; tabs.append(b); });
+  const cats=bgCats();
+  if(!keepCat){ const c=cats.find(c=>c.items.some(i=>i.v===state.bg)); if(c) calmCat=c.name; }
+  if(!cats.some(c=>c.name===calmCat)) calmCat=cats[0].name;
+  tabs.innerHTML=''; cats.forEach(c=>{ const b=document.createElement('span'); b.className='ctab'+(c.name===calmCat?' on':''); b.innerHTML=esc(c.name)+` <i>${c.items.length}</i>`; b.onclick=e=>{ e.stopPropagation(); calmCat=c.name; buildCalm(true); }; tabs.append(b); });
   g.innerHTML='';
-  CALM[calmCat].forEach(([k,name])=>{ const t=document.createElement('div'); t.className='thumb'; t.dataset.v='calm:'+k; t.style.background=CALM_TINT[k]||'#222';
-    const img=new Image(); img.loading='lazy'; img.src=calmUrl(k,true); img.onerror=()=>{ img.remove(); t.title='Upload the bg folder to GitHub to use this background'; };
-    const s=document.createElement('span'); s.textContent=name; t.append(img,s); t.onclick=()=>setBg(t.dataset.v); g.append(t); });
+  cats.find(c=>c.name===calmCat).items.forEach(it=>{ const t=document.createElement('div'); t.className='thumb'; t.dataset.v=it.v;
+    if(it.css) t.style.background=it.css; else t.style.background=it.tint||'#222';
+    if(it.img){ const img=new Image(); img.loading='lazy'; img.src=it.img; img.onerror=()=>{ img.remove(); if(it.v.startsWith('photo:')) t.remove(); else t.title='Upload the bg folder to GitHub to use this background'; }; t.append(img); }
+    const s=document.createElement('span'); s.textContent=it.name; t.append(s); t.onclick=()=>setBg(it.v); g.append(t); });
   markSel();
 }
 function buildGallery(){
@@ -2100,7 +2121,7 @@ function fullRender(){
 }
 fullRender(); setInterval(tick,1000); renderFocus(); showLock(); $('medSound').value=state.medSound||'none'; $('medMin').value=String(state.medMin??5);
 /* ===== always run the newest version: check GitHub, reload once if a newer file is there ===== */
-const APP_VER='2026.11.07-r29';
+const APP_VER='2026.11.07-r30';
 if(location.protocol==='https:' && navigator.onLine){
   fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{
     const m=t.match(/const APP_VER='([^']+)'/); if(!m || m[1]===APP_VER) return;
