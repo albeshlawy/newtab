@@ -304,6 +304,11 @@
   .tile.lsp:has(.bg-dark) .thumb-head,body.layout-lsp .tile.lsp:has(.bg-dark) .thumb-head{background:#1d2028!important;color:#f4f4f5}
   .tile.img-drop{outline:3px dashed #fde047;outline-offset:3px}
   .gone{display:none!important}
+  /* card frame strength (r28) */
+  :root{--cb:.45}
+  body.ist-card:not(.ist-card-clean) .tile{border:1.5px solid rgba(255,255,255,var(--cb))!important;box-shadow:0 10px 24px -12px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,calc(var(--cb) * .7))!important}
+  body.ist-card-light .tile{border-color:rgba(255,255,255,1)!important}
+  body.ist-card:not(.ist-card-clean) .tile:hover{border-color:rgba(255,255,255,calc(var(--cb) + .25))!important}
   /* group emoji (r25) */
   #groupsDrawer .gitem .gic.emo,body.layout-lsp #groupsDrawer .gitem .gic.emo{background:none!important;color:inherit!important;width:28px;height:28px;font-size:21px;line-height:1;border-radius:8px;cursor:pointer;transition:transform .15s,background .15s;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
   #groupsDrawer .gitem .gic.emo:hover{background:rgba(255,255,255,.14)!important;transform:scale(1.15)}
@@ -729,7 +734,7 @@
 <!-- settings -->
 <div class="modal-bg" id="setModal">
   <div class="modal wide glass">
-    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.07-r27</span></h3>
+    <h3>Settings <span class="hint" style="font-size:11px;font-weight:500;margin-left:8px;opacity:.6">version 2026.11.07-r28</span></h3>
     <div class="tabs" id="setTabs">
       <div class="tab active" data-tab="quick">Quick</div>
       <div class="tab" data-tab="general">Appearance</div>
@@ -818,6 +823,7 @@
       </div>
       <label>Card size (Thumbnails style)</label><div class="range-row"><input type="range" id="iThumbW" min="130" max="320" step="10"><b id="iThumbWv"></b></div>
       <label class="check"><input type="checkbox" id="iShadow"><span>Soft shadow under the picture</span></label>
+      <label>Card frame (Cards styles)</label><div class="range-row"><input type="range" id="iCB" min="0" max="100" step="5"><b id="iCBv"></b></div>
       <label class="check"><input type="checkbox" id="iTilt"><span>3D tilt &amp; shine when the mouse is over a card (works with every “Cards” style)</span></label>
       <div class="quick" style="margin-top:14px">
         <div class="qbtn" id="iRefresh">↻ Find sharper logos again</div>
@@ -1884,7 +1890,7 @@ function applyLook(){
   [...b].filter(c=>/^(ist-|ish-|hide-)/.test(c)).forEach(c=>b.remove(c));
   b.add('ist-'+state.iconStyle); if(/^card-/.test(state.iconStyle)) b.add('ist-card'); b.toggle('tilt3d',state.iconStyle==='card-3d'||(!!state.tilt&&/^card/.test(state.iconStyle))); if(state.iconShape!=='rounded') b.add('ish-'+state.iconShape);
   b.remove('align-left','align-center'); if(state.align!=='fill') b.add('align-'+state.align);
-  b.toggle('no-titles',!state.titles); document.documentElement.style.setProperty('--textS',(state.textS||100)/100); document.documentElement.style.setProperty('--textW',state.textW||'600'); document.documentElement.style.setProperty('--k',((state.img&&state.img.size)||100)/100); document.documentElement.style.setProperty('--thumbW',((state.img&&state.img.thumbW)||200)+'px'); b.toggle('lsp-left',state.panelSide==='left'); b.toggle('has-dock',!!state.dock); b.toggle('layout-lsp',state.layout==='lsp'); b.toggle('clock-analog',state.clockStyle==='analog'); b.toggle('clock-thin',state.clockStyle==='thin'); b.toggle('lsp-hide',state.layout==='lsp'&&!!state.lspHide); $('drawerTitle').textContent=state.layout==='lsp'?'Groups':'☰ Groups'; b.toggle('icon-full',!!state.iconFull);
+  b.toggle('no-titles',!state.titles); document.documentElement.style.setProperty('--textS',(state.textS||100)/100); document.documentElement.style.setProperty('--textW',state.textW||'600'); document.documentElement.style.setProperty('--k',((state.img&&state.img.size)||100)/100); document.documentElement.style.setProperty('--thumbW',((state.img&&state.img.thumbW)||200)+'px'); document.documentElement.style.setProperty('--cb',(state.cardB??45)/100); b.toggle('lsp-left',state.panelSide==='left'); b.toggle('has-dock',!!state.dock); b.toggle('layout-lsp',state.layout==='lsp'); b.toggle('clock-analog',state.clockStyle==='analog'); b.toggle('clock-thin',state.clockStyle==='thin'); b.toggle('lsp-hide',state.layout==='lsp'&&!!state.lspHide); $('drawerTitle').textContent=state.layout==='lsp'?'Groups':'☰ Groups'; b.toggle('icon-full',!!state.iconFull);
   document.querySelector('main').style.maxWidth=(state.width && state.layout!=='lsp')?`min(${state.width}vw,1700px)`:'';
   $('engineSel').value=state.engine;
   if(!state.show.clock) b.add('hide-clock'); if(!state.show.date) b.add('hide-date'); if(!state.show.greet) b.add('hide-greet');
@@ -1898,7 +1904,7 @@ $('sDock').onchange=e=>{ state.dock=e.target.checked; applyLook(); };
 $('sGIcons').onchange=e=>{ state.groupIcons=e.target.value; save(); renderGroupList(); };
 $('sPanel').onchange=e=>{ const v=e.target.value; if(v==='hidden') state.lspHide=true; else { state.panelSide=v; state.lspHide=false; } save(); applyLook(); };
 function fillIconsTab(){
-  const G=state.img; $('iSrc').value=G.src; $('iFit').value=G.fit; $('iBg').value=G.bg; $('iFrame').value=G.frame; $('iSize').value=G.size; $('iSizeV').textContent=G.size+'%'; $('iShadow').checked=G.shadow!==false; $('iTilt').checked=!!state.tilt; $('iThumbW').value=G.thumbW||200; $('iThumbWv').textContent=(G.thumbW||200)+'px';
+  const G=state.img; $('iSrc').value=G.src; $('iFit').value=G.fit; $('iBg').value=G.bg; $('iFrame').value=G.frame; $('iSize').value=G.size; $('iSizeV').textContent=G.size+'%'; $('iShadow').checked=G.shadow!==false; $('iTilt').checked=!!state.tilt; $('iCB').value=state.cardB??45; $('iCBv').textContent=(state.cardB??45)+'%'; $('iThumbW').value=G.thumbW||200; $('iThumbWv').textContent=(G.thumbW||200)+'px';
   renderIconPrev();
 }
 function renderIconPrev(){
@@ -1914,6 +1920,7 @@ $('iBg').onchange=e=>setImg('bg',e.target.value);
 $('iFrame').onchange=e=>setImg('frame',e.target.value);
 $('iSize').oninput=e=>{ $('iSizeV').textContent=e.target.value+'%'; setImg('size',+e.target.value); };
 $('iShadow').onchange=e=>setImg('shadow',e.target.checked);
+$('iCB').oninput=e=>{ state.cardB=+e.target.value; $('iCBv').textContent=state.cardB+'%'; applyLook(); clearTimeout(wheelSave); wheelSave=setTimeout(()=>save(),300); };
 $('iTilt').onchange=e=>{ state.tilt=e.target.checked; applyLook(); save(); };
 $('iThumbW').oninput=e=>{ $('iThumbWv').textContent=e.target.value+'px'; state.img.thumbW=+e.target.value; applyLook(); clearTimeout(wheelSave); wheelSave=setTimeout(()=>save(),300); };
 $('iRefresh').onclick=()=>{ iconCache={}; saveIconCache(); renderPanel(); renderIconPrev(); toast('Looking for sharper logos…'); };
@@ -2072,7 +2079,7 @@ function fullRender(){
 }
 fullRender(); setInterval(tick,1000); renderFocus(); showLock(); $('medSound').value=state.medSound||'none'; $('medMin').value=String(state.medMin??5);
 /* ===== always run the newest version: check GitHub, reload once if a newer file is there ===== */
-const APP_VER='2026.11.07-r27';
+const APP_VER='2026.11.07-r28';
 if(location.protocol==='https:' && navigator.onLine){
   fetch(location.pathname+'?check='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{
     const m=t.match(/const APP_VER='([^']+)'/); if(!m || m[1]===APP_VER) return;
